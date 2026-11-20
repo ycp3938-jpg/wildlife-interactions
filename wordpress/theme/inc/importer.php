@@ -180,8 +180,8 @@ function wi_import_language( $lang, $json, $pages ) {
 			foreach ( $more['team']['people'] as $person ) {
 				list( $name, $role ) = $person;
 				$norm = wi_import_norm( $name );
-				if ( ! isset( $talent_ids[ $norm ] ) ) { // someone not in the Talents list yet: create a profile
-					$talent_ids[ $norm ] = wi_import_post( 'wi_talent', $name, sanitize_title( $name ), 100 + count( $talent_ids ), $lang );
+				if ( ! isset( $talent_ids[ $norm ] ) ) { // in a team but not on the Talents page: draft profile (shown in the team only)
+					$talent_ids[ $norm ] = wi_import_post( 'wi_talent', $name, sanitize_title( $name ), 100 + count( $talent_ids ), $lang, 'draft' );
 					$out[ 'talent:' . sanitize_title( $name ) ][ $k ] = $talent_ids[ $norm ];
 				}
 				$team[] = array( 'talent' => $talent_ids[ $norm ], 'role' => $role );
@@ -223,7 +223,8 @@ function wi_import_language( $lang, $json, $pages ) {
 
 	// Pages
 	foreach ( $pages as $key => $page ) {
-		$id = wi_import_post( 'page', $page['title'], $page['slug'], $page['order'], $lang );
+		$slug = $lang && 'en' === $lang && ! empty( $page['slug_en'] ) ? $page['slug_en'] : $page['slug'];
+		$id   = wi_import_post( 'page', $page['title'], $slug, $page['order'], $lang );
 		if ( ! empty( $page['template'] ) ) {
 			update_post_meta( $id, '_wp_page_template', $page['template'] );
 		}
@@ -252,12 +253,12 @@ function wi_import_language( $lang, $json, $pages ) {
 }
 
 /** Insert a published post (language set with Polylang) and remember it for « réimporter ». */
-function wi_import_post( $type, $title, $slug, $order, $lang ) {
+function wi_import_post( $type, $title, $slug, $order, $lang, $status = 'publish' ) {
 	$id = wp_insert_post( array(
 		'post_type'   => $type,
-		'post_status' => 'publish',
+		'post_status' => $status,
 		'post_title'  => $title,
-		'post_name'   => $lang && function_exists( 'pll_default_language' ) && pll_default_language() !== $lang ? $slug . '-' . $lang : $slug,
+		'post_name'   => $lang && 'page' !== $type && function_exists( 'pll_default_language' ) && pll_default_language() !== $lang ? $slug . '-' . $lang : $slug,
 		'menu_order'  => (int) $order,
 	) );
 	if ( $lang && function_exists( 'pll_set_post_language' ) ) {

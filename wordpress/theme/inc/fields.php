@@ -22,13 +22,15 @@ function wi_repeater( $name, $label, $sub, $extra = array() ) {
 function wi_textarea( $name, $label, $rows = 4, $extra = array() ) {
 	return wi_f( 'textarea', $name, $label, array_merge( array( 'rows' => $rows, 'new_lines' => '' ), $extra ) );
 }
-/* Unique keys: field_wi_<group>_<parent>_<name> */
-function wi_keys( array $fields, $prefix ) {
+/* Unique keys: field_wi_<group>_<name>, sub fields field_wi_<group>_<parent>__<name>
+   (double underscore, so « enjeux » › « title » can't clash with « enjeux_title »).
+   Never change a key or a name once the site is live: saved content is linked to them. */
+function wi_keys( array $fields, $prefix, $sep = '_' ) {
 	foreach ( $fields as $i => $field ) {
 		$name           = $field['name'] ? $field['name'] : 'tab' . $i;
-		$field['key']   = $prefix . '_' . $name;
+		$field['key']   = $prefix . $sep . $name;
 		if ( ! empty( $field['sub_fields'] ) ) {
-			$field['sub_fields'] = wi_keys( $field['sub_fields'], $field['key'] );
+			$field['sub_fields'] = wi_keys( $field['sub_fields'], $field['key'], '__' );
 		}
 		$fields[ $i ] = $field;
 	}

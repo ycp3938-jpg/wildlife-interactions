@@ -68,6 +68,24 @@ add_action( 'wp_enqueue_scripts', function () {
 	$js( 'wi-motion', 'motion', array( 'wi-main', 'lenis' ) );
 } );
 
+/* The site doesn't use the block editor on the front end: drop WordPress's default
+   block / global styles and the emoji script so they can't interfere with css/. */
+add_action( 'wp_enqueue_scripts', function () {
+	foreach ( array( 'wp-block-library', 'wp-block-library-theme', 'classic-theme-styles', 'global-styles' ) as $handle ) {
+		wp_dequeue_style( $handle );
+	}
+}, 100 );
+remove_action( 'wp_enqueue_scripts', 'wp_enqueue_global_styles' );
+remove_action( 'wp_footer', 'wp_enqueue_global_styles', 1 );
+remove_action( 'wp_head', 'print_emoji_detection_script', 7 );
+remove_action( 'wp_print_styles', 'print_emoji_styles' );
+remove_action( 'wp_enqueue_scripts', 'wp_enqueue_emoji_styles' );
+
+/* Keep the client from editing theme files in the admin (they'd be replaced by the next deployment). */
+if ( ! defined( 'DISALLOW_FILE_EDIT' ) ) {
+	define( 'DISALLOW_FILE_EDIT', true );
+}
+
 /** window.WI_* = …  (only what the current page needs) */
 function wi_inline_data( $kind ) {
 	$data = array(

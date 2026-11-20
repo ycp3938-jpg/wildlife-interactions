@@ -11,6 +11,7 @@ return array(
 	'home'     => array(
 		'title'  => 'Accueil',
 		'slug'   => 'accueil',
+		'slug_en' => 'home',
 		'order'  => 0,
 		'fields' => array(
 			'hero_title'       => 'Wildlife Interactions',
@@ -41,6 +42,7 @@ return array(
 	'missions'  => array(
 		'title'    => 'Missions',
 		'slug'     => 'missions',
+		'slug_en'  => 'our-missions',
 		'order'    => 1,
 		'template' => 'templates/page-zones.php',
 		'fields'   => array( 'zone_category' => 'missions' ),
@@ -48,6 +50,7 @@ return array(
 	'education' => array(
 		'title'    => 'Éducation',
 		'slug'     => 'education',
+		'slug_en'  => 'education-programs',
 		'order'    => 2,
 		'template' => 'templates/page-zones.php',
 		'fields'   => array( 'zone_category' => 'education' ),
@@ -55,6 +58,7 @@ return array(
 	'talents'   => array(
 		'title'    => 'Talents',
 		'slug'     => 'talents',
+		'slug_en'  => 'our-talents',
 		'order'    => 3,
 		'template' => 'templates/page-talents.php',
 		'fields'   => array(
@@ -67,6 +71,7 @@ return array(
 	'expo'      => array(
 		'title'    => 'Exposition & média',
 		'slug'     => 'exposition-media',
+		'slug_en'  => 'exhibition-media',
 		'order'    => 4,
 		'template' => 'templates/page-expo.php',
 		'fields'   => array(
@@ -107,6 +112,7 @@ return array(
 	'contact'   => array(
 		'title'    => 'Contact',
 		'slug'     => 'contact',
+		'slug_en'  => 'contact-us',
 		'order'    => 5,
 		'template' => 'templates/page-contact.php',
 		'fields'   => array(
