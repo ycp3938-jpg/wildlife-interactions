@@ -1,0 +1,155 @@
+/* ==========================================================================
+   Contact (Figma: Home 6251:3981 · 6263:17534 · 6263:17665 — one per option)
+   Left: image_anim (720 px) · Right: title, options, form (976 px)
+   ========================================================================== */
+
+.contact {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 720fr) minmax(0, 976fr);
+  column-gap: var(--gap-sm);
+  min-height: max(100svh, 900px);
+  background: var(--surface-secondary-high); /* light version: right panel (#f4fbfe) */
+  color: var(--surface-secondary-on-secondary);
+}
+
+/* ---------- image_anim ---------- */
+.image-anim { position: relative; overflow: hidden; background: var(--surface-primary-lowest); }
+/* Each photo fills the frame; the next one first appears as a miniature of the
+   whole photo in the centre (Figma: 170 × 264 = 23.6 % of 720 × 1117), then zooms to full. */
+.image-anim__img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transform: scale(0.236);
+  transform-origin: 50% 50%;
+  transition: opacity 900ms ease;
+}
+/* 1 · miniature appears in the centre (transitions only — no keyframes,
+       so the zoom below always starts from the miniature size) */
+.image-anim__img.is-next {
+  opacity: 1;
+  z-index: 2;
+  transform: scale(0.19);
+  border-radius: 2px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
+  transition:
+    opacity 1200ms ease,
+    transform 1600ms var(--ease-soft);
+}
+.image-anim__img.is-next.is-shown { transform: scale(0.236); }
+/* 2 · zoom to the full frame */
+.image-anim__img.is-next.is-growing {
+  transform: scale(1);
+  border-radius: 0;
+  box-shadow: 0 0 0 rgba(0, 0, 0, 0);
+  transition:
+    transform 2600ms cubic-bezier(0.45, 0, 0.2, 1),
+    border-radius 2600ms ease,
+    box-shadow 2600ms ease;
+}
+/* 3 · full photo, slow push-in while it stays on screen */
+.image-anim__img.is-full {
+  opacity: 1;
+  z-index: 1;
+  transform: scale(1);
+  transition: filter 2400ms ease;
+  animation: contact-drift 10s ease-out forwards;
+}
+.image-anim__img.is-leaving { filter: brightness(0.75); }
+@keyframes contact-drift { from { transform: scale(1); } to { transform: scale(1.04); } }
+.image-anim__contact {
+  position: absolute;
+  left: 50%;
+  bottom: 7.4%;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  gap: var(--gap-sm);
+  transform: translateX(-50%);
+  white-space: nowrap;
+}
+.image-anim__contact a { color: var(--surface-primary-on-primary); }
+.image-anim__mail { font-size: var(--font-body-xs); font-weight: 500; }
+.image-anim__mail:hover { text-decoration: underline; }
+
+/* ---------- right ---------- */
+.contact__main {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: var(--gap-md);
+  padding: var(--padding-xl) var(--padding-md) var(--padding-md);
+}
+.contact__top { display: flex; flex-direction: column; gap: var(--gap-md); }
+.contact__title { font-size: var(--font-heading-h4); font-weight: var(--font-weight-bold); }
+.contact__options { display: flex; flex-direction: column; gap: var(--gap-sm); }
+.contact__chips { display: flex; flex-wrap: wrap; gap: var(--gap-xs); }
+.contact__intro { min-height: 2.3em; font-size: var(--font-body-md); }
+
+/* form (Figma: form — label 16 px @80 %, 1 px line, gap 32) */
+.contact-form { display: flex; flex-direction: column; align-items: flex-start; gap: var(--gap-sm); }
+.field { display: block; width: 100%; padding: var(--padding-3xs) 0; }
+.field__input {
+  display: block;
+  width: 100%;
+  padding: 0 0 var(--padding-xs);
+  border: 0;
+  border-bottom: var(--stroke-sm) solid var(--surface-secondary-on-secondary);
+  border-radius: 0;
+  background: transparent;
+  color: var(--surface-secondary-on-secondary);
+  font: inherit;
+  font-size: var(--font-body-xs);
+  line-height: 1.125;
+  resize: vertical;
+  transition: border-color var(--transition-fast);
+}
+textarea.field__input { min-height: calc(18px + var(--padding-xs)); max-height: 240px; }
+.field__input::placeholder { color: var(--surface-secondary-on-secondary-80); opacity: 1; }
+.field__input:focus { outline: none; border-bottom-color: var(--brand-logo-blue); box-shadow: 0 1px 0 var(--brand-logo-blue); }
+.was-validated .field__input:invalid { border-bottom-color: var(--surface-primary-highlight-orange-dark); }
+.contact-form__status { min-height: 1.2em; font-size: var(--font-body-2xs); color: var(--surface-primary-highlight-orange-dark); }
+
+/* ---------- responsive ---------- */
+@media (max-width: 1100px) {
+  .contact { grid-template-columns: 1fr; min-height: 0; }
+  .image-anim { order: 2; aspect-ratio: 720 / 600; }
+  .contact__main { padding: calc(66px + var(--padding-sm) * 3) var(--padding-sm) var(--padding-md); }
+}
+@media (max-width: 640px) {
+  .contact__main { padding-inline: var(--padding-xs); }
+  .image-anim { aspect-ratio: 4 / 5; }
+  .image-anim__contact { flex-direction: column; gap: var(--gap-2xs); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .image-anim__img { transition: none !important; animation: none !important; }
+}
+
+/* ---------- header over the split page: logo on the photo (white), menu on the light panel (dark) ---------- */
+.site-header--split .logo { display: grid; }
+.site-header--split .logo__img { grid-area: 1 / 1; transition: opacity var(--transition-fast); }
+.site-header--split .logo__img--light { opacity: 0; }
+@media (max-width: 1100px) {
+  /* one column: the header sits on the light panel */
+  .site-header--split .logo__img:not(.logo__img--light) { opacity: 0; }
+  .site-header--split .logo__img--light { opacity: 1; }
+  .site-header--split .site-header__toggle { color: var(--surface-secondary-on-secondary); }
+  .site-header--split .site-nav { background: var(--surface-secondary-high); }
+}
+/* desktop: the header follows the page grid — logo over the photo, menu inside the light panel */
+@media (min-width: 1101px) {
+  .site-header--split {
+    display: grid;
+    grid-template-columns: minmax(0, 720fr) minmax(0, 976fr);
+    column-gap: var(--gap-sm);
+    padding-inline: 0;
+  }
+  .site-header--split .logo { margin-left: var(--padding-md); }
+  .site-header--split .site-nav { justify-self: end; padding-right: clamp(24px, 4vw, var(--padding-md)); gap: clamp(12px, 1.7vw, 32px); }
+  .site-header--split .site-nav__list { gap: clamp(12px, 1.7vw, 32px); }
+  .site-header--split .menu-item { font-size: clamp(15px, 1.25vw, 20px); }
+}

@@ -1,0 +1,102 @@
+/* ==========================================================================
+   Hero (Figma: Main / section_hero) — shared by Home, Missions, Éducation
+   Layers (one visible at a time, cross-faded like Figma "Smart animate"):
+     data-hero-layer="list" → item.activities list (Mer Méditerranée … Handicap variants)
+     data-hero-layer="faq"  → Q&A (Property 1=q&a) — Home only
+     data-hero-layer="intro"→ title + partners + data (Property 1=Default) — Home only
+   ========================================================================== */
+
+.hero {
+  position: relative;
+  isolation: isolate;
+  display: grid;
+  grid-template: 1fr / minmax(0, 1fr);
+  min-height: max(100svh, 640px);
+  padding: var(--padding-sm) var(--padding-md) var(--padding-md);
+  overflow: clip;
+  background: var(--surface-primary-lowest);
+  color: var(--surface-primary-on-primary);
+}
+
+/* ---- background layers ---- */
+.hero__bgs { position: absolute; inset: 0; z-index: -1; pointer-events: none; }
+.hero__bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transition: opacity var(--smart-animate);
+}
+
+/* ---- content layers share one grid cell ---- */
+.hero__layer {
+  grid-area: 1 / 1;
+  justify-self: center;
+  width: 100%;
+  min-width: 0;
+  max-width: var(--content-width);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(24px);
+  transition: opacity var(--smart-animate), transform var(--smart-animate), visibility 0s linear 300ms;
+}
+.hero__layer.is-current {
+  opacity: 1;
+  visibility: visible;
+  transform: none;
+  transition: opacity var(--smart-animate), transform var(--smart-animate), visibility 0s;
+}
+
+/* intro (Figma: hero_content of Default) */
+.hero__layer--intro {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  gap: clamp(64px, 24vh, 266px); /* 266px in Figma, not tokenised */
+  padding-top: var(--padding-md);
+}
+.hero__center { display: flex; flex-direction: column; align-items: center; gap: var(--gap-xs); text-align: center; }
+.hero__title { white-space: pre; }
+.hero__subtitle { width: 0; min-width: 100%; }
+.hero__partners { width: 100%; padding: var(--padding-md) 0; }
+.hero__data { display: flex; align-items: center; justify-content: space-between; width: 100%; padding: 0 var(--padding-2xl); }
+
+/* list (Figma: hero_content of Mer Méditerranée / Primaire …) */
+.hero__layer--list {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: var(--padding-md) 0 0; /* Figma: px 200 inside 1600 — rows (1140) are centred, so only the width matters */
+}
+
+/* Q&A (Figma: hero_content of q&a — pt 200, px 120, items 1360) */
+.hero__layer--faq {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: var(--padding-xl) var(--padding-lg) 0;
+}
+
+@media (max-height: 900px) {
+  .hero__layer--faq { padding-top: calc(66px + var(--padding-md)); }
+}
+@media (max-width: 1100px) {
+  .hero { padding-top: calc(66px + var(--padding-sm) * 2); }
+  .hero__title { white-space: normal; }
+  .hero__center { width: 100%; }
+  .hero__subtitle { width: auto; max-width: 52ch; }
+  .hero__layer--list { padding-inline: 0; padding-top: 0; }
+  .hero__layer--faq { padding: 0; }
+}
+@media (max-width: 640px) {
+  .hero__data { flex-direction: column; align-items: center; gap: var(--gap-sm); }
+  .hero__data .data { align-items: center; }
+  .hero__partners { gap: var(--gap-sm) 40px; padding: var(--padding-sm) 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero__bg, .hero__layer { transition: none !important; }
+}

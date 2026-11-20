@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Contact — Wildlife Interactions</title>
+  <meta name="description" content="Contactez Wildlife Interactions : question, partenariat ou bénévolat.">
+
+  <link rel="stylesheet" href="css/fonts.css">
+  <link rel="stylesheet" href="css/tokens.css">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/pages/contact.css">
+  <link rel="stylesheet" href="css/motion.css">
+</head>
+<body>
+
+  <main>
+    <section class="contact" aria-labelledby="page-title">
+      <!-- Figma: menu -->
+      <header class="site-header site-header--split" data-site-header>
+        <a class="logo" href="home.html" aria-label="Wildlife Interactions — accueil">
+          <img class="logo__img" src="assets/logos/logo-inverse.svg" width="63" height="68" alt="">
+          <img class="logo__img logo__img--light" src="assets/logos/logo-default.svg" width="63" height="68" alt="">
+        </a>
+        <button class="site-header__toggle" type="button" aria-expanded="false" aria-controls="site-nav" data-nav-toggle>
+          <span class="site-header__toggle-bars" aria-hidden="true"></span>
+          <span class="visually-hidden">Menu</span>
+        </button>
+        <nav class="site-nav" id="site-nav" aria-label="Navigation principale">
+          <ul class="site-nav__list">
+            <li><a class="menu-item menu-item--secondary" href="missions.html">Missions</a></li>
+            <li><a class="menu-item menu-item--secondary" href="education.html">Éducation</a></li>
+            <li><a class="menu-item menu-item--secondary" href="talents.html">Talents</a></li>
+            <li><a class="menu-item menu-item--secondary" href="exposition-media.html">Exposition &amp; média</a></li>
+            <li><a class="menu-item menu-item--secondary" href="contact.html">Contact</a></li>
+          </ul>
+          <a class="cta cta--secondary" href="contact.html#soutenir">Nous soutenir</a>
+        </nav>
+      </header>
+
+      <!-- Figma: image_anim (first → second → third, 2 s each) -->
+      <div class="image-anim" data-image-anim>
+        <img class="image-anim__img" src="assets/img/contact/contact-1.jpg" alt="">
+        <img class="image-anim__img" src="assets/img/contact/contact-2.jpg" alt="">
+        <img class="image-anim__img" src="assets/img/contact/contact-3.jpg" alt="">
+        <div class="image-anim__contact">
+          <a class="image-anim__mail" href="mailto:contact@wildlife-interactions.com">contact@wildlife-interactions.com</a>
+          <a href="https://www.linkedin.com/" target="_blank" rel="noopener" aria-label="LinkedIn"><span class="icon icon--32 icon--linkedin" aria-hidden="true"></span></a>
+        </div>
+      </div>
+
+      <!-- Figma: right -->
+      <div class="contact__main">
+        <div class="contact__top">
+          <h1 class="contact__title" id="page-title">Comment pouvons-nous vous aider ?</h1>
+          <div class="contact__options">
+            <div class="contact__chips" role="group" aria-label="Objet de votre message">
+              <button class="cta cta--secondary" type="button" data-contact-option="question" aria-pressed="true" data-intro="Chaque question posée est une graine de curiosité qui nourrit notre mission. Notre équipe vous répond avec grand plaisir !">J’ai une question</button>
+              <button class="cta cta--secondary-outline" type="button" data-contact-option="partenariat" aria-pressed="false" data-intro="Rejoignez les entreprises et institutions qui, à nos côtés, protègent déjà plus de 87 500 km² d'écosystèmes marins essentiels au climat !">Partenariat</button>
+              <button class="cta cta--secondary-outline" type="button" data-contact-option="benevolat" aria-pressed="false" data-intro="Ils sont déjà nombreux à donner de leur temps pour sensibiliser les jeunes générations. Rejoignez cette communauté engagée !">Bénévolat</button>
+            </div>
+            <p class="contact__intro" data-contact-intro aria-live="polite"></p>
+          </div>
+        </div>
+
+        <form class="contact-form" data-contact-form novalidate>
+          <input type="hidden" name="subject" value="">
+          <label class="field"><span class="visually-hidden">Prénom</span><input class="field__input" name="firstname" placeholder="Prénom" autocomplete="given-name" required></label>
+          <label class="field"><span class="visually-hidden">Nom</span><input class="field__input" name="lastname" placeholder="Nom" autocomplete="family-name" required></label>
+          <label class="field"><span class="visually-hidden">E-mail</span><input class="field__input" type="email" name="email" placeholder="E-mail" autocomplete="email" required></label>
+          <label class="field"><span class="visually-hidden">Téléphone (optionnel)</span><input class="field__input" type="tel" name="phone" placeholder="Téléphone (optionnel)" autocomplete="tel"></label>
+          <label class="field"><span class="visually-hidden">Entreprise (optionnel)</span><input class="field__input" name="company" placeholder="Entreprise (optionnel)" autocomplete="organization"></label>
+          <label class="field"><span class="visually-hidden">Message</span><textarea class="field__input" name="message" placeholder="Message" rows="1" required></textarea></label>
+          <button class="cta cta--secondary" type="submit">Envoyer</button>
+          <p class="contact-form__status" data-form-status aria-live="polite"></p>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <!-- Figma: footer -->
+  <footer class="site-footer">
+    <div class="site-footer__head">
+      <div class="site-footer__title">
+        <p class="site-footer__claim">Art. Éducation. Science</p>
+        <p class="site-footer__tagline">Ensemble, au service d'un impact durable pour la vie marine</p>
+      </div>
+      <div class="site-footer__ctas">
+        <a class="cta cta--secondary" href="contact.html">Contact</a>
+        <a class="cta cta--secondary-outline" href="contact.html#soutenir">Nous soutenir</a>
+      </div>
+    </div>
+    <div class="site-footer__bottom">
+      <a class="logo logo--sm" href="home.html" aria-label="Wildlife Interactions — accueil">
+        <img src="assets/logos/logo-default.svg" width="63" height="68" alt="">
+      </a>
+      <p class="site-footer__copyright">© 2026 Wildlife Interactions. Tous droits réservés.</p>
+      <a class="site-footer__social" href="https://www.linkedin.com/" target="_blank" rel="noopener" aria-label="LinkedIn">
+        <span class="icon icon--32 icon--linkedin" aria-hidden="true"></span>
+      </a>
+    </div>
+  </footer>
+
+  <script src="js/main.js" defer></script>
+  <script src="js/pages.js" defer></script>
+  <script src="js/vendor/lenis.min.js" defer></script>
+  <script src="js/motion.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Éducation — Wildlife Interactions</title>
+  <meta name="description" content="Éducation — Wildlife Interactions">
+
+  <link rel="stylesheet" href="css/fonts.css">
+  <link rel="stylesheet" href="css/tokens.css">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/hero.css">
+  <link rel="stylesheet" href="css/detail.css">
+  <link rel="stylesheet" href="css/globe.css">
+  <link rel="stylesheet" href="css/motion.css">
+</head>
+<body>
+
+  <main>
+    <!-- Figma: Content › Education 6251:4027 -->
+    <section class="hero" data-hero data-category="education" aria-labelledby="page-title">
+      <div class="hero__bgs" data-hero-bgs></div>
+
+    <!-- Figma: menu -->
+    <header class="site-header" data-site-header>
+      <a class="logo" href="home.html" aria-label="Wildlife Interactions — accueil">
+        <img src="assets/logos/logo-inverse.svg" width="63" height="68" alt="">
+      </a>
+      <button class="site-header__toggle" type="button" aria-expanded="false" aria-controls="site-nav" data-nav-toggle>
+        <span class="site-header__toggle-bars" aria-hidden="true"></span>
+        <span class="visually-hidden">Menu</span>
+      </button>
+      <nav class="site-nav" id="site-nav" aria-label="Navigation principale">
+        <ul class="site-nav__list">
+          <li><a class="menu-item menu-item--primary" href="missions.html">Missions</a></li>
+          <li><a class="menu-item menu-item--primary" href="education.html">Éducation</a></li>
+          <li><a class="menu-item menu-item--primary" href="talents.html">Talents</a></li>
+          <li><a class="menu-item menu-item--primary" href="exposition-media.html">Exposition &amp; média</a></li>
+          <li><a class="menu-item menu-item--primary" href="contact.html">Contact</a></li>
+        </ul>
+        <a class="cta cta--primary" href="contact.html#soutenir">Nous soutenir</a>
+      </nav>
+    </header>
+
+      <div class="hero__layer hero__layer--list is-current" data-hero-layer="list">
+        <h1 class="visually-hidden" id="page-title">Nos programmes éducatifs</h1>
+        <ul class="activities" data-activities></ul>
+      </div>
+    </section>
+  </main>
+
+  <!-- Figma: footer -->
+  <footer class="site-footer">
+    <div class="site-footer__head">
+      <div class="site-footer__title">
+        <p class="site-footer__claim">Art. Éducation. Science</p>
+        <p class="site-footer__tagline">Ensemble, au service d'un impact durable pour la vie marine</p>
+      </div>
+      <div class="site-footer__ctas">
+        <a class="cta cta--secondary" href="contact.html">Contact</a>
+        <a class="cta cta--secondary-outline" href="contact.html#soutenir">Nous soutenir</a>
+      </div>
+    </div>
+    <div class="site-footer__bottom">
+      <a class="logo logo--sm" href="home.html" aria-label="Wildlife Interactions — accueil">
+        <img src="assets/logos/logo-default.svg" width="63" height="68" alt="">
+      </a>
+      <p class="site-footer__copyright">© 2026 Wildlife Interactions. Tous droits réservés.</p>
+      <a class="site-footer__social" href="https://www.linkedin.com/" target="_blank" rel="noopener" aria-label="LinkedIn">
+        <span class="icon icon--32 icon--linkedin" aria-hidden="true"></span>
+      </a>
+    </div>
+  </footer>
+
+  <script src="js/main.js" defer></script>
+  <script src="js/zones.js" defer></script>
+  <script src="js/talents-data.js" defer></script>
+  <script src="js/detail-content.js" defer></script>
+  <script src="js/activities.js" defer></script>
+  <script src="js/vendor/d3-array.min.js" defer></script>
+  <script src="js/vendor/d3-geo.min.js" defer></script>
+  <script src="js/vendor/topojson-client.min.js" defer></script>
+  <script src="js/vendor/world-110m.js" defer></script>
+  <script src="js/globe.js" defer></script>
+  <script src="js/vendor/lenis.min.js" defer></script>
+  <script src="js/motion.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,194 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Exposition & média — Wildlife Interactions</title>
+  <meta name="description" content="Des grilles du Sénat aux rives de la Méditerranée, l'exposition L'Océan Vivant, les sujets TV et les magazines qui relaient Wildlife Interactions.">
+
+  <link rel="stylesheet" href="css/fonts.css">
+  <link rel="stylesheet" href="css/tokens.css">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/pages/talents.css">
+  <link rel="stylesheet" href="css/pages/expo.css">
+  <link rel="stylesheet" href="css/motion.css">
+</head>
+<body>
+
+  <main>
+    <!-- Figma: Main / Property 1=zero (hover → first … last) -->
+    <section class="page-hero expo-hero" aria-labelledby="page-title">
+      <img class="page-hero__bg" src="assets/img/expo/hero-bg.jpg" alt="" aria-hidden="true">
+      <!-- Figma: menu -->
+      <header class="site-header" data-site-header>
+        <a class="logo" href="home.html" aria-label="Wildlife Interactions — accueil">
+          <img src="assets/logos/logo-inverse.svg" width="63" height="68" alt="">
+        </a>
+        <button class="site-header__toggle" type="button" aria-expanded="false" aria-controls="site-nav" data-nav-toggle>
+          <span class="site-header__toggle-bars" aria-hidden="true"></span>
+          <span class="visually-hidden">Menu</span>
+        </button>
+        <nav class="site-nav" id="site-nav" aria-label="Navigation principale">
+          <ul class="site-nav__list">
+            <li><a class="menu-item menu-item--primary" href="missions.html">Missions</a></li>
+            <li><a class="menu-item menu-item--primary" href="education.html">Éducation</a></li>
+            <li><a class="menu-item menu-item--primary" href="talents.html">Talents</a></li>
+            <li><a class="menu-item menu-item--primary" href="exposition-media.html">Exposition &amp; média</a></li>
+            <li><a class="menu-item menu-item--primary" href="contact.html">Contact</a></li>
+          </ul>
+          <a class="cta cta--primary" href="contact.html#soutenir">Nous soutenir</a>
+        </nav>
+      </header>
+
+      <div class="page-hero__content">
+        <div class="page-hero__center">
+          <h1 class="page-hero__title" id="page-title">Exposition &amp; média</h1>
+          <p class="page-hero__subtitle">Des grilles du Sénat aux rives de la Méditerranée, l'objectif d'association donne à voir l'urgence et la beauté du monde marin</p>
+        </div>
+        <!-- hidden photos, revealed on hover (Figma: image ON_HOVER) -->
+        <figure class="expo-hero__float expo-hero__float--1"><img src="assets/img/expo/float-1.jpg" alt="" loading="lazy"></figure>
+        <figure class="expo-hero__float expo-hero__float--2"><img src="assets/img/expo/float-2.jpg" alt="" loading="lazy"></figure>
+        <figure class="expo-hero__float expo-hero__float--3"><img src="assets/img/expo/float-3.jpg" alt="" loading="lazy"></figure>
+        <figure class="expo-hero__float expo-hero__float--4"><img src="assets/img/expo/float-4.jpg" alt="" loading="lazy"></figure>
+        <figure class="expo-hero__float expo-hero__float--video"><img src="assets/img/expo/video.jpg" alt="Wildlife Interactions — vidéo"></figure>
+      </div>
+    </section>
+
+    <div class="expo">
+      <!-- Figma: overview (exposition) -->
+      <section class="expo__section" aria-labelledby="expo-title">
+        <div class="expo__head">
+          <h2 class="expo__title" id="expo-title">Nos médias, votre relais d'action</h2>
+          <a class="cta cta--secondary" href="contact.html">Nous contacter</a>
+        </div>
+        <div class="expo__intro">
+          <span class="tag tag--light">Exposition · Paris, Nice</span>
+          <p class="expo__intro-text">À travers l'exposition itinérante « L'Océan Vivant », Wildlife Interactions fait vivre ses messages de sensibilisation au cœur de l'espace public. Accueillie par le Sénat sur les grilles du Jardin du Luxembourg, puis déclinée à Nice à l'occasion de l'UNOC 3, elle a rassemblé plusieurs millions de visiteurs. Ce voyage visuel, de l'équateur aux pôles, explore la splendeur des océans tout en sensibilisant le grand public aux enjeux environnementaux contemporains. Chaque image est accompagnée de légendes rédigées par les experts scientifiques de l'association.</p>
+        </div>
+        <div class="expo__media">
+          <figure class="media media--unoc">
+            <img class="media__img" src="assets/img/expo/unoc.jpg" alt="Olivier Anrigo présentant l'exposition à des écoliers, UNOC, Nice" loading="lazy">
+            <figcaption class="media__caption"><span class="media__title">UNOC</span><span class="media__meta">Nice, 2025</span></figcaption>
+          </figure>
+          <figure class="media">
+            <div class="media__pair">
+              <img class="media__img media__img--main" src="assets/img/expo/senat.jpg" alt="Inauguration de l'exposition au Sénat" loading="lazy">
+              <img class="media__img media__img--poster" src="assets/img/expo/poster.jpg" alt="Affiche « L'Océan Vivant », Grilles du Jardin du Luxembourg" loading="lazy">
+            </div>
+            <figcaption class="media__caption"><span class="media__title">Grilles du Sénat</span><span class="media__meta">Paris, 2025</span></figcaption>
+          </figure>
+        </div>
+      </section>
+
+      <!-- Figma: content (Sujet TV) -->
+      <section class="expo__section" aria-label="Sujets TV">
+        <div class="expo__intro">
+          <span class="tag tag--light">Sujet TV</span>
+          <p class="expo__intro-text">Les missions et les messages portés par Wildlife Interactions ont été relayés par plusieurs médias télévisés, désireux de porter à l'écran la beauté fragile du monde marin. Ces reportages permettent de faire connaître au grand public les expéditions scientifiques menées en Méditerranée, en Arctique et en Antarctique. En donnant la parole aux chercheurs et experts de l'association, ils contribuent à ancrer les enjeux climatiques dans le débat public. Chaque sujet TV devient ainsi un relais essentiel pour amplifier la mission de préservation de Wildlife Interactions.</p>
+        </div>
+        <div class="expo__tv">
+          <figure class="media"><img class="media__img" src="assets/img/expo/tv-pelagos.jpg" alt="" loading="lazy"><figcaption class="media__caption"><span class="media__title">Conférence Pelagos</span><span class="media__meta">Nice, 2025</span></figcaption></figure>
+          <figure class="media"><img class="media__img" src="assets/img/expo/tv-metier.jpg" alt="" loading="lazy"><figcaption class="media__caption"><span class="media__title">Métier de la Mer</span><span class="media__meta">2025</span></figcaption></figure>
+          <figure class="media"><img class="media__img" src="assets/img/expo/tv-ulis.jpg" alt="" loading="lazy"><figcaption class="media__caption"><span class="media__title">ULIS Monaco</span><span class="media__meta">2025</span></figcaption></figure>
+        </div>
+      </section>
+
+      <!-- Figma: overview (Magazines) -->
+      <section class="expo__section" aria-label="Magazines">
+        <div class="expo__intro">
+          <span class="tag tag--light">Magazines</span>
+          <p class="expo__intro-text">L'engagement de Wildlife Interactions a trouvé sa place dans les pages de magazines de référence, tels que Géo et Héros. Ces publications offrent un espace narratif approfondi pour raconter les expéditions et les missions qui nourrissent le travail de l'association. À travers reportages et portfolios, elles permettent de toucher un lectorat curieux et engagé, sensible aux récits de terrain. Cette présence éditoriale renforce la portée du message porté collectivement par l'association et son réseau d'experts.</p>
+        </div>
+        <div class="expo__media">
+          <div class="magazine">
+            <figure class="magazine__cover"><img src="assets/img/expo/cover-geo.jpg" alt="Couverture GEO Hors-série « Beauté et enjeux des pôles »" loading="lazy"><figcaption>Géo magazine</figcaption></figure>
+            <div class="carousel" data-carousel tabindex="0" aria-roledescription="carrousel" aria-label="Pages — Géo magazine">
+              <div class="carousel__viewport"><div class="carousel__track" data-carousel-track>
+                <div class="carousel__slide"><img src="assets/img/expo/magazine-spread.jpg" alt="Géo magazine — page 1" draggable="false" loading="lazy"></div>
+                <div class="carousel__slide"><img src="assets/img/expo/magazine-spread.jpg" alt="Géo magazine — page 2" draggable="false" loading="lazy"></div>
+                <div class="carousel__slide"><img src="assets/img/expo/magazine-spread.jpg" alt="Géo magazine — page 3" draggable="false" loading="lazy"></div>
+                <div class="carousel__slide"><img src="assets/img/expo/magazine-spread.jpg" alt="Géo magazine — page 4" draggable="false" loading="lazy"></div>
+                <div class="carousel__slide"><img src="assets/img/expo/magazine-spread.jpg" alt="Géo magazine — page 5" draggable="false" loading="lazy"></div>
+                <div class="carousel__slide"><img src="assets/img/expo/magazine-spread.jpg" alt="Géo magazine — page 6" draggable="false" loading="lazy"></div>
+                <div class="carousel__slide"><img src="assets/img/expo/magazine-spread.jpg" alt="Géo magazine — page 7" draggable="false" loading="lazy"></div>
+                <div class="carousel__slide"><img src="assets/img/expo/magazine-spread.jpg" alt="Géo magazine — page 8" draggable="false" loading="lazy"></div>
+              </div></div>
+              <div class="carousel__nav">
+                <div class="carousel__dots" data-carousel-dots></div>
+                <div class="carousel__ctas">
+                  <button class="cta cta--secondary cta--icon" type="button" data-carousel-prev aria-label="Page précédente"><span class="icon icon--arrow-left" aria-hidden="true"></span></button>
+                  <button class="cta cta--secondary cta--icon" type="button" data-carousel-next aria-label="Page suivante"><span class="icon icon--arrow-right" aria-hidden="true"></span></button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="magazine">
+            <figure class="magazine__cover"><img src="assets/img/expo/cover-heros.jpg" alt="Couverture Héros n°8 « L'hymne à la mer »" loading="lazy"><figcaption>Héros 8 magazine</figcaption></figure>
+            <div class="carousel" data-carousel tabindex="0" aria-roledescription="carrousel" aria-label="Pages — Héros 8 magazine">
+              <div class="carousel__viewport"><div class="carousel__track" data-carousel-track>
+                <div class="carousel__slide"><img src="assets/img/expo/magazine-spread.jpg" alt="Héros 8 magazine — page 1" draggable="false" loading="lazy"></div>
+                <div class="carousel__slide"><img src="assets/img/expo/magazine-spread.jpg" alt="Héros 8 magazine — page 2" draggable="false" loading="lazy"></div>
+                <div class="carousel__slide"><img src="assets/img/expo/magazine-spread.jpg" alt="Héros 8 magazine — page 3" draggable="false" loading="lazy"></div>
+                <div class="carousel__slide"><img src="assets/img/expo/magazine-spread.jpg" alt="Héros 8 magazine — page 4" draggable="false" loading="lazy"></div>
+                <div class="carousel__slide"><img src="assets/img/expo/magazine-spread.jpg" alt="Héros 8 magazine — page 5" draggable="false" loading="lazy"></div>
+                <div class="carousel__slide"><img src="assets/img/expo/magazine-spread.jpg" alt="Héros 8 magazine — page 6" draggable="false" loading="lazy"></div>
+                <div class="carousel__slide"><img src="assets/img/expo/magazine-spread.jpg" alt="Héros 8 magazine — page 7" draggable="false" loading="lazy"></div>
+                <div class="carousel__slide"><img src="assets/img/expo/magazine-spread.jpg" alt="Héros 8 magazine — page 8" draggable="false" loading="lazy"></div>
+              </div></div>
+              <div class="carousel__nav">
+                <div class="carousel__dots" data-carousel-dots></div>
+                <div class="carousel__ctas">
+                  <button class="cta cta--secondary cta--icon" type="button" data-carousel-prev aria-label="Page précédente"><span class="icon icon--arrow-left" aria-hidden="true"></span></button>
+                  <button class="cta cta--secondary cta--icon" type="button" data-carousel-next aria-label="Page suivante"><span class="icon icon--arrow-right" aria-hidden="true"></span></button>
+                  <a class="cta cta--secondary" href="assets/img/expo/magazine-spread.jpg" download>Télécharger<span class="icon icon--download" aria-hidden="true"></span></a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Figma: Partenaires -->
+      <section class="expo__section partners-band" aria-labelledby="partners-title">
+        <h2 class="partners-band__title" id="partners-title">Partenaires</h2>
+        <div class="partners-band__logos">
+          <img src="assets/logos/partners/fondation-prince-albert.png" width="225" height="66" alt="Fondation Prince Albert II de Monaco" loading="lazy">
+          <img src="assets/logos/partners/gouvernement-princier.png" width="310" height="70" alt="Gouvernement Princier — Principauté de Monaco" loading="lazy">
+          <img src="assets/logos/partners/centre-scientifique.png" width="175" height="65" alt="Centre Scientifique de Monaco" loading="lazy">
+          <img src="assets/logos/partners/energy-observer.png" width="264" height="52" alt="Energy Observer Foundation" loading="lazy">
+          <img src="assets/logos/partners/polarx.png" width="158" height="56" alt="PolarX" loading="lazy">
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <!-- Figma: footer -->
+  <footer class="site-footer">
+    <div class="site-footer__head">
+      <div class="site-footer__title">
+        <p class="site-footer__claim">Art. Éducation. Science</p>
+        <p class="site-footer__tagline">Ensemble, au service d'un impact durable pour la vie marine</p>
+      </div>
+      <div class="site-footer__ctas">
+        <a class="cta cta--secondary" href="contact.html">Contact</a>
+        <a class="cta cta--secondary-outline" href="contact.html#soutenir">Nous soutenir</a>
+      </div>
+    </div>
+    <div class="site-footer__bottom">
+      <a class="logo logo--sm" href="home.html" aria-label="Wildlife Interactions — accueil">
+        <img src="assets/logos/logo-default.svg" width="63" height="68" alt="">
+      </a>
+      <p class="site-footer__copyright">© 2026 Wildlife Interactions. Tous droits réservés.</p>
+      <a class="site-footer__social" href="https://www.linkedin.com/" target="_blank" rel="noopener" aria-label="LinkedIn">
+        <span class="icon icon--32 icon--linkedin" aria-hidden="true"></span>
+      </a>
+    </div>
+  </footer>
+
+  <script src="js/main.js" defer></script>
+  <script src="js/pages.js" defer></script>
+  <script src="js/vendor/lenis.min.js" defer></script>
+  <script src="js/motion.js" defer></script>
+</body>
+</html>

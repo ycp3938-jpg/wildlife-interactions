@@ -1,0 +1,228 @@
+/* ==========================================================================
+   3D map view (js/globe.js) — Figma reference 6002:2113
+   Light globe with thin borders, flag markers (count + stem + label) in orange,
+   and a Spyker-like « Liste ⟷ Carte 3D » switch at the bottom of the hero.
+   ========================================================================== */
+
+/* ---- list ⟷ map ---- */
+.hero[data-view="map"] .hero__layer--list {
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(16px);
+  pointer-events: none;
+}
+.hero__globe {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  opacity: 0;
+  visibility: hidden;
+  scale: 0.94;
+  transition: opacity 700ms ease, scale 1100ms var(--ease-out-expo), visibility 0s linear 700ms;
+}
+.hero[data-view="map"][data-state="list"] .hero__globe {
+  opacity: 1;
+  visibility: visible;
+  scale: 1;
+  transition: opacity 900ms ease 120ms, scale 1300ms var(--ease-out-expo) 120ms, visibility 0s;
+}
+/* map view: plain background, no photo */
+/* map view: plain dark background (no photo) */
+.hero__bgs { transition: opacity 600ms ease; }
+.hero[data-view="map"][data-state="list"] .hero__bgs { opacity: 0; }
+.globe__canvas {
+  position: absolute;
+  inset: 0;
+  cursor: grab;
+  touch-action: none;
+  outline: none;
+}
+.globe__canvas:focus-visible { outline: 2px solid var(--surface-primary-highlight-blue); outline-offset: -6px; }
+.hero__globe.is-dragging .globe__canvas { cursor: grabbing; }
+.globe__markers { position: absolute; inset: 0; z-index: 1; pointer-events: none; }
+
+/* ---- flag: [count | name] on a stem, dot on the place ---- */
+.globe-flag {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  translate: -4px -100%;           /* the dot sits exactly on the place */
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--surface-secondary-on-secondary);
+  font: inherit;
+  cursor: pointer;
+  pointer-events: auto;
+  transition: opacity 300ms ease;
+  will-change: transform;
+}
+.globe-flag--left { align-items: flex-end; translate: calc(-100% + 4px) -100%; }
+.globe-flag__label {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 8px 4px 0;
+  background: var(--surface-secondary-high);
+  box-shadow: 0 4px 16px rgba(4, 20, 24, 0.18);
+  font-size: 13px;
+  line-height: 1.2;
+  white-space: nowrap;
+  transition: background-color var(--transition-fast), color var(--transition-fast), translate 500ms var(--ease-out-expo);
+}
+.globe-flag__count {
+  padding: 0 6px 0 8px;
+  border-right: 2px solid var(--surface-primary-highlight-orange-dark);
+  color: var(--surface-primary-highlight-orange-dark);
+  font-weight: var(--font-weight-bold);
+  font-variant-numeric: tabular-nums;
+}
+.globe-flag__stem {
+  width: 2px;
+  height: var(--stem, 44px);
+  margin-left: 3px;
+  background: var(--surface-primary-highlight-orange);
+  transform-origin: bottom;
+  transition: scale 500ms var(--ease-out-expo);
+}
+.globe-flag--left .globe-flag__stem { margin-left: 0; margin-right: 3px; }
+.globe-flag__dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--surface-primary-highlight-orange);
+  box-shadow: 0 0 0 4px rgba(244, 184, 157, 0.35);
+  animation: globe-pulse 2.4s ease-out infinite;
+}
+@keyframes globe-pulse {
+  0% { box-shadow: 0 0 0 0 rgba(244, 184, 157, 0.6); }
+  70% { box-shadow: 0 0 0 10px rgba(244, 184, 157, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(244, 184, 157, 0); }
+}
+.globe-flag:hover .globe-flag__label,
+.globe-flag:focus-visible .globe-flag__label,
+.globe-flag[aria-expanded="true"] .globe-flag__label {
+  background: var(--surface-primary-highlight-orange);
+  translate: 0 -4px;
+}
+.globe-flag:hover .globe-flag__stem,
+.globe-flag:focus-visible .globe-flag__stem { scale: 1 1.12; }
+.globe-flag:focus-visible { outline: none; }
+.globe-flag:focus-visible .globe-flag__label { outline: 2px solid var(--surface-secondary-on-secondary); }
+
+/* ---- chooser (place with several projects) ---- */
+.globe__chooser {
+  position: absolute;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  min-width: 220px;
+  padding: 8px;
+  background: var(--surface-secondary-high);
+  box-shadow: 0 16px 48px rgba(4, 20, 24, 0.3);
+  color: var(--surface-secondary-on-secondary);
+  animation: chooser-in 400ms var(--ease-out-expo);
+}
+.globe__chooser[hidden] { display: none; }
+.globe__chooser--left { translate: -100% 0; }
+@keyframes chooser-in { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+.globe__chooser-title {
+  padding: 6px 8px 8px;
+  font-size: var(--font-label-sm);
+  font-weight: var(--font-weight-bold);
+  border-bottom: 1px solid var(--stroke-default-alpha);
+}
+.globe__chooser-item {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 8px;
+  text-align: left;
+  font-size: var(--font-body-xs);
+  transition: background-color var(--transition-fast);
+}
+.globe__chooser-item:hover,
+.globe__chooser-item:focus-visible { background: var(--surface-transparent-orange-lowest); outline: none; }
+.globe__chooser-cat { font-size: 12px; color: var(--surface-primary-highlight-orange-dark); }
+
+.globe__hint {
+  position: absolute;
+  left: 50%;
+  bottom: 96px;
+  translate: -50% 0;
+  padding: 4px 12px;
+  border-radius: var(--radius-round);
+  background: rgba(4, 20, 24, 0.45);
+  font-size: 12px;
+  color: var(--surface-primary-on-primary);
+  white-space: nowrap;
+  pointer-events: none;
+  transition: opacity 600ms ease;
+}
+.hero__globe.was-dragged .globe__hint { opacity: 0; }
+
+/* ---- the switch (spykercars.com: « Spyker Heritage |▯| Racing History ») ---- */
+.view-toggle {
+  position: absolute;
+  left: 50%;
+  bottom: 32px;
+  z-index: 6;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  translate: -50% 0;
+  padding: 8px 18px;
+  border-radius: var(--radius-round);
+  background: rgba(4, 20, 24, 0.55);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  color: var(--surface-primary-on-primary);
+  transition: opacity 400ms ease, visibility 0s linear 400ms, background-color 500ms ease, color 500ms ease;
+}
+.hero:not([data-state="list"]) .view-toggle { opacity: 0; visibility: hidden; }
+.hero[data-state="list"] .view-toggle { transition: opacity 600ms ease 200ms, visibility 0s, background-color 500ms ease, color 500ms ease; }
+.view-toggle__label {
+  padding: 4px 0;
+  white-space: nowrap;
+  font-size: var(--font-body-xs);
+  color: var(--surface-primary-on-primary-80);
+  background: linear-gradient(currentColor, currentColor) no-repeat right bottom / 0 1px;
+  transition: color var(--transition-fast), background-size 500ms var(--ease-out-expo);
+}
+.view-toggle__label:hover { color: var(--surface-primary-on-primary); }
+.view-toggle__label[aria-pressed="true"] {
+  color: var(--surface-primary-on-primary);
+  background-position: left bottom;
+  background-size: 100% 1px;
+}
+.view-toggle__switch {
+  position: relative;
+  width: 34px;
+  height: 20px;
+  border-inline: 1px solid currentColor;  /* the two thin bars */
+}
+.view-toggle__knob {
+  position: absolute;
+  top: 2px;
+  left: 4px;
+  width: 11px;
+  height: 16px;
+  border: 1px solid currentColor;
+  transition: translate 600ms var(--ease-out-expo);
+}
+.view-toggle[data-view="map"] .view-toggle__knob { translate: 13px 0; }
+.view-toggle__switch:focus-visible,
+.view-toggle__label:focus-visible { outline: 2px solid var(--surface-primary-highlight-blue); outline-offset: 4px; }
+
+/* mobile: list only (no 3D map) */
+@media (max-width: 760px) {
+  .view-toggle,
+  .hero__globe { display: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .globe-flag__dot { animation: none; }
+  .hero__globe { scale: 1; }
+}

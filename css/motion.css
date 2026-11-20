@@ -1,0 +1,106 @@
+/* ==========================================================================
+   Micro-animations — light, Spyker-like (smooth scroll, masked word reveals,
+   soft fade-ups, letter roll on buttons and menu, growing underlines).
+   Everything is driven by js/motion.js and switched off with
+   prefers-reduced-motion. Without JS, nothing is hidden (.motion-ready gate).
+   ========================================================================== */
+
+/* ---- Lenis smooth scroll (js/vendor/lenis.min.js, MIT) ---- */
+html.lenis, html.lenis body { height: auto; }
+.lenis.lenis-smooth { scroll-behavior: auto !important; }
+.lenis.lenis-smooth [data-lenis-prevent] { overscroll-behavior: contain; }
+.lenis.lenis-stopped { overflow: hidden; }
+
+/* ---- 1 · reveals on entering the viewport ---- */
+.motion-ready [data-reveal="up"],
+.motion-ready [data-reveal="down"] {
+  opacity: 0;
+  translate: 0 28px;
+  transition:
+    opacity 900ms var(--ease-soft) var(--d, 0ms),
+    translate 1100ms var(--ease-out-expo) var(--d, 0ms);
+}
+.motion-ready [data-reveal="down"] { translate: 0 -14px; }
+.motion-ready [data-reveal].is-in { opacity: 1; translate: 0 0; }
+
+/* headings: each word rises out of its own mask */
+.motion-ready [data-reveal="words"] .w {
+  display: inline-block;
+  overflow: clip;
+  padding-bottom: 0.1em;
+  margin-bottom: -0.1em;
+  vertical-align: top;
+}
+.motion-ready [data-reveal="words"] .w__i {
+  display: inline-block;
+  translate: 0 110%;
+  transition: translate 1100ms var(--ease-out-expo) calc(var(--d, 0ms) + var(--wi, 0) * 55ms);
+}
+.motion-ready [data-reveal="words"].is-in .w__i { translate: 0 0; }
+
+/* images: soft wipe from the bottom + settle from a slight zoom */
+.motion-ready [data-reveal="img"] {
+  opacity: 0;
+  clip-path: inset(14% 0 0 0);
+  scale: 1.06;
+  transition:
+    opacity 700ms ease var(--d, 0ms),
+    clip-path 1300ms var(--ease-out-expo) var(--d, 0ms),
+    scale 1700ms var(--ease-out-expo) var(--d, 0ms);
+}
+.motion-ready [data-reveal="img"].is-in { opacity: 1; clip-path: inset(0 0 0 0); scale: 1; }
+
+/* ---- 2 · letter roll on buttons and menu items (hover / keyboard focus) ---- */
+.roll {
+  display: inline-flex;
+  height: 1.3em;
+  margin-block: -0.0875em;     /* keeps the original line box (1.125em) */
+  overflow: clip;
+  line-height: 1.3em;
+  vertical-align: middle;
+}
+.roll__c {
+  display: inline-block;
+  white-space: pre;
+  text-shadow: 0 1.3em currentColor;   /* the copy that rolls in from below */
+  transition: translate 650ms var(--ease-out-expo) calc(var(--ci, 0) * 12ms);
+}
+:is(a, button):is(:hover, :focus-visible) > .roll .roll__c { translate: 0 -1.3em; }
+
+/* ---- 3 · underlines that grow from the left, leave to the right ---- */
+.menu-item:not([aria-current]),
+.image-anim__mail {
+  background: linear-gradient(currentColor, currentColor) no-repeat right bottom / 0 1px;
+  transition: color var(--transition-fast), background-size 500ms var(--ease-out-expo);
+}
+.menu-item:not([aria-current]):is(:hover, :focus-visible),
+.image-anim__mail:is(:hover, :focus-visible) {
+  background-position: left bottom;
+  background-size: 100% 1px;
+  text-decoration: none;
+}
+
+/* ---- 4 · images breathe on hover ---- */
+.media__img,
+.magazine__cover img,
+.detail__image { transition: scale 1200ms var(--ease-out-expo); }
+.media:hover .media__img,
+.magazine__cover:hover img { scale: 1.035; }
+.media,
+.magazine__cover { overflow: clip; }
+
+/* ---- hero shrink on scroll (js/motion.js): the margins it opens are white ---- */
+.motion-ready main { background: var(--surface-secondary-high); }
+.motion-ready [data-hero],
+.motion-ready .expo-hero { transform-origin: 50% 50%; will-change: scale; }
+
+/* ---- 5 · hero photo parallax (Exposition & média) ---- */
+.expo-hero .page-hero__bg { scale: 1.12; translate: 0 var(--parallax, 0px); will-change: translate; }
+
+@media (prefers-reduced-motion: reduce) {
+  .motion-ready [data-reveal] { opacity: 1 !important; translate: none !important; clip-path: none !important; scale: none !important; }
+  .motion-ready [data-reveal="words"] .w__i { translate: none !important; }
+  .roll__c { transition: none; text-shadow: none; }
+  :is(a, button):is(:hover, :focus-visible) > .roll .roll__c { translate: none; }
+  .expo-hero .page-hero__bg { translate: none; }
+}

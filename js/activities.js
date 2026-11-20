@@ -1,0 +1,388 @@
+/* Wildlife Interactions — hero list, Q&A, detail page
+   Figma: Content page (6251:3977)
+   - list (item.activities): hover/focus → background of that variant, item active, others 20 %
+   - Home: scrolling switches the hero from the list to the Q&A (Main / q&a)
+   - click an item → Detail (nav 330 px + panel 1396 px)
+*/
+(() => {
+  const ALL = window.WI_ZONES || [];
+  const CATS = window.WI_CATEGORIES || {};
+  const SHARED = window.WI_DETAIL_SHARED || {};
+  const FAQ = window.WI_FAQ;
+  const hero = document.querySelector('[data-hero]');
+  if (!hero || !ALL.length) return;
+
+  const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+  const bySlug = (slug) => ALL.find((z) => z.slug === slug);
+  const reduceMotion = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  const category = hero.dataset.category || 'all';
+  const ZONES = category === 'all' ? ALL : ALL.filter((z) => z.category === category);
+
+  /* ---------------------------------------------------------------------
+     1. Background layers — one <img> per image, cross-faded
+     --------------------------------------------------------------------- */
+  const bgWrap = hero.querySelector('[data-hero-bgs]');
+  const layers = new Map();
+  const showBackground = (src, opacity) => {
+    if (!layers.has(src)) {
+      const img = document.createElement('img');
+      img.className = 'hero__bg';
+      img.src = src;
+      img.alt = '';
+      img.decoding = 'async';
+      img.setAttribute('aria-hidden', 'true');
+      bgWrap.appendChild(img);
+      layers.set(src, img);
+    }
+    layers.forEach((img, key) => { img.style.opacity = key === src ? String(opacity) : '0'; });
+  };
+
+  /* ---------------------------------------------------------------------
+     2. List (Figma: item.activities)
+     --------------------------------------------------------------------- */
+  const list = hero.querySelector('[data-activities]');
+  list.innerHTML = ZONES.map((z) => `
+    <li>
+      <button class="activity" type="button" data-zone="${z.slug}" aria-haspopup="dialog">
+        <span class="activity__label">${esc(CATS[z.category]?.label || '')}</span>
+        <span class="activity__title">${esc(z.name)}</span>
+        <span class="activity__summary">${esc(z.summary)}</span>
+        <span class="icon icon--redirect activity__arrow" aria-hidden="true"></span>
+      </button>
+    </li>`).join('');
+  const items = [...list.querySelectorAll('.activity')];
+  let activeSlug = ZONES[0].slug;
+
+  const setActiveZone = (slug) => {
+    const zone = bySlug(slug);
+    if (!zone) return;
+    if (ZONES.includes(zone)) activeSlug = slug;
+    items.forEach((b) => b.classList.toggle('is-active', b.dataset.zone === activeSlug));
+    if (hero.dataset.state === 'list') {
+      const z = bySlug(activeSlug);
+      showBackground(z.bg, z.bgOpacity);
+    }
+  };
+  items.forEach((btn) => {
+    btn.addEventListener('mouseenter', () => setActiveZone(btn.dataset.zone));
+    btn.addEventListener('focus', () => setActiveZone(btn.dataset.zone));
+    btn.addEventListener('click', () => openDetail(btn.dataset.zone, btn));
+  });
+
+  /* ---------------------------------------------------------------------
+     3. Q&A (Figma: detail + q&a icon, less = open / more = closed)
+     --------------------------------------------------------------------- */
+  const faqRoot = hero.querySelector('[data-faq]');
+  if (faqRoot && FAQ) {
+    // Only the first answer starts open; the others open on click.
+    faqRoot.innerHTML = FAQ.items.map((it, i) => {
+      const open = i === 0;
+      return `
+      <div class="faq__item${open ? ' is-open' : ''}">
+        <h3 class="faq__heading">
+          <button class="faq__toggle" type="button" aria-expanded="${open}" aria-controls="faq-a-${i}" id="faq-q-${i}">
+            <span class="faq__question">${esc(it.q)}</span>
+            <span class="icon ${open ? 'icon--less' : 'icon--more'} faq__icon" aria-hidden="true"></span>
+          </button>
+        </h3>
+        <div class="faq__answer" id="faq-a-${i}" role="region" aria-labelledby="faq-q-${i}">
+          <div><p>${esc(it.a)}</p></div>
+        </div>
+      </div>`;
+    }).join('');
+    faqRoot.addEventListener('click', (e) => {
+      const btn = e.target.closest('.faq__toggle');
+      if (!btn) return;
+      const item = btn.closest('.faq__item');
+      const open = !item.classList.contains('is-open');
+      item.classList.toggle('is-open', open);
+      btn.setAttribute('aria-expanded', String(open));
+      const icon = btn.querySelector('.faq__icon');
+      icon.classList.toggle('icon--less', open);
+      icon.classList.toggle('icon--more', !open);
+    });
+  }
+
+  /* ---------------------------------------------------------------------
+     4. Hero state — Home: intro (Default) → list → faq (q&a); other pages: list
+     --------------------------------------------------------------------- */
+  const setHeroState = (state) => {
+    if (hero.dataset.state === state) return;
+    hero.dataset.state = state;
+    hero.querySelectorAll('[data-hero-layer]').forEach((layer) => {
+      const on = layer.dataset.heroLayer === state;
+      layer.classList.toggle('is-current', on);
+      layer.toggleAttribute('inert', !on);
+      layer.setAttribute('aria-hidden', String(!on));
+    });
+    if (state === 'faq') showBackground(FAQ.bg, FAQ.bgOpacity);
+    else if (state === 'intro') showBackground(ALL[0].bg, Number(hero.dataset.introOpacity || 0.35));
+    else setActiveZone(activeSlug);
+    document.dispatchEvent(new CustomEvent('wi:hero-state', { detail: state }));
+  };
+
+  /* Home intro figures count up from 0 each time the intro is shown (on load, and when
+     scrolling / clicking the logo back to it). Screen readers get the final value. */
+  const counters = [...hero.querySelectorAll('.hero__data .data__value')].map((el) => {
+    const m = el.textContent.trim().match(/^(\D*)([\d\s\u00a0\u202f]+)(.*)$/);
+    if (!m) return null;
+    const final = el.textContent.trim();
+    el.setAttribute('aria-label', final);
+    el.style.minWidth = `${Math.ceil(el.getBoundingClientRect().width)}px`; // no layout jump while counting
+    return { el, final, prefix: m[1], target: parseInt(m[2].replace(/\D/g, ''), 10), suffix: m[3] };
+  }).filter(Boolean);
+  let countRaf = 0;
+  const countUp = () => {
+    cancelAnimationFrame(countRaf);
+    if (reduceMotion()) return;
+    const DURATION = 1600;
+    const t0 = performance.now();
+    const fmt = (n) => String(n).replace(/\B(?=(\d{3})+(?!\d))/g, '\u00a0'); // 3 000
+    const tick = (now) => {
+      const p = Math.min(1, (now - t0) / DURATION);
+      const eased = 1 - (1 - p) ** 3; // ease-out
+      counters.forEach((c) => {
+        c.el.textContent = p < 1 ? `${c.prefix}${fmt(Math.round(c.target * eased))}${c.suffix}` : c.final;
+      });
+      if (p < 1) countRaf = requestAnimationFrame(tick);
+    };
+    countRaf = requestAnimationFrame(tick);
+  };
+  if (counters.length) document.addEventListener('wi:hero-state', (e) => { if (e.detail === 'intro') countUp(); });
+
+  const stage = document.querySelector('[data-hero-stage]');
+  hero.dataset.state = '';
+  if (stage) {
+    // Always open the Home on the intro: don't let the browser restore an old
+    // scroll position (reload, back button), which would land on the list / Q&A.
+    if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+    if (!location.hash) window.scrollTo(0, 0);
+    // States in scroll order; each one gets an equal share of the pinned scroll distance.
+    const STATES = [...hero.querySelectorAll('[data-hero-layer]')].map((l) => l.dataset.heroLayer);
+    let ticking = false;
+    const update = () => {
+      ticking = false;
+      const distance = stage.offsetHeight - window.innerHeight;
+      const progress = distance > 0 ? Math.min(Math.max(-stage.getBoundingClientRect().top / distance, 0), 1) : 0;
+      // each state owns an equal share of the scroll: intro stays until ¼ of the way, etc.
+      const index = Math.min(STATES.length - 1, Math.round(progress * (STATES.length - 1)));
+      setHeroState(STATES[index]);
+    };
+    window.addEventListener('scroll', () => { if (!ticking) { ticking = true; requestAnimationFrame(update); } }, { passive: true });
+    window.addEventListener('resize', update);
+    update();
+  } else {
+    setHeroState('list');
+  }
+
+  /* ---------------------------------------------------------------------
+     5. Detail page (Figma: Detail — nav 330 px + Mission/Education detail 1396 px)
+     --------------------------------------------------------------------- */
+  const detail = document.createElement('div');
+  detail.className = 'detail';
+  detail.setAttribute('data-lenis-prevent', ''); // its panel scrolls on its own (no smooth-scroll hijack)
+  detail.hidden = true;
+  const navGroups = Object.entries(CATS).map(([key, cat]) => `
+    <div class="detail-nav__group">
+      <p class="detail-nav__category">${esc(cat.navLabel)}</p>
+      ${ALL.filter((z) => z.category === key).map((z) => `
+        <button class="detail-nav__item" type="button" data-detail-go="${z.slug}">
+          <span class="detail-nav__name">${esc(z.name)}</span>
+          <span class="detail-nav__summary">${esc(z.summary)}</span>
+        </button>`).join('')}
+    </div>`).join('');
+  detail.innerHTML = `
+    <aside class="detail-nav" aria-label="Missions et programmes">
+      <div class="detail-nav__top">
+        <a class="logo logo--sm" href="home.html" aria-label="Wildlife Interactions — accueil"><img src="assets/logos/logo-inverse.svg" width="63" height="68" alt=""></a>
+        <button class="detail-nav__close" type="button" data-detail-close aria-label="Fermer">
+          <span class="icon icon--close" aria-hidden="true"></span>
+        </button>
+      </div>
+      <nav class="detail-nav__main">${navGroups}</nav>
+    </aside>
+    <article class="detail__panel" role="dialog" aria-modal="true" aria-labelledby="detail-title" tabindex="-1">
+      <header class="detail__menu">
+        <ul class="detail__menu-items">
+          <li><a class="menu-item menu-item--secondary" href="missions.html" data-menu-cat="missions">Missions</a></li>
+          <li><a class="menu-item menu-item--secondary" href="education.html" data-menu-cat="education">Éducation</a></li>
+          <li><a class="menu-item menu-item--secondary" href="talents.html">Talents</a></li>
+          <li><a class="menu-item menu-item--secondary" href="exposition-media.html">Exposition &amp; média</a></li>
+          <li><a class="menu-item menu-item--secondary" href="contact.html">Contact</a></li>
+        </ul>
+        <a class="cta cta--secondary" href="contact.html#soutenir">Nous soutenir</a>
+      </header>
+      <div class="detail__body" data-detail-body></div>
+    </article>`;
+  document.body.appendChild(detail);
+  const panel = detail.querySelector('.detail__panel');
+  const body = detail.querySelector('[data-detail-body]');
+  let lastTrigger = null;
+
+  const statHTML = (st, tone) => `
+    <div class="stat stat--${tone}">
+      <p class="stat__value">${esc(st.value)}</p>
+      <div class="stat__des"><p class="stat__label">${esc(st.label)}</p><p class="stat__text">${esc(st.text)}</p></div>
+    </div>`;
+  /* Team cards: names come from js/detail-content.js, photo + LinkedIn from js/talents-data.js */
+  const MORE = window.WI_DETAIL_MORE || {};
+  const norm = (n) => String(n).normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().trim();
+  const TALENT_BY_NAME = new Map((window.WI_TALENTS || []).map((t) => [norm(t.name), t]));
+  const missionsOf = (name) => ALL.filter((z) => (MORE[z.slug]?.team?.people || []).some(([n]) => norm(n) === norm(name)));
+  const talentHTML = (t) => {
+    const photo = t.photo || null;
+    const acts = t.activities || [];
+    return `
+    <article class="talent-card${photo ? '' : ' talent-card--no-photo'}" tabindex="0">
+      ${photo ? `<img class="talent-card__photo" src="${photo}" alt="" loading="lazy">` : ''}
+      <div class="talent-card__content">
+        ${acts.length ? `<div class="talent-card__bio"><div class="talent-card__bio-inner">
+          <p class="talent-card__bio-title">Activités WI</p>
+          <p class="talent-card__activities">${acts.map((a) => typeof a === 'string'
+            ? `<a href="#">${esc(a)}</a>`
+            : `<a href="#${a.slug}" data-detail-go="${a.slug}">${esc(a.name)}</a>`).join('')}</p>
+        </div></div>` : ''}
+        <div class="talent-card__title">
+          <div class="talent-card__name-row">
+            <p class="talent-card__name">${esc(t.name)}</p>
+            <a class="talent-card__linkedin" href="${t.linkedin || 'https://www.linkedin.com/'}" target="_blank" rel="noopener" aria-label="LinkedIn de ${esc(t.name)}"><span class="icon icon--linkedin" aria-hidden="true"></span></a>
+          </div>
+          <p class="talent-card__role">${esc(t.role)}</p>
+        </div>
+      </div>
+    </article>`;
+  };
+  const teamMember = ([name, role]) => {
+    const known = TALENT_BY_NAME.get(norm(name));
+    return {
+      name: known ? known.name : name,
+      role,
+      photo: known?.photo ? `assets/img/talents/${known.photo}.jpg` : null,
+      linkedin: known?.linkedin,
+      activities: missionsOf(name),
+    };
+  };
+  const enjeu = (it, mod, img) => `
+    <div class="enjeu enjeu--${mod}">
+      ${img ? `<img class="enjeu__bg" src="${img}" alt="" loading="lazy">` : ''}
+      <p class="enjeu__title">${esc(it.title)}</p><p class="enjeu__text">${esc(it.text)}</p>
+    </div>`;
+
+  const renderDetail = (zone) => {
+    const d = zone.detail;
+    const i = ALL.indexOf(zone);
+    const prev = ALL[(i - 1 + ALL.length) % ALL.length];
+    const next = ALL[(i + 1) % ALL.length];
+    const [e1, e2, e3, e4] = d.enjeux;
+    const more = MORE[zone.slug] || {};
+    body.innerHTML = `
+      <div class="detail__key">
+        <section class="detail__overview">
+          <div class="detail__intro">
+            <span class="tag tag--light">Aperçu</span>
+            <div class="detail__intro-text">
+              <h2 class="detail__title" id="detail-title">${esc(zone.name)}</h2>
+              <p class="detail__lead">${esc(d.lead)}</p>
+            </div>
+          </div>
+          <img class="detail__image" src="${zone.image}" alt="${esc(zone.name)}">
+        </section>
+        <section class="detail__enjeux" aria-labelledby="detail-enjeux-title">
+          <div class="detail__section-head">
+            <span class="tag tag--light">Enjeux</span>
+            <h3 class="detail__h4" id="detail-enjeux-title">${esc(d.enjeuxTitle || 'Pourquoi agir maintenant ?')}</h3>
+          </div>
+          <div class="enjeux">
+            <div class="enjeux__line enjeux__line--a">${enjeu(e1, 'image', d.enjeuxImage)}${enjeu(e2, 'medium')}</div>
+            <div class="enjeux__line enjeux__line--b">${enjeu(e3, 'lowest')}${enjeu(e4, 'high')}</div>
+          </div>
+          <div class="stats">${d.stats.map((st) => statHTML(st, 'light')).join('')}</div>
+        </section>
+      </div>
+      <div class="detail__more">
+        ${(more.sections || SHARED.sections).map((sec) => `
+          <section class="detail__section">
+            <span class="tag tag--black">${esc(sec.tag)}</span>
+            <div class="detail__section-text"><h3 class="detail__h5">${esc(sec.title)}</h3><p class="detail__section-lead">${esc(sec.text).replace(/\*([^*]+)\*/g, '<em>$1</em>')}</p></div>
+          </section>`).join('')}
+        <div class="stats">${(more.stats || SHARED.stats).map((st) => statHTML(st, 'dark')).join('')}</div>
+        <section class="detail__section">
+          <span class="tag tag--black">${esc(more.team?.tag || 'Tag')}</span>
+          <div class="detail__section-text">
+            <h3 class="detail__h5">${esc(more.team?.title || SHARED.talentsTitle)}</h3>
+            <div class="talents">${(more.team ? more.team.people.map(teamMember) : SHARED.talents).map(talentHTML).join('')}</div>
+          </div>
+        </section>
+        <div class="detail__ctas">
+          <button class="cta cta--primary" type="button" data-detail-go="${prev.slug}" aria-label="Précédente : ${esc(prev.name)}">
+            <span class="icon icon--arrow-left" aria-hidden="true"></span>Précédente
+          </button>
+          <button class="cta cta--primary" type="button" data-detail-go="${next.slug}" aria-label="Prochaine : ${esc(next.name)}">
+            Prochaine<span class="icon icon--arrow-right" aria-hidden="true"></span>
+          </button>
+        </div>
+      </div>`;
+
+    // nav + menu state
+    detail.querySelectorAll('.detail-nav__item').forEach((b) => {
+      const on = b.dataset.detailGo === zone.slug;
+      b.classList.toggle('is-active', on);
+      if (on) b.setAttribute('aria-current', 'true'); else b.removeAttribute('aria-current');
+    });
+    detail.querySelectorAll('[data-menu-cat]').forEach((a) => {
+      if (a.dataset.menuCat === zone.category) a.setAttribute('aria-current', 'page');
+      else a.removeAttribute('aria-current');
+    });
+  };
+
+  function openDetail(slug, trigger) {
+    const zone = bySlug(slug);
+    if (!zone) return;
+    if (trigger) lastTrigger = trigger;
+    renderDetail(zone);
+    if (ZONES.includes(zone)) setActiveZone(slug);
+    panel.scrollTop = 0;
+    if (detail.hidden) {
+      detail.hidden = false;
+      document.documentElement.classList.add('has-detail-open');
+      requestAnimationFrame(() => requestAnimationFrame(() => detail.classList.add('is-open')));
+    }
+    panel.focus({ preventScroll: true });
+    if (location.hash.slice(1) !== slug) history.replaceState(null, '', `#${slug}`);
+  }
+
+  function closeDetail() {
+    if (detail.hidden) return;
+    detail.classList.remove('is-open');
+    document.documentElement.classList.remove('has-detail-open');
+    history.replaceState(null, '', location.pathname + location.search);
+    const done = () => { detail.hidden = true; };
+    reduceMotion() ? done() : setTimeout(done, 500);
+    lastTrigger?.focus({ preventScroll: true });
+  }
+
+  detail.addEventListener('click', (e) => {
+    if (e.target.closest('[data-detail-close]')) return closeDetail();
+    const go = e.target.closest('[data-detail-go]');
+    if (go) { e.preventDefault(); openDetail(go.dataset.detailGo); }
+  });
+  document.addEventListener('keydown', (e) => {
+    if (detail.hidden) return;
+    if (e.key === 'Escape') closeDetail();
+    if (e.key === 'Tab') {
+      const f = [...detail.querySelectorAll('a[href], button, [tabindex="0"]')].filter((el) => el.offsetParent !== null);
+      if (!f.length) return;
+      const first = f[0], last = f[f.length - 1];
+      if (e.shiftKey && document.activeElement === first) { last.focus(); e.preventDefault(); }
+      else if (!e.shiftKey && document.activeElement === last) { first.focus(); e.preventDefault(); }
+    }
+  });
+
+  // used by the 3D map (js/globe.js)
+  window.WI_HERO = { openDetail: (slug, trigger) => openDetail(slug, trigger), setActiveZone, hero };
+
+  // Deep link, e.g. education.html#college
+  const fromHash = location.hash.slice(1);
+  if (fromHash && bySlug(fromHash)) openDetail(fromHash);
+})();

@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Talents — Wildlife Interactions</title>
+  <meta name="description" content="Les talents de Wildlife Interactions : scientifiques, explorateurs, photographes et experts engagés pour la vie marine.">
+
+  <link rel="stylesheet" href="css/fonts.css">
+  <link rel="stylesheet" href="css/tokens.css">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/pages/talents.css">
+  <link rel="stylesheet" href="css/motion.css">
+</head>
+<body>
+
+  <main>
+    <!-- Horizontal scroll: vertical scrolling moves the track sideways.
+         Panel 1 = hero (Figma Talent / Main), panel 2 = the other talents (light). -->
+    <div class="h-stage" data-h-stage>
+      <div class="h-stage__sticky">
+        <!-- Figma: menu — stays on top while the track slides; flips to the
+             secondary (light-surface) style as the light panel passes under each item -->
+        <header class="site-header h-stage__header" data-site-header data-h-header>
+          <a class="logo" href="home.html" aria-label="Wildlife Interactions — accueil">
+            <img class="logo__img" src="assets/logos/logo-inverse.svg" width="63" height="68" alt="">
+            <img class="logo__img logo__img--light" src="assets/logos/logo-default.svg" width="63" height="68" alt="">
+          </a>
+          <button class="site-header__toggle" type="button" aria-expanded="false" aria-controls="site-nav" data-nav-toggle>
+            <span class="site-header__toggle-bars" aria-hidden="true"></span>
+            <span class="visually-hidden">Menu</span>
+          </button>
+          <nav class="site-nav" id="site-nav" aria-label="Navigation principale">
+            <ul class="site-nav__list">
+              <li><a class="menu-item menu-item--primary" href="missions.html">Missions</a></li>
+              <li><a class="menu-item menu-item--primary" href="education.html">Éducation</a></li>
+              <li><a class="menu-item menu-item--primary" href="talents.html">Talents</a></li>
+              <li><a class="menu-item menu-item--primary" href="exposition-media.html">Exposition &amp; média</a></li>
+              <li><a class="menu-item menu-item--primary" href="contact.html">Contact</a></li>
+            </ul>
+            <a class="cta cta--primary" href="contact.html#soutenir">Nous soutenir</a>
+          </nav>
+        </header>
+        <div class="h-stage__track" data-h-track>
+    <!-- Figma: Talent / Main (6251:4134) -->
+    <section class="page-hero" aria-labelledby="page-title">
+      <img class="page-hero__bg" src="assets/img/talents/hero-bg.jpg" alt="" aria-hidden="true">
+
+      <div class="page-hero__content">
+        <div class="page-hero__center">
+          <h1 class="page-hero__title" id="page-title">Talent  WI</h1>
+          <p class="page-hero__subtitle">Scientifiques, explorateurs, artistes et pédagogues réunis pour comprendre, raconter et protéger la vie marine.</p>
+        </div>
+        <ul class="talent-cats" data-talent-categories aria-label="Domaines"></ul>
+      </div>
+    </section>
+
+    <!-- Figma: Talent / profiles (6253:7086) — hover 6263:16801 -->
+    <section class="profiles" aria-labelledby="profiles-title">
+      <h2 class="visually-hidden" id="profiles-title">Nos talents</h2>
+      <ul class="profiles__grid" data-profiles></ul>
+    </section>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Figma: footer -->
+  <footer class="site-footer">
+    <div class="site-footer__head">
+      <div class="site-footer__title">
+        <p class="site-footer__claim">Art. Éducation. Science</p>
+        <p class="site-footer__tagline">Ensemble, au service d'un impact durable pour la vie marine</p>
+      </div>
+      <div class="site-footer__ctas">
+        <a class="cta cta--secondary" href="contact.html">Contact</a>
+        <a class="cta cta--secondary-outline" href="contact.html#soutenir">Nous soutenir</a>
+      </div>
+    </div>
+    <div class="site-footer__bottom">
+      <a class="logo logo--sm" href="home.html" aria-label="Wildlife Interactions — accueil">
+        <img src="assets/logos/logo-default.svg" width="63" height="68" alt="">
+      </a>
+      <p class="site-footer__copyright">© 2026 Wildlife Interactions. Tous droits réservés.</p>
+      <a class="site-footer__social" href="https://www.linkedin.com/" target="_blank" rel="noopener" aria-label="LinkedIn">
+        <span class="icon icon--32 icon--linkedin" aria-hidden="true"></span>
+      </a>
+    </div>
+  </footer>
+
+  <script src="js/main.js" defer></script>
+  <script src="js/talents-data.js" defer></script>
+  <script src="js/pages.js" defer></script>
+  <script src="js/vendor/lenis.min.js" defer></script>
+  <script src="js/motion.js" defer></script>
+</body>
+</html>

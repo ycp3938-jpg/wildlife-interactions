@@ -1,0 +1,118 @@
+/* ==========================================================================
+   Wildlife Interactions — Design tokens
+   Source: Figma file "WI", variables collection (names mirror Figma: a/b/c → a-b-c)
+   ========================================================================== */
+
+:root {
+  /* ---- Surface / primary (dark ocean) ---- */
+  --surface-primary-lowest: #041418;
+  --surface-primary-medium: #081e26;
+  --surface-primary-high: #0d2933;
+  --surface-primary-on-primary: #f9fdff;
+  --surface-primary-on-primary-80: rgba(249, 253, 255, 0.8);
+  --surface-primary-highlight-blue: #bceafd;
+  --surface-primary-highlight-orange: #f4b89d;
+  --surface-primary-highlight-orange-dark: #ad623e;
+
+  /* ---- Surface / secondary (light) ---- */
+  --surface-secondary-lowest: #ffffff; /* no longer used: backgrounds use surface-secondary-high (#f4fbfe) */
+  --surface-secondary-medium: #f9fdff;
+  --surface-secondary-high: #f4fbfe;
+  --surface-secondary-on-secondary: #041418;
+  --surface-secondary-on-secondary-80: rgba(4, 20, 24, 0.8);
+  --surface-secondary-on-secondary-50: rgba(4, 20, 24, 0.5);
+  --surface-transparent-orange-lowest: rgba(244, 184, 157, 0.1);
+
+  /* ---- Semantic / CTA ---- */
+  --semantic-primary-default: #f9fdff;
+  --semantic-primary-on-default: #041418;
+  --semantic-primary-outlined: #f9fdff;
+  --semantic-primary-hover: #bceafd;
+  --semantic-primary-on-hover: #041418;
+  --semantic-primary-active: #bceafd;
+
+  --semantic-secondary-default: #041418;
+  --semantic-secondary-on-default: #f9fdff;
+  --semantic-secondary-outlined: #041418;
+  --semantic-secondary-hover: #f9fdff;
+  --semantic-secondary-on-hover: #041418;
+
+  /* ---- Semantic / tag ---- */
+  --semantic-tag-light: #ad623e;
+  --semantic-tag-on-light: #f9fdff; /* Figma #ffffff — pure white replaced by #f9fdff site-wide */
+  --semantic-tag-black: #f4b89d;
+  --semantic-tag-on-black: #210902;
+
+  /* ---- Brand (logo) ---- */
+  --brand-logo-blue: #044bab;
+
+  /* ---- Typography ---- */
+  --font-family-primary: "Sansation", system-ui, sans-serif;
+  --font-weight-regular: 400;
+  --font-weight-bold: 700;
+
+  --font-heading-h2: 80px;
+  --font-heading-h4: 48px;
+  --font-heading-h5: 32px;
+  --font-heading-h6: 24px;
+  --font-body-md: 24px;
+  --font-body-sm: 20px;
+  --font-body-xs: 16px;
+  --font-body-2xs: 14px;
+  --font-label-md: 16px;
+  --font-label-sm: 14px;
+
+  /* ---- Spacing: padding ---- */
+  --padding-3xs: 4px;
+  --padding-2xs: 8px;
+  --padding-xs: 16px;
+  --padding-sm: 32px;
+  --padding-md: 64px;
+  --padding-lg: 120px;
+  --padding-xl: 200px;
+  --padding-2xl: 280px;
+
+  /* ---- Spacing: gap ---- */
+  --gap-2xs: 8px;
+  --gap-xs: 16px;
+  --gap-sm: 32px;
+  --gap-md: 72px;
+  --gap-lg: 120px;
+  --gap-xl: 200px;
+
+  /* ---- Radius / stroke / opacity ---- */
+  --radius-sm: 4px;
+  --radius-round: 1000px;
+  --stroke-sm: 1px;
+  --stroke-default-alpha: #dde4e7;
+  --opacity-10: 0.1;
+  --opacity-20: 0.2;
+  --opacity-60: 0.6;
+  --opacity-80: 0.8;
+
+  /* ---- Layout ---- */
+  --frame-width: 1728px;   /* Figma desktop frame */
+  --content-width: 1600px; /* frame − 2 × padding-md */
+
+  /* ---- Motion ---- */
+  --transition-fast: 160ms ease;
+  --smart-animate: 300ms ease-in;   /* Figma prototype: Smart animate, 300 ms, ease in */
+  --panel-slide: 500ms cubic-bezier(0.2, 0.8, 0.2, 1); /* not specified in Figma */
+  /* Micro-animations (light, Spyker-like): long, soft deceleration */
+  --ease-out-expo: cubic-bezier(0.625, 0.05, 0, 1);
+  --ease-soft: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* Fluid scaling below the 1728px design frame.
+   Values reach the exact Figma tokens at ≥ 1728px. */
+@media (max-width: 1200px) {
+  :root {
+    --font-heading-h2: clamp(40px, 6.6vw, 80px);
+    --font-heading-h4: clamp(32px, 4vw, 48px);
+    --font-body-md: clamp(18px, 2vw, 24px);
+    --font-heading-h6: clamp(18px, 2vw, 24px);
+    --padding-md: clamp(20px, 5.3vw, 64px);
+    --padding-2xl: clamp(0px, 12vw, 280px);
+    --gap-md: clamp(24px, 6vw, 72px);
+  }
+}

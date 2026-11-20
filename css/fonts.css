@@ -1,0 +1,15 @@
+/* Sansation (SIL Open Font License) — self-hosted, latin subset */
+@font-face {
+  font-family: "Sansation";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("../assets/fonts/sansation-latin-400-normal.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Sansation";
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("../assets/fonts/sansation-latin-700-normal.woff2") format("woff2");
+}

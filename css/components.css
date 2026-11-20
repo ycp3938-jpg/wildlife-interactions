@@ -1,0 +1,454 @@
+/* ==========================================================================
+   Components — mirror the Figma "Atom" section
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   icon  (Figma: icon / type=less|more|linkedin|arrow_left|arrow_right|close|download|redirect)
+   Colour follows `currentColor` via CSS mask.
+   -------------------------------------------------------------------------- */
+.icon {
+  display: inline-block;
+  flex: none;
+  width: 24px;
+  height: 24px;
+  background-color: currentColor;
+  -webkit-mask: var(--icon) center / contain no-repeat;
+          mask: var(--icon) center / contain no-repeat;
+}
+.icon--32 { width: 32px; height: 32px; }
+.icon--less        { --icon: url('data:image/svg+xml,%3Csvg width=%2224%22 height=%2224%22 viewBox=%220 0 24 24%22 fill=%22none%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cpath d=%22M19 12.99H5V10.99H19V12.99Z%22 fill=%22%23000%22/%3E%3C/svg%3E'); }
+.icon--more        { --icon: url('data:image/svg+xml,%3Csvg width=%2224%22 height=%2224%22 viewBox=%220 0 24 24%22 fill=%22none%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cpath d=%22M19 12.99H13V18.99H11V12.99H5V10.99H11V4.99H13V10.99H19V12.99Z%22 fill=%22%23000%22/%3E%3C/svg%3E'); }
+.icon--linkedin    { --icon: url('data:image/svg+xml,%3Csvg width=%2232%22 height=%2232%22 viewBox=%220 0 32 32%22 fill=%22none%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cpath d=%22M25.33 4C26.04 4 26.71 4.28 27.21 4.78C27.71 5.28 28 5.95 28 6.66V25.33C28 26.04 27.71 26.71 27.21 27.21C26.71 27.71 26.04 28 25.33 28H6.66C5.95 28 5.28 27.71 4.78 27.21C4.28 26.71 4 26.04 4 25.33V6.66C4 5.95 4.28 5.28 4.78 4.78C5.28 4.28 5.95 4 6.66 4H25.33ZM24.66 24.66V17.6C24.66 16.44 24.20 15.34 23.39 14.52C22.57 13.71 21.470 13.25 20.32 13.25C19.18 13.25 17.86 13.94 17.22 14.98V13.50H13.50V24.66H17.22V18.09C17.22 17.06 18.05 16.22 19.08 16.22C19.57 16.22 20.04 16.42 20.39 16.77C20.75 17.12 20.94 17.59 20.94 18.09V24.66H24.66ZM9.17 11.41C9.76 11.41 10.33 11.17 10.75 10.75C11.17 10.33 11.41 9.76 11.41 9.17C11.41 7.93 10.41 6.92 9.17 6.92C8.57 6.92 8.00 7.15 7.57 7.57C7.150 8.00 6.92 8.57 6.92 9.17C6.92 10.41 7.93 11.41 9.17 11.41ZM11.02 24.66V13.50H7.33V24.66H11.02Z%22 fill=%22%23000%22/%3E%3C/svg%3E'); }
+.icon--arrow-left  { --icon: url('data:image/svg+xml,%3Csvg width=%2224%22 height=%2224%22 viewBox=%220 0 24 24%22 fill=%22none%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cpath d=%22M14 7L9 12L14 17%22 stroke=%22%23000%22 stroke-width=%222%22 stroke-linecap=%22round%22 stroke-linejoin=%22round%22/%3E%3C/svg%3E'); }
+.icon--arrow-right { --icon: url('data:image/svg+xml,%3Csvg width=%2224%22 height=%2224%22 viewBox=%220 0 24 24%22 fill=%22none%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cpath d=%22M10 17L15 12L10 7%22 stroke=%22%23000%22 stroke-width=%222%22 stroke-linecap=%22round%22 stroke-linejoin=%22round%22/%3E%3C/svg%3E'); }
+.icon--close       { --icon: url('data:image/svg+xml,%3Csvg width=%2224%22 height=%2224%22 viewBox=%220 0 24 24%22 fill=%22none%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cpath d=%22M11.99 13.40L7.09 18.30C6.91 18.48 6.68 18.57 6.39 18.57C6.11 18.57 5.88 18.48 5.69 18.30C5.51 18.11 5.42 17.88 5.42 17.60C5.42 17.31 5.51 17.08 5.69 16.90L10.59 12.00L5.69 7.10C5.51 6.91 5.42 6.68 5.42 6.40C5.42 6.11 5.51 5.88 5.69 5.70C5.88 5.51 6.11 5.42 6.39 5.42C6.68 5.42 6.91 5.51 7.09 5.70L11.99 10.60L16.89 5.70C17.08 5.51 17.31 5.42 17.59 5.42C17.88 5.42 18.11 5.51 18.29 5.70C18.48 5.88 18.57 6.11 18.57 6.40C18.57 6.68 18.48 6.91 18.29 7.10L13.39 12.00L18.29 16.90C18.48 17.08 18.57 17.31 18.57 17.60C18.57 17.88 18.48 18.11 18.29 18.30C18.11 18.48 17.88 18.57 17.59 18.57C17.31 18.57 17.08 18.48 16.89 18.30L11.99 13.40Z%22 fill=%22%23000%22/%3E%3C/svg%3E'); }
+.icon--download    { --icon: url('data:image/svg+xml,%3Csvg width=%2224%22 height=%2224%22 viewBox=%220 0 24 24%22 fill=%22none%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cpath d=%22M5 20H19V18H5V20ZM19 9H15V3H9V9H5L12 16L19 9Z%22 fill=%22%23000%22/%3E%3C/svg%3E'); }
+.icon--redirect    { --icon: url('data:image/svg+xml,%3Csvg width=%2224%22 height=%2214%22 viewBox=%220 0 24 14%22 fill=%22none%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cpath d=%22M18.75 7.5H5.25C4.83 7.5 4.5 7.17 4.5 6.75C4.5 6.33 4.83 6 5.25 6H18.75C19.17 6 19.5 6.33 19.5 6.75C19.5 7.17 19.17 7.5 18.75 7.5Z%22 fill=%22%23000%22/%3E%3Cpath d=%22M15 12.75C14.90 12.75 14.80 12.73 14.71 12.69C14.62 12.65 14.54 12.59 14.47 12.52C14.17 12.22 14.17 11.76 14.47 11.46L19.2 6.73L14.47 2.01C14.17 1.71 14.17 1.24 14.47 0.94C14.77 0.64 15.24 0.64 15.54 0.94L20.79 6.19C21.09 6.49 21.09 6.96 20.79 7.26L15.54 12.51C15.39 12.66 15.19 12.73 15.01 12.73L15 12.75Z%22 fill=%22%23000%22/%3E%3C/svg%3E'); width: 24px; height: 14px; }
+
+/* --------------------------------------------------------------------------
+   cta  (Figma: cta / type=primary|primary_outline|secondary|secondary_outline, state=Default|hover)
+   1px border is always present (transparent when not outlined) so every
+   variant keeps the 34px Figma height.
+   -------------------------------------------------------------------------- */
+.cta {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  gap: var(--gap-2xs);
+  padding: calc(var(--padding-2xs) - var(--stroke-sm)) calc(var(--padding-xs) - var(--stroke-sm));
+  border: var(--stroke-sm) solid transparent;
+  border-radius: var(--radius-round);
+  font-family: var(--font-family-primary);
+  font-size: var(--font-body-xs);
+  font-weight: var(--font-weight-regular);
+  line-height: 1.125; /* 18px label → 34px total, as in Figma */
+  white-space: nowrap;
+  cursor: pointer;
+  transition: background-color var(--transition-fast), color var(--transition-fast), border-color var(--transition-fast);
+}
+.cta .icon { width: 1.125em; height: 1.125em; } /* icon stretches to label height (18px) */
+
+.cta--primary {
+  background: var(--semantic-primary-default);
+  color: var(--semantic-primary-on-default);
+}
+.cta--primary-outline {
+  border-color: var(--semantic-primary-outlined);
+  color: var(--semantic-primary-outlined);
+}
+.cta--primary:hover,
+.cta--primary-outline:hover {
+  background: var(--semantic-primary-hover);
+  border-color: transparent;
+  color: var(--semantic-primary-on-hover);
+}
+
+.cta--secondary {
+  background: var(--semantic-secondary-default);
+  color: var(--semantic-secondary-on-default);
+}
+.cta--secondary-outline {
+  border-color: var(--semantic-secondary-outlined);
+  color: var(--semantic-secondary-outlined);
+}
+.cta--secondary:hover,
+.cta--secondary-outline:hover {
+  background: var(--semantic-secondary-hover);
+  border-color: transparent;
+  color: var(--semantic-secondary-on-hover);
+}
+
+/* --------------------------------------------------------------------------
+   item.menu  (Figma: item.menu / type=primary|secondary, State=Default|hover|active)
+   -------------------------------------------------------------------------- */
+.menu-item {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-bottom: var(--stroke-sm) solid transparent;
+  font-size: var(--font-body-sm);
+  font-weight: var(--font-weight-regular);
+  line-height: normal;
+  white-space: nowrap;
+  transition: color var(--transition-fast), border-color var(--transition-fast);
+}
+.menu-item--primary { color: var(--surface-primary-on-primary); }
+.menu-item--primary:hover { color: var(--surface-primary-highlight-blue); }
+.menu-item--primary[aria-current="page"] {
+  color: var(--surface-primary-highlight-blue);
+  border-bottom-color: var(--surface-primary-highlight-blue);
+}
+.menu-item--secondary { color: var(--surface-secondary-on-secondary); }
+.menu-item--secondary:hover { color: var(--surface-primary-highlight-orange-dark); }
+.menu-item--secondary[aria-current="page"] {
+  color: var(--surface-primary-highlight-orange-dark);
+  border-bottom-color: var(--surface-primary-highlight-orange-dark);
+}
+
+/* --------------------------------------------------------------------------
+   Logo  (Figma: Logo / color=Default|inverse) — 62 × 66.47
+   -------------------------------------------------------------------------- */
+.logo { display: block; flex: none; width: 62px; height: 66.47px; }
+.logo img { width: 100%; height: 100%; }
+.logo--sm { width: 32px; height: 34.31px; }
+
+/* --------------------------------------------------------------------------
+   data  (Figma: data) — key figure
+   -------------------------------------------------------------------------- */
+.data { display: flex; flex-direction: column; align-items: flex-start; white-space: nowrap; }
+.data__value {
+  font-size: var(--font-heading-h4);
+  font-weight: var(--font-weight-bold);
+  text-transform: uppercase;
+  font-variant-numeric: tabular-nums; /* steady width while the figures count up */
+  color: var(--surface-primary-on-primary);
+}
+.data__label {
+  font-size: var(--font-heading-h6);
+  color: var(--surface-primary-on-primary-80);
+}
+
+/* --------------------------------------------------------------------------
+   partner logos (Figma: logo / Type=…)
+   -------------------------------------------------------------------------- */
+.partners {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: var(--gap-md);
+}
+.partners img { flex: none; height: auto; }
+
+/* --------------------------------------------------------------------------
+   menu  (Figma: Main › menu) — site header over the hero
+   -------------------------------------------------------------------------- */
+.site-header {
+  position: absolute;
+  inset: 0 0 auto 0;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--padding-sm) var(--padding-md) 0;
+}
+.site-nav { display: flex; align-items: center; gap: var(--gap-sm); }
+.site-nav__list { display: flex; align-items: center; gap: var(--gap-sm); }
+
+.site-header__toggle {
+  display: none;
+  width: 40px; height: 40px;
+  align-items: center; justify-content: center;
+  color: var(--surface-primary-on-primary);
+}
+.site-header__toggle-bars,
+.site-header__toggle-bars::before,
+.site-header__toggle-bars::after {
+  display: block; width: 24px; height: 2px;
+  background: currentColor; border-radius: 2px;
+  transition: transform var(--transition-fast), opacity var(--transition-fast);
+}
+.site-header__toggle-bars { position: relative; }
+.site-header__toggle-bars::before,
+.site-header__toggle-bars::after { content: ""; position: absolute; left: 0; }
+.site-header__toggle-bars::before { top: -7px; }
+.site-header__toggle-bars::after { top: 7px; }
+.site-header.is-open .site-header__toggle-bars { background: transparent; }
+.site-header.is-open .site-header__toggle-bars::before { transform: translateY(7px) rotate(45deg); }
+.site-header.is-open .site-header__toggle-bars::after { transform: translateY(-7px) rotate(-45deg); }
+
+/* Mobile navigation (not designed in Figma — implementation proposal) */
+@media (max-width: 1100px) {
+  .site-header__toggle { display: inline-flex; }
+  .site-nav {
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    flex-direction: column;
+    justify-content: center;
+    gap: var(--gap-sm);
+    background: var(--surface-primary-lowest);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity var(--transition-fast), visibility var(--transition-fast);
+  }
+  .site-nav__list { flex-direction: column; }
+  .site-header.is-open .site-nav { opacity: 1; visibility: visible; }
+}
+
+/* --------------------------------------------------------------------------
+   footer  (Figma: footer)
+   -------------------------------------------------------------------------- */
+.site-footer {
+  display: flex;
+  flex-direction: column;
+  gap: var(--padding-md);
+  padding: var(--padding-md);
+  background: var(--surface-secondary-high);
+  overflow: clip;
+}
+.site-footer__head { display: flex; align-items: flex-start; gap: var(--padding-xs); }
+.site-footer__title {
+  display: flex;
+  flex: 1 0 0;
+  flex-direction: column;
+  gap: var(--padding-2xs);
+  min-width: 0;
+}
+.site-footer__claim {
+  font-size: var(--font-heading-h4);
+  font-weight: var(--font-weight-bold);
+  text-transform: uppercase;
+  color: var(--surface-primary-highlight-orange-dark);
+}
+.site-footer__tagline {
+  font-size: var(--font-heading-h6);
+  color: var(--surface-secondary-on-secondary);
+}
+.site-footer__ctas { display: flex; align-items: center; justify-content: flex-end; gap: var(--padding-xs); }
+.site-footer__bottom { display: flex; align-items: flex-end; justify-content: space-between; }
+.site-footer__copyright {
+  width: 390px;
+  max-width: 100%;
+  font-size: var(--font-body-2xs);
+  text-align: center;
+  color: var(--surface-secondary-on-secondary);
+}
+.site-footer__social { color: var(--surface-secondary-on-secondary); transition: color var(--transition-fast); }
+.site-footer__social:hover { color: var(--surface-primary-highlight-orange-dark); }
+
+@media (max-width: 760px) {
+  .site-footer__head { flex-direction: column; gap: var(--padding-sm); }
+  .site-footer__ctas { justify-content: flex-start; flex-wrap: wrap; }
+  .site-footer__bottom { flex-wrap: wrap; gap: var(--padding-xs); align-items: center; }
+  .site-footer__copyright { order: 3; width: 100%; }
+}
+
+/* --------------------------------------------------------------------------
+   tag  (Figma: tag / Property 1=light|black)
+   -------------------------------------------------------------------------- */
+.tag {
+  display: inline-flex;
+  flex: none;
+  align-self: flex-start;
+  align-items: center;
+  gap: var(--gap-2xs);
+  padding: var(--padding-3xs) var(--padding-2xs);
+  font-size: var(--font-body-2xs);
+  font-weight: var(--font-weight-bold);
+  line-height: normal;
+  white-space: nowrap;
+}
+.tag--light { background: var(--semantic-tag-light); color: var(--semantic-tag-on-light); }
+.tag--black { background: var(--semantic-tag-black); color: var(--semantic-tag-on-black); }
+
+/* --------------------------------------------------------------------------
+   item.activities  (Figma: item.activities + label)
+   Active = full opacity + arrow; inactive = 20 % (opacity/20%)
+   -------------------------------------------------------------------------- */
+.activities { display: flex; flex-direction: column; gap: clamp(12px, 2.9vh, var(--padding-sm)); }
+.activity {
+  display: flex;
+  align-items: center;
+  gap: var(--gap-2xs);
+  text-align: left;
+  color: var(--surface-primary-on-primary);
+  cursor: pointer;
+}
+.activity__label,
+.activity__title,
+.activity__summary,
+.activity__arrow { opacity: var(--opacity-20); transition: opacity var(--smart-animate); }
+.activity__arrow { opacity: 0; }
+.activity.is-active > * { opacity: 1; }
+
+.activity__label { /* Figma: label */
+  flex: none;
+  min-width: 92px;
+  padding: calc(var(--padding-2xs) - var(--stroke-sm)) calc(var(--padding-xs) - var(--stroke-sm));
+  border: var(--stroke-sm) solid var(--semantic-primary-default);
+  border-radius: var(--radius-sm);
+  font-size: var(--font-label-md);
+  text-align: center;
+  white-space: nowrap;
+}
+.activity__title {
+  flex: none;
+  min-width: 350px;
+  padding-left: var(--padding-xs);
+  font-size: var(--font-body-md);
+  font-weight: var(--font-weight-bold);
+}
+.activity__summary {
+  flex: none;
+  width: 644px;
+  font-size: var(--font-body-xs);
+  white-space: nowrap;
+}
+.activity__arrow { width: 24px; height: 13.5px; }
+
+@media (max-width: 1200px) {
+  .activities { gap: var(--padding-xs); width: 100%; }
+  .activity {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    column-gap: var(--gap-xs);
+    row-gap: var(--gap-2xs);
+    width: 100%;
+  }
+  .activity__title { min-width: 0; padding-left: 0; }
+  .activity__arrow { grid-column: 3; grid-row: 1; }
+  .activity__summary { grid-column: 2 / 4; width: auto; white-space: normal; }
+}
+@media (max-width: 640px) {
+  /* only the active mission shows its summary, so the list fits one screen */
+  .activity:not(.is-active) .activity__summary { display: none; }
+  .activity__title { font-size: var(--font-body-sm); }
+}
+
+/* --------------------------------------------------------------------------
+   chiffre  (detail stats) — light & dark surfaces
+   -------------------------------------------------------------------------- */
+.stats { display: flex; align-items: flex-start; gap: var(--gap-lg); width: 100%; }
+.stat { display: flex; flex: 1 0 0; flex-direction: column; gap: var(--gap-xs); min-width: 0; }
+.stat__value { font-size: var(--font-heading-h4); font-weight: var(--font-weight-bold); white-space: nowrap; } /* no uppercase: units like « 100 m », « 60 ha » */
+.stat__des { display: flex; flex-direction: column; gap: var(--gap-2xs); }
+.stat__label { font-size: var(--font-heading-h6); }
+.stat__text { font-size: var(--font-body-2xs); }
+.stat--light .stat__value { color: var(--surface-secondary-on-secondary); }
+.stat--light .stat__label { color: var(--surface-primary-highlight-orange-dark); }
+.stat--light .stat__text  { color: var(--surface-secondary-on-secondary-80); }
+.stat--dark .stat__value  { color: var(--surface-primary-on-primary); }
+.stat--dark .stat__label  { color: var(--surface-primary-highlight-orange); }
+.stat--dark .stat__text   { color: var(--surface-primary-on-primary-80); }
+
+@media (max-width: 900px) {
+  .stats { flex-direction: column; gap: var(--gap-sm); }
+}
+
+/* --------------------------------------------------------------------------
+   talent  (Figma: talent / location=detail, state=default|hover)
+   Colour by default; hover → B&W + neutral veil + "Activités WI" (same as the Talent page).
+   -------------------------------------------------------------------------- */
+.talents { display: flex; gap: var(--gap-sm); width: 100%; }
+.talent-card {
+  position: relative;
+  isolation: isolate;
+  display: flex;
+  flex: 0 1 320px;           /* Figma: talent 320 × 393.5 */
+  flex-direction: column;
+  justify-content: flex-end;
+  min-width: 0;
+  aspect-ratio: 320 / 393.5;
+  padding: var(--padding-sm) var(--padding-xs);
+  overflow: clip;
+  color: var(--surface-primary-on-primary);
+  outline-offset: 4px;
+}
+.talent-card--no-photo { background: var(--surface-primary-high); }
+.talent-card__photo {
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: bottom;
+  filter: grayscale(0); /* same as the Talent page: colour by default, B&W on hover */
+  transition: filter var(--smart-animate), transform 600ms ease;
+}
+.talent-card::after { /* no blue gradient (as on the Talent page); neutral veil on hover only */
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: rgba(0, 0, 0, 0);
+}
+.talent-card__title { text-shadow: 0 1px 3px rgba(0, 0, 0, 0.55), 0 0 12px rgba(0, 0, 0, 0.35); }
+.talent-card__content { display: flex; flex-direction: column; gap: 13.84px; }
+.talent-card__bio {
+  display: grid;
+  grid-template-rows: 0fr;
+  opacity: 0;
+  transition: grid-template-rows var(--smart-animate), opacity var(--smart-animate);
+}
+.talent-card__bio-inner { display: flex; flex-direction: column; gap: 6.92px; min-height: 0; overflow: hidden; }
+.talent-card__bio-title { font-size: 20.76px; font-weight: var(--font-weight-bold); }
+.talent-card__activities { display: flex; flex-wrap: wrap; gap: 4px 13.84px; font-size: 13.84px; color: var(--semantic-primary-active); }
+.talent-card__activities a { text-decoration: underline; }
+.talent-card__title { display: flex; flex-direction: column; gap: 6.92px; }
+.talent-card__name-row { display: flex; align-items: center; gap: 13.84px; }
+.talent-card__name { font-size: var(--font-body-sm); font-weight: var(--font-weight-bold); white-space: nowrap; }
+.talent-card__linkedin { display: inline-flex; color: var(--surface-primary-on-primary); }
+.talent-card__linkedin .icon { width: 20.76px; height: 20.76px; }
+.talent-card__role { font-size: var(--font-label-sm); }
+
+.talent-card:hover .talent-card__photo,
+.talent-card:focus-within .talent-card__photo { filter: grayscale(1); transform: scale(1.03); }
+.talent-card:hover .talent-card__bio,
+.talent-card:focus-within .talent-card__bio { grid-template-rows: 1fr; opacity: 1; }
+/* darker veil on hover so the « Activités WI » links stay readable over the photo */
+.talent-card::after { transition: background-color var(--smart-animate); }
+.talent-card:hover::after,
+.talent-card:focus-within::after { background-color: rgba(0, 0, 0, 0.6); }
+
+@media (max-width: 900px) {
+  .talents { flex-direction: column; }
+  .talent-card { flex: none; width: 100%; max-width: 420px; }
+}
+
+/* --------------------------------------------------------------------------
+   Q&A  (Figma: detail + q&a icon — type=less (open) / more (closed))
+   -------------------------------------------------------------------------- */
+.faq { display: flex; flex-direction: column; gap: var(--padding-sm); width: 1360px; max-width: 100%; }
+.faq__heading { font: inherit; }
+.faq__toggle {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--gap-sm);
+  width: 100%;
+  text-align: left;
+  color: var(--surface-primary-on-primary);
+}
+.faq__question { font-size: var(--font-body-md); }
+.faq__icon { width: 24px; height: 24px; opacity: var(--opacity-80); transition: opacity var(--transition-fast); }
+.faq__toggle:hover .faq__icon { opacity: 1; }
+.faq__answer {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows var(--smart-animate);
+}
+.faq__item.is-open .faq__answer { grid-template-rows: 1fr; }
+.faq__answer > div { min-height: 0; overflow: hidden; }
+.faq__answer p {
+  padding-top: var(--gap-xs);
+  font-size: var(--font-body-xs);
+  color: var(--surface-primary-on-primary);
+  opacity: var(--opacity-80);
+}
+@media (max-width: 640px) {
+  .faq { gap: var(--gap-xs); }
+  .faq__question { font-size: var(--font-body-sm); }
+}

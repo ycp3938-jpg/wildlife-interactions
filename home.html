@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Wildlife Interactions — Art, éducation et science pour la vie marine</title>
+  <meta name="description" content="Une association dédiée à la protection des écosystèmes marins, unissant art, éducation et science pour un impact durable.">
+
+  <link rel="stylesheet" href="css/fonts.css">
+  <link rel="stylesheet" href="css/tokens.css">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/hero.css">
+  <link rel="stylesheet" href="css/detail.css">
+  <link rel="stylesheet" href="css/pages/home.css">
+  <link rel="stylesheet" href="css/globe.css">
+  <link rel="stylesheet" href="css/motion.css">
+</head>
+<body>
+
+  <main>
+    <!-- Scroll stage: the hero stays pinned; scrolling goes intro → list → Q&A -->
+    <div class="hero-stage" data-hero-stage>
+        <!-- Figma: Content › Home 6251:3978 → 6251:5217 → 6251:6510 -->
+        <section class="hero" data-hero data-category="all" aria-labelledby="page-title">
+          <div class="hero__bgs" data-hero-bgs></div>
+
+        <!-- Figma: menu -->
+        <header class="site-header" data-site-header>
+          <a class="logo" href="home.html" aria-label="Wildlife Interactions — accueil">
+            <img src="assets/logos/logo-inverse.svg" width="63" height="68" alt="">
+          </a>
+          <button class="site-header__toggle" type="button" aria-expanded="false" aria-controls="site-nav" data-nav-toggle>
+            <span class="site-header__toggle-bars" aria-hidden="true"></span>
+            <span class="visually-hidden">Menu</span>
+          </button>
+          <nav class="site-nav" id="site-nav" aria-label="Navigation principale">
+            <ul class="site-nav__list">
+              <li><a class="menu-item menu-item--primary" href="missions.html">Missions</a></li>
+              <li><a class="menu-item menu-item--primary" href="education.html">Éducation</a></li>
+              <li><a class="menu-item menu-item--primary" href="talents.html">Talents</a></li>
+              <li><a class="menu-item menu-item--primary" href="exposition-media.html">Exposition &amp; média</a></li>
+              <li><a class="menu-item menu-item--primary" href="contact.html">Contact</a></li>
+            </ul>
+            <a class="cta cta--primary" href="contact.html#soutenir">Nous soutenir</a>
+          </nav>
+        </header>
+
+          <!-- 1 · Figma: Main / Property 1=Default (Home 6251:3978) -->
+          <div class="hero__layer hero__layer--intro is-current" data-hero-layer="intro">
+            <div class="hero__center">
+              <h1 class="hero__title t-heading-h2-bold t-uppercase" id="page-title">Wildlife  Interactions</h1>
+              <p class="hero__subtitle t-body-md-regular">Une association dédiée à la protection des écosystèmes marins, unissant art, éducation et science pour un impact durable.</p>
+              <ul class="partners hero__partners" aria-label="Partenaires">
+                <li><img src="assets/logos/partner-fondation-prince-albert.png" width="119.9" height="35" alt="Fondation Prince Albert II de Monaco"></li>
+                <li><img src="assets/logos/partner-gouvernement-princier.png" width="178.87" height="38" alt="Gouvernement Princier — Principauté de Monaco"></li>
+                <li><img src="assets/logos/partner-centre-scientifique.png" width="92.97" height="34" alt="Centre Scientifique de Monaco"></li>
+                <li><img src="assets/logos/partner-energy-observer.png" width="162" height="32" alt="Energy Observer Foundation"></li>
+                <li><img src="assets/logos/partner-polarx.svg" width="100" height="26.34" alt="PolarX"></li>
+              </ul>
+            </div>
+            <div class="hero__data">
+              <div class="data"><p class="data__value">3 000+</p><p class="data__label">Élèves par an</p></div>
+              <div class="data"><p class="data__value">10+</p><p class="data__label">Pays</p></div>
+              <div class="data"><p class="data__value">10+</p><p class="data__label">Laboratoires</p></div>
+            </div>
+          </div>
+
+          <!-- 2 · Figma: Main / Property 1=Mer Méditerranée (Home 6251:5217) — Missions + Éducation -->
+          <div class="hero__layer hero__layer--list" data-hero-layer="list" inert aria-hidden="true">
+            <h2 class="visually-hidden">Missions et programmes éducatifs</h2>
+            <ul class="activities" data-activities></ul>
+          </div>
+
+          <!-- 3 · Figma: Main / Property 1=q&a (Home 6251:6510) -->
+          <div class="hero__layer hero__layer--faq" data-hero-layer="faq" inert aria-hidden="true">
+            <h2 class="visually-hidden">Questions fréquentes</h2>
+            <div class="faq" data-faq></div>
+          </div>
+        </section>
+    </div>
+  </main>
+
+  <!-- Figma: footer -->
+  <footer class="site-footer">
+    <div class="site-footer__head">
+      <div class="site-footer__title">
+        <p class="site-footer__claim">Art. Éducation. Science</p>
+        <p class="site-footer__tagline">Ensemble, au service d'un impact durable pour la vie marine</p>
+      </div>
+      <div class="site-footer__ctas">
+        <a class="cta cta--secondary" href="contact.html">Contact</a>
+        <a class="cta cta--secondary-outline" href="contact.html#soutenir">Nous soutenir</a>
+      </div>
+    </div>
+    <div class="site-footer__bottom">
+      <a class="logo logo--sm" href="home.html" aria-label="Wildlife Interactions — accueil">
+        <img src="assets/logos/logo-default.svg" width="63" height="68" alt="">
+      </a>
+      <p class="site-footer__copyright">© 2026 Wildlife Interactions. Tous droits réservés.</p>
+      <a class="site-footer__social" href="https://www.linkedin.com/" target="_blank" rel="noopener" aria-label="LinkedIn">
+        <span class="icon icon--32 icon--linkedin" aria-hidden="true"></span>
+      </a>
+    </div>
+  </footer>
+
+  <script src="js/main.js" defer></script>
+  <script src="js/zones.js" defer></script>
+  <script src="js/talents-data.js" defer></script>
+  <script src="js/detail-content.js" defer></script>
+  <script src="js/activities.js" defer></script>
+  <script src="js/vendor/d3-array.min.js" defer></script>
+  <script src="js/vendor/d3-geo.min.js" defer></script>
+  <script src="js/vendor/topojson-client.min.js" defer></script>
+  <script src="js/vendor/world-110m.js" defer></script>
+  <script src="js/globe.js" defer></script>
+  <script src="js/vendor/lenis.min.js" defer></script>
+  <script src="js/motion.js" defer></script>
+</body>
+</html>
