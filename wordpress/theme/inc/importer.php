@@ -120,7 +120,9 @@ function wi_import_run( $with_en ) {
 		}
 	}
 
-	$front = isset( $created['page:home'][ $langs[0] ] ) ? $created['page:home'][ $langs[0] ] : 0;
+	// same key as in wi_import_language(): the language slug, or 'default' without Polylang
+	$main  = $langs[0] ? $langs[0] : 'default';
+	$front = isset( $created['page:home'][ $main ] ) ? $created['page:home'][ $main ] : 0;
 	if ( $front ) {
 		update_option( 'show_on_front', 'page' );
 		update_option( 'page_on_front', $front );
