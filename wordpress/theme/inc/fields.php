@@ -139,7 +139,7 @@ add_action( 'acf/include_fields', function () {
 		), array( 'button_label' => 'Ajouter une question' ) ),
 
 		wi_tab( 'Réglages du site' ),
-		wi_f( 'message', '', '', array( 'message' => 'Ces réglages s’appliquent à tout le site (menu, pied de page, contact). En bilingue, renseignez-les aussi sur la page d’accueil anglaise.' ) ),
+		wi_f( 'message', '', '', array( 'message' => 'Ces réglages s’appliquent à tout le site (menu, pied de page, contact).' ) ),
 		wi_f( 'text', 'support_label', 'Bouton « Nous soutenir »', array( 'default_value' => 'Nous soutenir', 'wrapper' => array( 'width' => 50 ) ) ),
 		wi_f( 'text', 'contact_label', 'Bouton « Contact » (pied de page)', array( 'default_value' => 'Contact', 'wrapper' => array( 'width' => 50 ) ) ),
 		wi_f( 'email', 'email', 'E-mail de contact', array( 'default_value' => 'contact@wildlife-interactions.com', 'wrapper' => array( 'width' => 50 ) ) ),
