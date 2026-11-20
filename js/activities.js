@@ -13,6 +13,11 @@
   if (!hero || !ALL.length) return;
 
   const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+  // WordPress theme hooks (all optional — the static site works without them):
+  // WI_I18N = translated UI labels, WI_THEME_URL = theme folder for bundled assets.
+  const T = (key, fallback) => (window.WI_I18N && window.WI_I18N[key]) || fallback;
+  const ASSET = (path) => (window.WI_THEME_URL || '') + path;
+  const talentPhoto = (p) => (p && p.includes('/') ? p : `assets/img/talents/${p}.jpg`);
   const bySlug = (slug) => ALL.find((z) => z.slug === slug);
   const reduceMotion = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
@@ -117,7 +122,7 @@
       layer.setAttribute('aria-hidden', String(!on));
     });
     if (state === 'faq') showBackground(FAQ.bg, FAQ.bgOpacity);
-    else if (state === 'intro') showBackground(ALL[0].bg, Number(hero.dataset.introOpacity || 0.35));
+    else if (state === 'intro') showBackground(hero.dataset.introBg || ALL[0].bg, Number(hero.dataset.introOpacity || 0.35));
     else setActiveZone(activeSlug);
     document.dispatchEvent(new CustomEvent('wi:hero-state', { detail: state }));
   };
@@ -192,11 +197,23 @@
           <span class="detail-nav__summary">${esc(z.summary)}</span>
         </button>`).join('')}
     </div>`).join('');
+  // The detail panel repeats the page's own main menu (so it follows the WordPress menu too).
+  const siteLogo = document.querySelector('.site-header a.logo');
+  const homeHref = siteLogo?.getAttribute('href') || 'home.html';
+  const homeLabel = siteLogo?.getAttribute('aria-label') || 'Wildlife Interactions — accueil';
+  const pageCat = (href) => Object.keys(CATS).find((k) => CATS[k].page === href) || '';
+  const menuLinks = [...document.querySelectorAll('.site-nav .site-nav__list a')].map((a) => {
+    const href = a.getAttribute('href');
+    const cat = a.dataset.menuCat || pageCat(href);
+    return `<li><a class="menu-item menu-item--secondary" href="${esc(href)}"${cat ? ` data-menu-cat="${cat}"` : ''}>${esc(a.textContent.trim())}</a></li>`;
+  }).join('');
+  const navCta = document.querySelector('.site-nav .cta');
+  const menuCta = navCta ? `<a class="cta cta--secondary" href="${esc(navCta.getAttribute('href'))}">${esc(navCta.textContent.trim())}</a>` : '';
   detail.innerHTML = `
-    <aside class="detail-nav" aria-label="Missions et programmes">
+    <aside class="detail-nav" aria-label="${esc(T('detailNav', 'Missions et programmes'))}">
       <div class="detail-nav__top">
-        <a class="logo logo--sm" href="home.html" aria-label="Wildlife Interactions — accueil"><img src="assets/logos/logo-inverse.svg" width="63" height="68" alt=""></a>
-        <button class="detail-nav__close" type="button" data-detail-close aria-label="Fermer">
+        <a class="logo logo--sm" href="${esc(homeHref)}" aria-label="${esc(homeLabel)}"><img src="${ASSET('assets/logos/logo-inverse.svg')}" width="63" height="68" alt=""></a>
+        <button class="detail-nav__close" type="button" data-detail-close aria-label="${esc(T('close', 'Fermer'))}">
           <span class="icon icon--close" aria-hidden="true"></span>
         </button>
       </div>
@@ -204,14 +221,8 @@
     </aside>
     <article class="detail__panel" role="dialog" aria-modal="true" aria-labelledby="detail-title" tabindex="-1">
       <header class="detail__menu">
-        <ul class="detail__menu-items">
-          <li><a class="menu-item menu-item--secondary" href="missions.html" data-menu-cat="missions">Missions</a></li>
-          <li><a class="menu-item menu-item--secondary" href="education.html" data-menu-cat="education">Éducation</a></li>
-          <li><a class="menu-item menu-item--secondary" href="talents.html">Talents</a></li>
-          <li><a class="menu-item menu-item--secondary" href="exposition-media.html">Exposition &amp; média</a></li>
-          <li><a class="menu-item menu-item--secondary" href="contact.html">Contact</a></li>
-        </ul>
-        <a class="cta cta--secondary" href="contact.html#soutenir">Nous soutenir</a>
+        <ul class="detail__menu-items">${menuLinks}</ul>
+        ${menuCta}
       </header>
       <div class="detail__body" data-detail-body></div>
     </article>`;
@@ -238,7 +249,7 @@
       ${photo ? `<img class="talent-card__photo" src="${photo}" alt="" loading="lazy">` : ''}
       <div class="talent-card__content">
         ${acts.length ? `<div class="talent-card__bio"><div class="talent-card__bio-inner">
-          <p class="talent-card__bio-title">Activités WI</p>
+          <p class="talent-card__bio-title">${esc(T('talentActivities', 'Activités WI'))}</p>
           <p class="talent-card__activities">${acts.map((a) => typeof a === 'string'
             ? `<a href="#">${esc(a)}</a>`
             : `<a href="#${a.slug}" data-detail-go="${a.slug}">${esc(a.name)}</a>`).join('')}</p>
@@ -246,7 +257,7 @@
         <div class="talent-card__title">
           <div class="talent-card__name-row">
             <p class="talent-card__name">${esc(t.name)}</p>
-            <a class="talent-card__linkedin" href="${t.linkedin || 'https://www.linkedin.com/'}" target="_blank" rel="noopener" aria-label="LinkedIn de ${esc(t.name)}"><span class="icon icon--linkedin" aria-hidden="true"></span></a>
+            <a class="talent-card__linkedin" href="${esc(t.linkedin || 'https://www.linkedin.com/')}" target="_blank" rel="noopener" aria-label="${esc(T('linkedinOf', 'LinkedIn de'))} ${esc(t.name)}"><span class="icon icon--linkedin" aria-hidden="true"></span></a>
           </div>
           <p class="talent-card__role">${esc(t.role)}</p>
         </div>
@@ -258,7 +269,7 @@
     return {
       name: known ? known.name : name,
       role,
-      photo: known?.photo ? `assets/img/talents/${known.photo}.jpg` : null,
+      photo: known?.photo ? talentPhoto(known.photo) : null,
       linkedin: known?.linkedin,
       activities: missionsOf(name),
     };
@@ -276,11 +287,15 @@
     const next = ALL[(i + 1) % ALL.length];
     const [e1, e2, e3, e4] = d.enjeux;
     const more = MORE[zone.slug] || {};
+    // empty parts (nothing filled in WordPress) are left out
+    const moreStats = more.stats || SHARED.stats || [];
+    const team = more.team ? more.team.people.map(teamMember) : (SHARED.talents || []);
+    const stats = d.stats || [];
     body.innerHTML = `
       <div class="detail__key">
         <section class="detail__overview">
           <div class="detail__intro">
-            <span class="tag tag--light">Aperçu</span>
+            <span class="tag tag--light">${esc(T('overview', 'Aperçu'))}</span>
             <div class="detail__intro-text">
               <h2 class="detail__title" id="detail-title">${esc(zone.name)}</h2>
               <p class="detail__lead">${esc(d.lead)}</p>
@@ -290,14 +305,14 @@
         </section>
         <section class="detail__enjeux" aria-labelledby="detail-enjeux-title">
           <div class="detail__section-head">
-            <span class="tag tag--light">Enjeux</span>
-            <h3 class="detail__h4" id="detail-enjeux-title">${esc(d.enjeuxTitle || 'Pourquoi agir maintenant ?')}</h3>
+            <span class="tag tag--light">${esc(T('issues', 'Enjeux'))}</span>
+            <h3 class="detail__h4" id="detail-enjeux-title">${esc(d.enjeuxTitle || T('issuesTitle', 'Pourquoi agir maintenant ?'))}</h3>
           </div>
           <div class="enjeux">
             <div class="enjeux__line enjeux__line--a">${enjeu(e1, 'image', d.enjeuxImage)}${enjeu(e2, 'medium')}</div>
             <div class="enjeux__line enjeux__line--b">${enjeu(e3, 'lowest')}${enjeu(e4, 'high')}</div>
           </div>
-          <div class="stats">${d.stats.map((st) => statHTML(st, 'light')).join('')}</div>
+          ${stats.length ? `<div class="stats">${stats.map((st) => statHTML(st, 'light')).join('')}</div>` : ''}
         </section>
       </div>
       <div class="detail__more">
@@ -306,20 +321,20 @@
             <span class="tag tag--black">${esc(sec.tag)}</span>
             <div class="detail__section-text"><h3 class="detail__h5">${esc(sec.title)}</h3><p class="detail__section-lead">${esc(sec.text).replace(/\*([^*]+)\*/g, '<em>$1</em>')}</p></div>
           </section>`).join('')}
-        <div class="stats">${(more.stats || SHARED.stats).map((st) => statHTML(st, 'dark')).join('')}</div>
-        <section class="detail__section">
+        ${moreStats.length ? `<div class="stats">${moreStats.map((st) => statHTML(st, 'dark')).join('')}</div>` : ''}
+        ${team.length ? `<section class="detail__section">
           <span class="tag tag--black">${esc(more.team?.tag || 'Tag')}</span>
           <div class="detail__section-text">
             <h3 class="detail__h5">${esc(more.team?.title || SHARED.talentsTitle)}</h3>
-            <div class="talents">${(more.team ? more.team.people.map(teamMember) : SHARED.talents).map(talentHTML).join('')}</div>
+            <div class="talents">${team.map(talentHTML).join('')}</div>
           </div>
-        </section>
+        </section>` : ''}
         <div class="detail__ctas">
-          <button class="cta cta--primary" type="button" data-detail-go="${prev.slug}" aria-label="Précédente : ${esc(prev.name)}">
-            <span class="icon icon--arrow-left" aria-hidden="true"></span>Précédente
+          <button class="cta cta--primary" type="button" data-detail-go="${prev.slug}" aria-label="${esc(T('previous', 'Précédente'))} : ${esc(prev.name)}">
+            <span class="icon icon--arrow-left" aria-hidden="true"></span>${esc(T('previous', 'Précédente'))}
           </button>
-          <button class="cta cta--primary" type="button" data-detail-go="${next.slug}" aria-label="Prochaine : ${esc(next.name)}">
-            Prochaine<span class="icon icon--arrow-right" aria-hidden="true"></span>
+          <button class="cta cta--primary" type="button" data-detail-go="${next.slug}" aria-label="${esc(T('next', 'Prochaine'))} : ${esc(next.name)}">
+            ${esc(T('next', 'Prochaine'))}<span class="icon icon--arrow-right" aria-hidden="true"></span>
           </button>
         </div>
       </div>`;

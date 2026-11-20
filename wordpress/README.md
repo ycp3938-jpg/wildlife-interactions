@@ -1,0 +1,54 @@
+# Wildlife Interactions：WordPress 主题
+
+把这个静态网站改成了一个 WordPress 主题，**客户可以在后台修改所有文字和图片**，设计、动画和 3D 地球仪保持不变。
+
+## 文件结构
+
+| 位置 | 内容 |
+|---|---|
+| `wordpress/theme/` | 主题的 PHP 部分：模板、后台字段、内容类型、联系表单、导入工具 |
+| `css/`、`js/`、`assets/`（仓库根目录） | 和静态网站**共用**的样式、脚本、字体、Logo |
+| `wordpress/theme/seed/` | 现有网站的内容（文字和图片路径），只在第一次导入时使用 |
+| `wordpress/build-theme.sh` | 把上面几部分打包成 `dist/wildlife-interactions.zip` |
+
+改样式或脚本时，直接改根目录的 `css/`、`js/`，静态网站和 WordPress 主题会同时生效。
+
+## 打包主题
+
+```bash
+./wordpress/build-theme.sh
+```
+
+生成 `dist/wildlife-interactions.zip`（约 10 MB，`dist/` 不提交到 Git）。
+
+## 安装步骤（本地 Local，或 IONOS）
+
+1. **安装插件**（后台 › 插件 › 安装插件）：
+   - **Secure Custom Fields**（必需，WordPress 官方免费插件，用来提供后台编辑表单）
+   - **Polylang**（法语 + 英语双语需要）
+   - 建议在 IONOS 上再装 **WP Mail SMTP**，让联系表单的邮件从 IONOS 邮箱发出，避免进垃圾邮件
+2. **设置语言**（如果用 Polylang）：语言 › 添加 **Français**（设为默认）和 **English**
+3. **上传主题**：外观 › 主题 › 添加 › 上传主题 → 选择 `wildlife-interactions.zip` → 启用
+   - IONOS 默认上传限制可能小于 10 MB。如果上传失败，用 SFTP 把 `dist/wildlife-interactions/` 文件夹上传到 `wp-content/themes/`
+4. **导入内容**：工具 › **Importer le site WI** → 勾选“创建英文版本” → 点 **Importer le contenu**
+   - 会自动创建 6 个页面、11 个任务和教育项目、19 位人才，并把约 70 张图片导入媒体库，同时设置好首页
+5. 打开网站检查
+
+## 客户在后台修改的地方
+
+| 后台菜单 | 内容 |
+|---|---|
+| **Missions & Éducation** | 每个任务和教育项目：列表文字、详情页（概览、4 个挑战、数字、段落、团队）、地球仪上的位置 |
+| **Talents** | 人物：照片（特色图片）、职位、简介、LinkedIn。顺序按“属性 › 顺序”排列 |
+| **页面 › Accueil** | 首页文字、合作伙伴 Logo、数字、常见问题，以及 **Réglages du site**（页脚、邮箱、LinkedIn、“Nous soutenir”按钮） |
+| **页面 › Talents / Exposition & média / Contact** | 每页的标题、文字、图片 |
+| **语言 › 翻译** | 固定文字的英文翻译（按钮、“Aperçu”“Enjeux”、表单字段等） |
+| **外观 › 菜单**（可选） | 默认自动生成菜单。如果想自己调整，就建一个菜单，放到“Menu principal”位置 |
+
+**英文版：** 导入时会生成英文副本，但里面暂时还是法语文字，需要逐个打开英文版内容（语言标记为 EN）进行翻译。
+
+## 开发说明
+
+- 页面脚本读取的是 `window.WI_*` 数据（`inc/assets.php` 根据 WordPress 内容生成），和静态网站 `js/zones.js` 等文件里的数据格式相同，所以同一套 JS 两边都能用
+- 后台字段定义在 `inc/fields.php`（用代码注册，跟着主题走，不需要在后台手动建字段）
+- 导入可以重复执行：勾选“Supprimer et réimporter”会删除上次导入的内容后重新导入，图片会复用，不会重复上传

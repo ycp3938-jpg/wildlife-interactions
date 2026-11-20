@@ -3,6 +3,9 @@
 (() => {
   const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  // WordPress theme hooks (optional): translated UI labels + talent photo URLs
+  const T = (key, fallback) => (window.WI_I18N && window.WI_I18N[key]) || fallback;
+  const talentPhoto = (p) => (p && p.includes('/') ? p : `assets/img/talents/${p}.jpg`);
 
   /* =====================================================================
      TALENTS — hero categories + profile grid
@@ -12,16 +15,16 @@
   const byPhoto = new Map(TALENTS.map((t) => [t.photo, t]));
   // One profile card (Figma: Talent / profiles) — used in the list and inside the hero cards
   const profileInner = (t) => `
-        ${t.photo ? `<img class="profile__photo" src="assets/img/talents/${t.photo}.jpg" alt="" loading="lazy">` : ''}
+        ${t.photo ? `<img class="profile__photo" src="${esc(talentPhoto(t.photo))}" alt="" loading="lazy">` : ''}
         <div class="profile__content">
           <div class="profile__bio">
-            <p class="profile__bio-title">Bio</p>
+            <p class="profile__bio-title">${esc(T('bio', 'Bio'))}</p>
             <p class="profile__bio-text">${esc(t.bio)}</p>
           </div>
           <div class="profile__title">
             <div class="profile__name-row">
               <h3 class="profile__name">${esc(t.name)}</h3>
-              <a class="profile__linkedin" href="${t.linkedin || 'https://www.linkedin.com/'}" target="_blank" rel="noopener" aria-label="LinkedIn de ${esc(t.name)}">
+              <a class="profile__linkedin" href="${esc(t.linkedin || 'https://www.linkedin.com/')}" target="_blank" rel="noopener" aria-label="${esc(T('linkedinOf', 'LinkedIn de'))} ${esc(t.name)}">
                 <span class="icon icon--linkedin" aria-hidden="true"></span>
               </a>
             </div>
@@ -37,7 +40,7 @@
       const t = byPhoto.get(c.photo);
       return `
       <li class="talent-cat${c.label ? '' : ' talent-cat--photo'}" tabindex="0">
-        <img class="talent-cat__photo" src="assets/img/talents/${c.photo}.jpg" alt="${esc(c.alt || '')}" loading="lazy">
+        <img class="talent-cat__photo" src="${esc(talentPhoto(c.photo))}" alt="${esc(c.alt || '')}" loading="lazy">
         ${c.label ? `<span class="talent-cat__label">${esc(c.label)}</span>` : ''}
         ${t ? `<div class="profile talent-cat__card${t.photo ? '' : ' profile--no-photo'}">${profileInner(t)}</div>` : ''}
       </li>`;
@@ -171,7 +174,7 @@
     const slides = [...track.children];
     const dots = root.querySelector('[data-carousel-dots]');
     let index = 0;
-    dots.innerHTML = slides.map((_, i) => `<button class="carousel__dot" type="button" aria-label="Page ${i + 1}"></button>`).join('');
+    dots.innerHTML = slides.map((_, i) => `<button class="carousel__dot" type="button" aria-label="${esc(T('page', 'Page'))} ${i + 1}"></button>`).join('');
     const dotEls = [...dots.children];
     const go = (i) => {
       index = (i + slides.length) % slides.length;
@@ -263,7 +266,28 @@
       if (!form.checkValidity()) {
         form.classList.add('was-validated');
         form.querySelector(':invalid')?.focus();
-        status.textContent = 'Merci de compléter les champs obligatoires.';
+        status.textContent = T('formRequired', 'Merci de compléter les champs obligatoires.');
+        return;
+      }
+      // WordPress: the theme sends the message by e-mail (window.WI_CONTACT = { ajaxUrl, nonce }).
+      if (window.WI_CONTACT) {
+        const btn = form.querySelector('[type="submit"]');
+        const data = new FormData(form);
+        data.append('action', 'wi_contact');
+        data.append('nonce', window.WI_CONTACT.nonce);
+        btn.disabled = true;
+        status.textContent = T('formSending', 'Envoi en cours…');
+        fetch(window.WI_CONTACT.ajaxUrl, { method: 'POST', body: data, credentials: 'same-origin' })
+          .then((r) => r.json())
+          .then((r) => {
+            if (!r.success) throw new Error();
+            form.reset();
+            form.classList.remove('was-validated');
+            select(chips.find((c) => c.getAttribute('aria-pressed') === 'true')?.dataset.contactOption);
+            status.textContent = T('formSent', 'Merci ! Votre message a bien été envoyé.');
+          })
+          .catch(() => { status.textContent = T('formError', "Désolé, l'envoi a échoué. Écrivez-nous directement par e-mail."); })
+          .finally(() => { btn.disabled = false; });
         return;
       }
       // No backend yet: open the visitor's mail client with the message pre-filled.

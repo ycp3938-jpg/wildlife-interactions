@@ -1,0 +1,13 @@
+/*
+Theme Name: Wildlife Interactions
+Theme URI: https://github.com/ycp3938-jpg/wildlife-interactions
+Description: Thème sur mesure du site Wildlife Interactions (art, éducation et science pour la vie marine). Contenus modifiables dans l'administration : Missions & Éducation, Talents, et champs de chaque page. Nécessite l'extension « Secure Custom Fields » ; « Polylang » pour le bilingue FR / EN.
+Version: 1.0.0
+Requires at least: 6.4
+Requires PHP: 7.4
+Text Domain: wildlife-interactions
+License: Proprietary
+*/
+
+/* The site's styles live in css/ (shared with the static version of the site).
+   WordPress-only additions: wp.css */
