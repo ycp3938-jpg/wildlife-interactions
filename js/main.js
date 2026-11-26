@@ -11,7 +11,8 @@
   //    From other pages the link loads the Home, which always opens on the intro (js/activities.js).
   document.addEventListener('click', (e) => {
     const logo = e.target.closest('a.logo');
-    if (!logo || !document.querySelector('[data-hero-stage]')) return;
+    // only the Home has the intro (Missions / Éducation also have a pinned stage)
+    if (!logo || !document.querySelector('[data-hero-layer="intro"]')) return;
     e.preventDefault();
     document.querySelector('.detail:not([hidden]) [data-detail-close]')?.click();
     document.querySelector('[data-site-header].is-open [data-nav-toggle]')?.click();
