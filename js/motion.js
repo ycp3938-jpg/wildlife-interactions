@@ -1,7 +1,6 @@
 /* Wildlife Interactions — micro-animations (light, Spyker-like).
    1. Lenis smooth scroll        3. letter roll on buttons / menu items
-   2. reveals on scroll (text: line by line, blur → sharp)
-                                 4. parallax on the Exposition hero photo
+   2. reveals on scroll          4. parallax on the Exposition hero photo
    Content added later (detail pages, talent cards) is picked up automatically.
    Nothing runs with prefers-reduced-motion. */
 (() => {
@@ -27,21 +26,17 @@
   }
 
   /* ------------------------------------------------------------------ 2 */
-  // Titles and running text: line by line, from blurred to sharp while rising
-  // (like cartier.com/intothewild). Cards, buttons and images keep their own reveal.
-  const LINES = [
+  const WORDS = [
     '.hero__title', '.page-hero__title', '.contact__title', '.expo__title', '.partners-band__title',
     '.detail__title', '.detail__h4', '.detail__h5', '.site-footer__claim',
-    '.hero__subtitle', '.page-hero__subtitle', '.expo__intro-text',
-    '.detail__lead', '.detail__section-lead', '.site-footer__tagline',
   ].join(',');
   const UP = [
-    '.hero__partners > li', '.hero__data .data',
+    '.hero__subtitle', '.page-hero__subtitle', '.hero__partners > li', '.hero__data .data',
     '.activities > li', '.profiles .profile',
-    '.tag', '.expo__head .cta', '.media__caption', '.magazine__cover figcaption', '.carousel__nav', '.partners-band__logos img',
-    '.enjeu', '.stat', '.talent-card', '.detail__ctas .cta',
+    '.tag', '.expo__intro-text', '.expo__head .cta', '.media__caption', '.magazine__cover figcaption', '.carousel__nav', '.partners-band__logos img',
+    '.detail__lead', '.enjeu', '.stat', '.detail__section-lead', '.talent-card', '.detail__ctas .cta',
     '.contact__chips .cta', '.contact__intro', '.contact-form .field', '.contact-form > .cta',
-    '.site-footer__ctas .cta', '.site-footer__bottom > *',
+    '.site-footer__tagline', '.site-footer__ctas .cta', '.site-footer__bottom > *',
   ].join(',');
   const DOWN = '.site-header > .logo, .site-header__toggle, .site-nav__list > li, .site-nav > .cta';
   const IMG = '.media__img, .magazine__cover img, .detail__image';
@@ -83,26 +78,17 @@
     });
   };
 
-  // Line number of each word, measured just before the reveal (so it matches the
-  // current width): words on the same line move together, line after line.
-  const numberLines = (el) => {
-    const words = [...el.querySelectorAll('.w')];
-    const tops = [...new Set(words.map((w) => w.offsetTop))].sort((a, b) => a - b);
-    words.forEach((w) => w.firstChild.style.setProperty('--li', tops.indexOf(w.offsetTop)));
-  };
-
   // reveal when entering the viewport; items entering together are staggered
   const io = new IntersectionObserver((entries) => {
     let k = 0;
     entries.filter((e) => e.isIntersecting).forEach((e) => {
       const el = e.target;
       io.unobserve(el);
-      if (el.dataset.reveal === 'lines') numberLines(el);
       if (!el.style.getPropertyValue('--d')) el.style.setProperty('--d', `${Math.min(k++, 8) * 70}ms`);
       el.classList.add('is-in');
       // hand the element back to its own transitions (hover etc.) once revealed
       const delay = parseFloat(el.style.getPropertyValue('--d')) || 0;
-      if (el.dataset.reveal !== 'lines') {
+      if (el.dataset.reveal !== 'words') {
         setTimeout(() => { el.removeAttribute('data-reveal'); el.classList.remove('is-in'); el.style.removeProperty('--d'); }, delay + 1800);
       }
     });
@@ -111,7 +97,7 @@
   const mark = (el, kind) => {
     if (el.dataset.motion) return;
     el.dataset.motion = '1';
-    if (kind === 'lines') splitWords(el);
+    if (kind === 'words') splitWords(el);
     el.dataset.reveal = kind;
     io.observe(el);
   };
@@ -120,7 +106,7 @@
     if (!scope || scope.nodeType !== 1) return;
     const all = (sel) => [...(scope.matches(sel) ? [scope] : []), ...scope.querySelectorAll(sel)];
     all(ROLL).forEach((el) => { if (!el.dataset.roll) { el.dataset.roll = '1'; roll(el); } });
-    all(LINES).forEach((el) => mark(el, 'lines'));
+    all(WORDS).forEach((el) => mark(el, 'words'));
     all(IMG).forEach((el) => mark(el, 'img'));
     all(UP).forEach((el) => mark(el, 'up'));
     all(DOWN).forEach((el, i) => { el.style.setProperty('--d', `${120 + i * 60}ms`); mark(el, 'down'); });
