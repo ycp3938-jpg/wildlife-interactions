@@ -264,9 +264,9 @@
     // after the other, quickly), then the scroll only slides the column. The Home
     // has an intro before it (its text fades away) and a Q&A after it.
     const hasIntro = !!hero.querySelector('[data-hero-layer="intro"]');
-    // Home: slower — a pause on the first item (Mer Méditerranée) right after the intro,
-    // then 0.8 window height of scroll per item (Missions / Éducation: 0.5, no pause)
-    const PH = { intro: hasIntro ? 0.7 : 0, reveal: hasIntro ? 0.9 : 0, item: hasIntro ? 0.8 : 0.5, faq: 1.1 };
+    // 0.8 window height of scroll per item; the Home also pauses on its first item
+    // (Mer Méditerranée) right after the intro
+    const PH = { intro: hasIntro ? 0.7 : 0, reveal: hasIntro ? 0.9 : 0, item: 0.8, faq: 1.1 };
     const N = ZONES.length;
     const cards = [...rail.children];
     const hasFaq = !!hero.querySelector('[data-hero-layer="faq"]');
