@@ -9,7 +9,7 @@
   grid-template-columns: minmax(0, 720fr) minmax(0, 976fr);
   column-gap: var(--gap-sm);
   min-height: max(100svh, 900px);
-  background: var(--surface-secondary-high); /* light version: right panel (#f4fbfe) */
+  background: var(--surface-secondary-high); /* light version: right panel (white) */
   color: var(--surface-secondary-on-secondary);
 }
 

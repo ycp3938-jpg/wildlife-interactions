@@ -1,5 +1,5 @@
 /* ==========================================================================
-   Micro-animations — light, Spyker-like (smooth scroll, masked word reveals,
+   Micro-animations — light, Spyker-like (smooth scroll, line-by-line blur reveals,
    soft fade-ups, letter roll on buttons and menu, growing underlines).
    Everything is driven by js/motion.js and switched off with
    prefers-reduced-motion. Without JS, nothing is hidden (.motion-ready gate).
@@ -23,20 +23,22 @@ html.lenis, html.lenis body { height: auto; }
 .motion-ready [data-reveal="down"] { translate: 0 -14px; }
 .motion-ready [data-reveal].is-in { opacity: 1; translate: 0 0; }
 
-/* headings: each word rises out of its own mask */
-.motion-ready [data-reveal="words"] .w {
+/* titles and running text: line by line (cartier.com/intothewild) — each line rises
+   by its own height, fades in and goes from blurred to sharp; the next line follows
+   a little later. Words carry their line number (--li, set by js/motion.js). */
+.motion-ready [data-reveal="lines"] .w { display: inline-block; vertical-align: top; }
+.motion-ready [data-reveal="lines"] .w__i {
   display: inline-block;
-  overflow: clip;
-  padding-bottom: 0.1em;
-  margin-bottom: -0.1em;
-  vertical-align: top;
+  opacity: 0;
+  filter: blur(8px);
+  translate: 0 100%;
+  --line-d: calc(var(--d, 0ms) + var(--li, 0) * 120ms);
+  transition:
+    opacity 1000ms var(--ease-soft) var(--line-d),
+    filter 1200ms var(--ease-soft) var(--line-d),
+    translate 1200ms var(--ease-out-expo) var(--line-d);
 }
-.motion-ready [data-reveal="words"] .w__i {
-  display: inline-block;
-  translate: 0 110%;
-  transition: translate 1100ms var(--ease-out-expo) calc(var(--d, 0ms) + var(--wi, 0) * 55ms);
-}
-.motion-ready [data-reveal="words"].is-in .w__i { translate: 0 0; }
+.motion-ready [data-reveal="lines"].is-in .w__i { opacity: 1; filter: blur(0); translate: 0 0; }
 
 /* images: soft wipe from the bottom + settle from a slight zoom */
 .motion-ready [data-reveal="img"] {
@@ -99,7 +101,7 @@ html.lenis, html.lenis body { height: auto; }
 
 @media (prefers-reduced-motion: reduce) {
   .motion-ready [data-reveal] { opacity: 1 !important; translate: none !important; clip-path: none !important; scale: none !important; }
-  .motion-ready [data-reveal="words"] .w__i { translate: none !important; }
+  .motion-ready [data-reveal="lines"] .w__i { opacity: 1 !important; filter: none !important; translate: none !important; }
   .roll__c { transition: none; text-shadow: none; }
   :is(a, button):is(:hover, :focus-visible) > .roll .roll__c { translate: none; }
   .expo-hero .page-hero__bg { translate: none; }
