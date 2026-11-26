@@ -19,6 +19,7 @@
 
   <main>
     <!-- Figma: Content › Education 6251:4027 -->
+    <div class="hero-stage" data-hero-stage>
     <section class="hero" data-hero data-category="education" aria-labelledby="page-title">
       <div class="hero__bgs" data-hero-bgs></div>
 
@@ -43,11 +44,16 @@
       </nav>
     </header>
 
-      <div class="hero__layer hero__layer--list is-current" data-hero-layer="list">
+      <div class="hero__layer hero__layer--list hero__layer--rail is-current" data-hero-layer="list">
         <h1 class="visually-hidden" id="page-title">Nos programmes éducatifs</h1>
-        <ul class="activities" data-activities></ul>
+        <ul class="rail" data-rail data-mode="hover"></ul>
+        <div class="rail-info rail-info--corner" data-rail-info aria-live="polite">
+          <p class="rail-info__name t-heading-h2-bold t-uppercase" data-rail-title></p>
+          <div class="rail-info__toggle" data-view-toggle-slot></div>
+        </div>
       </div>
     </section>
+    </div>
   </main>
 
   <!-- Figma: footer -->

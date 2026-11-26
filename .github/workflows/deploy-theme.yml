@@ -1,0 +1,83 @@
+# Deploys the WordPress theme to IONOS over SFTP.
+#
+#   push to main     → environment "production" (the live site)
+#   push to staging  → environment "staging"    (test site, optional)
+#   Actions tab › Deploy WordPress theme › Run workflow → deploy any branch by hand
+#
+# Only the theme folder (…/wp-content/themes/wildlife-interactions) is replaced.
+# The database, the Media Library (uploads) and the plugins are never touched, so
+# everything the client edits in WordPress stays as it is.
+#
+# Setup (see wordpress/DEPLOY.md): Settings › Environments › production (and staging) › secrets
+#   SFTP_HOST       e.g. access-1234567.webspace-host.com
+#   SFTP_USER       SFTP user name
+#   SFTP_PASSWORD   SFTP password
+#   SFTP_THEME_DIR  full path ending in /wp-content/themes/wildlife-interactions
+name: Deploy WordPress theme
+
+on:
+  push:
+    branches: [main, staging]
+    paths:
+      - 'css/**'
+      - 'js/**'
+      - 'assets/**'
+      - 'wordpress/**'
+      - '.github/workflows/deploy-theme.yml'
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Where to deploy'
+        type: choice
+        options: [staging, production]
+        default: staging
+
+concurrency:
+  group: deploy-${{ github.ref_name }}
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment: ${{ github.event_name == 'workflow_dispatch' && inputs.environment || (github.ref_name == 'main' && 'production' || 'staging') }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Check settings
+        id: check
+        env:
+          SFTP_HOST: ${{ secrets.SFTP_HOST }}
+          SFTP_THEME_DIR: ${{ secrets.SFTP_THEME_DIR }}
+        run: |
+          if [ -z "$SFTP_HOST" ]; then
+            echo "::warning::No SFTP settings for this environment yet — nothing deployed (see wordpress/DEPLOY.md)."
+            echo "skip=true" >> "$GITHUB_OUTPUT"; exit 0
+          fi
+          case "$SFTP_THEME_DIR" in
+            */wp-content/themes/wildlife-interactions|*/wp-content/themes/wildlife-interactions/) ;;
+            *) echo "::error::SFTP_THEME_DIR must end with /wp-content/themes/wildlife-interactions (safety: only the theme folder is replaced)."; exit 1 ;;
+          esac
+
+      - name: Build theme
+        if: steps.check.outputs.skip != 'true'
+        run: ./wordpress/build-theme.sh
+
+      - name: Upload theme folder (SFTP)
+        if: steps.check.outputs.skip != 'true'
+        env:
+          SFTP_HOST: ${{ secrets.SFTP_HOST }}
+          SFTP_USER: ${{ secrets.SFTP_USER }}
+          SFTP_PASSWORD: ${{ secrets.SFTP_PASSWORD }}
+          SFTP_THEME_DIR: ${{ secrets.SFTP_THEME_DIR }}
+        run: |
+          sudo apt-get install -y -qq lftp > /dev/null
+          export LFTP_PASSWORD="$SFTP_PASSWORD"   # read by --env-password (safe with any character)
+          lftp --env-password -u "$SFTP_USER" "sftp://$SFTP_HOST" <<LFTP
+          set sftp:auto-confirm yes
+          set net:max-retries 3
+          set net:timeout 30
+          mkdir -p -f "$SFTP_THEME_DIR"
+          mirror --reverse --delete --parallel=4 --verbose=1 dist/wildlife-interactions/ "$SFTP_THEME_DIR"
+          bye
+          LFTP
+          echo "✓ Deployed $(cat dist/wildlife-interactions/VERSION.txt) to $SFTP_HOST"

@@ -3,6 +3,9 @@
 (() => {
   const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  // WordPress theme hooks (optional): translated UI labels + talent photo URLs
+  const T = (key, fallback) => (window.WI_I18N && window.WI_I18N[key]) || fallback;
+  const talentPhoto = (p) => (p && p.includes('/') ? p : `assets/img/talents/${p}.jpg`);
 
   /* =====================================================================
      TALENTS — hero categories + profile grid
@@ -12,16 +15,16 @@
   const byPhoto = new Map(TALENTS.map((t) => [t.photo, t]));
   // One profile card (Figma: Talent / profiles) — used in the list and inside the hero cards
   const profileInner = (t) => `
-        ${t.photo ? `<img class="profile__photo" src="assets/img/talents/${t.photo}.jpg" alt="" loading="lazy">` : ''}
+        ${t.photo ? `<img class="profile__photo" src="${esc(talentPhoto(t.photo))}" alt="" loading="lazy">` : ''}
         <div class="profile__content">
           <div class="profile__bio">
-            <p class="profile__bio-title">Bio</p>
+            <p class="profile__bio-title">${esc(T('bio', 'Bio'))}</p>
             <p class="profile__bio-text">${esc(t.bio)}</p>
           </div>
           <div class="profile__title">
             <div class="profile__name-row">
               <h3 class="profile__name">${esc(t.name)}</h3>
-              <a class="profile__linkedin" href="${t.linkedin || 'https://www.linkedin.com/'}" target="_blank" rel="noopener" aria-label="LinkedIn de ${esc(t.name)}">
+              <a class="profile__linkedin" href="${esc(t.linkedin || 'https://www.linkedin.com/')}" target="_blank" rel="noopener" aria-label="${esc(T('linkedinOf', 'LinkedIn de'))} ${esc(t.name)}">
                 <span class="icon icon--linkedin" aria-hidden="true"></span>
               </a>
             </div>
@@ -29,35 +32,84 @@
           </div>
         </div>`;
 
+  // People shown by the hero cards, and everybody else
+  const inHero = new Set(CATS.map((c) => c.photo));
+  const heroPeople = CATS.map((c) => byPhoto.get(c.photo)).filter(Boolean);
+  const others = TALENTS.filter((t) => !inHero.has(t.photo));
+
   /* Hero cards: category label (photo on hover). Once the visitor starts scrolling,
-     each one turns, in place, into the same profile card as the people that follow. */
+     each one turns, in place, into the same profile card as the people that follow.
+     The other people follow in the same row (wide screens): same size, and the row
+     slides from right to left over the fixed background as the visitor scrolls. */
   const catRow = document.querySelector('[data-talent-categories]');
   if (catRow && CATS.length) {
     catRow.innerHTML = CATS.map((c) => {
       const t = byPhoto.get(c.photo);
       return `
       <li class="talent-cat${c.label ? '' : ' talent-cat--photo'}" tabindex="0">
-        <img class="talent-cat__photo" src="assets/img/talents/${c.photo}.jpg" alt="${esc(c.alt || '')}" loading="lazy">
+        <img class="talent-cat__photo" src="${esc(talentPhoto(c.photo))}" alt="${esc(c.alt || '')}" loading="lazy">
         ${c.label ? `<span class="talent-cat__label">${esc(c.label)}</span>` : ''}
         ${t ? `<div class="profile talent-cat__card${t.photo ? '' : ' profile--no-photo'}">${profileInner(t)}</div>` : ''}
       </li>`;
-    }).join('');
+    }).join('') + others.map((t) => `
+      <li class="profile talent-cats__more${t.photo ? '' : ' profile--no-photo'}" tabindex="0">${profileInner(t)}
+      </li>`).join('');
   }
 
   const grid = document.querySelector('[data-profiles]');
   if (grid && TALENTS.length) {
-    // On wide screens the hero people are shown by the hero cards themselves;
-    // on small screens (no horizontal scroll) they open the list instead.
-    const inHero = new Set(CATS.map((c) => c.photo));
-    const heroPeople = CATS.map((c) => byPhoto.get(c.photo)).filter(Boolean);
-    const others = TALENTS.filter((t) => !inHero.has(t.photo));
+    // Small screens only (no horizontal scroll): everybody in a grid, the hero people first.
+    // On wide screens this list is hidden: the people are in the hero row above.
     grid.innerHTML = [...heroPeople.map((t) => [t, true]), ...others.map((t) => [t, false])].map(([t, dup]) => `
       <li class="profile${t.photo ? '' : ' profile--no-photo'}${dup ? ' profile--hero-dup' : ''}" tabindex="0">${profileInner(t)}
       </li>`).join('');
   }
 
-  /* Horizontal scroll: the stage gets the height of the track's width,
-     and the sticky track slides left as the visitor scrolls down. */
+  /* Talent cards: the card under the mouse drifts a little after the pointer (slight
+     lag, up to 22 px) and eases back when the pointer leaves — like the mission cards.
+     Mouse / trackpad only. Uses the `translate` property, so it adds to the cards'
+     own transforms (hover growth, scroll). */
+  const talentsRoot = document.querySelector('[data-h-stage], .profiles');
+  if (talentsRoot && window.matchMedia('(hover: hover) and (pointer: fine)').matches && !reduceMotion) {
+    const SEL = '.talent-cat, .talent-cats__more, .profiles .profile';
+    const MAX = 22; const FOLLOW = 0.22; const EASE = 0.12;
+    const state = new Map();
+    let raf = 0;
+    const tick = () => {
+      raf = 0;
+      let moving = false;
+      state.forEach((f, card) => {
+        f.x += (f.tx - f.x) * EASE;
+        f.y += (f.ty - f.y) * EASE;
+        card.style.translate = `${f.x.toFixed(1)}px ${f.y.toFixed(1)}px`;
+        if (Math.abs(f.tx - f.x) > 0.2 || Math.abs(f.ty - f.y) > 0.2) moving = true;
+        else if (!f.tx && !f.ty) { card.style.translate = ''; state.delete(card); }
+      });
+      if (moving) raf = requestAnimationFrame(tick);
+    };
+    const kick = () => { if (!raf) raf = requestAnimationFrame(tick); };
+    document.addEventListener('pointermove', (e) => {
+      const card = e.target.closest && e.target.closest(SEL);
+      if (!card) return;
+      const r = card.getBoundingClientRect();
+      const f = state.get(card) || { x: 0, y: 0, tx: 0, ty: 0 };
+      const cx = r.left - f.x + r.width / 2; const cy = r.top - f.y + r.height / 2;
+      f.tx = Math.max(-MAX, Math.min(MAX, (e.clientX - cx) * FOLLOW));
+      f.ty = Math.max(-MAX, Math.min(MAX, (e.clientY - cy) * FOLLOW));
+      state.set(card, f);
+      kick();
+    }, { passive: true });
+    document.addEventListener('pointerout', (e) => {
+      const card = e.target.closest && e.target.closest(SEL);
+      if (!card || card.contains(e.relatedTarget)) return;
+      const f = state.get(card);
+      if (f) { f.tx = 0; f.ty = 0; kick(); }
+    });
+  }
+
+  /* Horizontal scroll (wide screens): the hero stays in place (background, title);
+     its row of cards slides left as the visitor scrolls down. The stage is as tall
+     as the scroll this needs. */
   const hStage = document.querySelector('[data-h-stage]');
   if (hStage) {
     const track = hStage.querySelector('[data-h-track]');
@@ -68,24 +120,22 @@
       if (!wide.matches) {
         hStage.style.height = '';
         track.style.transform = '';
+        if (cats) cats.style.transform = '';
         distance = 0; hold = 0;
         sizeCards();
         hStage.classList.remove('is-cards', 'is-cards-notitle');
         paintHeader();
         return;
       }
-      const t = track.style.transform;
-      track.style.transform = '';
       sizeCards();
-      track.style.transform = t;
-      distance = Math.max(0, track.scrollWidth - window.innerWidth);
+      distance = rowTravel;
       hold = Math.round(window.innerHeight * 0.6);
       hStage.style.height = `${window.innerHeight + hold + distance}px`;
       update();
     };
     // header items that flip to the light-surface style when the light panel is under them
     const header = hStage.querySelector('[data-h-header]');
-    const lightPanel = track.querySelector('.profiles');
+    const lightPanel = null; // the list panel is no longer shown on wide screens: header stays light-on-dark
     const flips = header ? [...header.querySelectorAll('.logo, .menu-item, .cta, .site-header__toggle')] : [];
     const paintHeader = () => {
       const edge = distance && lightPanel ? lightPanel.getBoundingClientRect().left : Infinity;
@@ -100,7 +150,8 @@
     const GAP = 32;
     const cats = hStage.querySelector('.talent-cats');
     const subtitle = hStage.querySelector('.page-hero__subtitle');
-    const listCard = hStage.querySelector('.profiles .profile:not(.profile--hero-dup)');
+    const LIST_H = 393.5; // Figma: profile card 320 × 393.5
+    let rowTravel = 0;    // how far the row slides so the last card ends at the right margin
     const sizeCards = () => {
       if (!cats) return;
       const on = hStage.classList.contains('is-cards');
@@ -110,8 +161,9 @@
       const first = cats.querySelector('.talent-cat');
       if (!first) return;
       cats.style.setProperty('--cat-h', `${Math.round(first.getBoundingClientRect().width * 259 / 320)}px`);
-      const listH = Math.round(listCard ? listCard.offsetHeight : 393.5);   // same height as the list cards
-      const n = cats.children.length;
+      const listH = Math.round(LIST_H);                                    // same height for every card
+      const n = cats.querySelectorAll('.talent-cat').length;
+      const all = cats.children.length;                                    // hero cards + the people that follow
       const row = cats.getBoundingClientRect();
       const w = Math.floor((row.width - (n - 1) * GAP) / n);
       const box = cats.parentElement;
@@ -120,6 +172,7 @@
       const under = content.bottom - subtitle.getBoundingClientRect().bottom - 32;
       const noTitle = under < listH;                                        // short screen: title folds away
       const h = Math.min(listH, content.bottom - top);
+      rowTravel = Math.max(0, all * w + (all - 1) * GAP - row.width);
       cats.style.setProperty('--card-w', `${w}px`);
       cats.style.setProperty('--card-h', `${Math.floor(h)}px`);
       cats.style.setProperty('--photo-h', `${Math.floor(Math.min(listH, under))}px`);   // Olivier, before scrolling
@@ -137,7 +190,7 @@
         const y = Math.max(-hStage.getBoundingClientRect().top, 0);
         cards = y > 40;
         x = Math.min(Math.max(y - hold, 0), distance);
-        track.style.transform = `translate3d(${-x}px, 0, 0)`;
+        cats.style.transform = `translate3d(${-x}px, 0, 0)`;
       }
       hStage.classList.toggle('is-cards', cards);
       hStage.classList.toggle('is-cards-notitle', cards && hStage.dataset.noTitle === 'true');
@@ -164,6 +217,56 @@
   }
 
   /* =====================================================================
+     EXPOSITION & MÉDIA — hidden hero photos
+     Each photo appears when the pointer comes near it (a zone larger than the
+     photo itself), then drifts after the pointer with a slight lag, and lingers
+     a moment after the pointer leaves before fading out. Mouse / trackpad only.
+     ===================================================================== */
+  const expoHero = document.querySelector('.expo-hero');
+  const fine = window.matchMedia('(hover: hover) and (pointer: fine)');
+  if (expoHero && fine.matches && !reduceMotion) {
+    const floats = [...expoHero.querySelectorAll('.expo-hero__float:not(.expo-hero__float--video)')].map((el) => ({
+      el, x: 0, y: 0, tx: 0, ty: 0, seen: -1e9,
+    }));
+    expoHero.classList.add('has-follow');
+    const LINGER = 900;   // ms visible after the pointer leaves the zone
+    const FOLLOW = 0.35;  // share of the pointer's distance the photo travels
+    const MAX = 110;      // px, furthest a photo drifts from its place
+    const EASE = 0.07;    // lag: the smaller, the slower it catches up
+    let px = null; let py = null; let raf = 0;
+    const tick = () => {
+      raf = 0;
+      const now = performance.now();
+      let moving = px !== null;
+      floats.forEach((f) => {
+        // zone: the photo's resting box, grown by ~half its size on every side
+        const r = f.el.getBoundingClientRect();
+        const left = r.left - f.x; const top = r.top - f.y;
+        const pad = Math.max(90, Math.min(r.width, r.height) * 0.6);
+        const inside = px !== null && px > left - pad && px < left + r.width + pad && py > top - pad && py < top + r.height + pad;
+        if (inside) {
+          f.seen = now;
+          const cx = left + r.width / 2; const cy = top + r.height / 2;
+          f.tx = Math.max(-MAX, Math.min(MAX, (px - cx) * FOLLOW));
+          f.ty = Math.max(-MAX, Math.min(MAX, (py - cy) * FOLLOW));
+        }
+        const on = now - f.seen < LINGER;
+        if (!on) { f.tx = 0; f.ty = 0; }
+        f.x += (f.tx - f.x) * EASE;
+        f.y += (f.ty - f.y) * EASE;
+        f.el.style.translate = `${f.x.toFixed(1)}px ${f.y.toFixed(1)}px`;
+        f.el.classList.toggle('is-on', on);
+        if (on || Math.abs(f.x) > 0.3 || Math.abs(f.y) > 0.3) moving = true;
+      });
+      if (moving) raf = requestAnimationFrame(tick);
+    };
+    const kick = () => { if (!raf) raf = requestAnimationFrame(tick); };
+    expoHero.addEventListener('pointermove', (e) => { px = e.clientX; py = e.clientY; kick(); });
+    expoHero.addEventListener('pointerleave', () => { px = null; py = null; kick(); });
+    window.addEventListener('scroll', () => { px = null; py = null; kick(); }, { passive: true });
+  }
+
+  /* =====================================================================
      EXPOSITION & MÉDIA — magazine carousels
      ===================================================================== */
   document.querySelectorAll('[data-carousel]').forEach((root) => {
@@ -171,7 +274,7 @@
     const slides = [...track.children];
     const dots = root.querySelector('[data-carousel-dots]');
     let index = 0;
-    dots.innerHTML = slides.map((_, i) => `<button class="carousel__dot" type="button" aria-label="Page ${i + 1}"></button>`).join('');
+    dots.innerHTML = slides.map((_, i) => `<button class="carousel__dot" type="button" aria-label="${esc(T('page', 'Page'))} ${i + 1}"></button>`).join('');
     const dotEls = [...dots.children];
     const go = (i) => {
       index = (i + slides.length) % slides.length;
@@ -263,7 +366,28 @@
       if (!form.checkValidity()) {
         form.classList.add('was-validated');
         form.querySelector(':invalid')?.focus();
-        status.textContent = 'Merci de compléter les champs obligatoires.';
+        status.textContent = T('formRequired', 'Merci de compléter les champs obligatoires.');
+        return;
+      }
+      // WordPress: the theme sends the message by e-mail (window.WI_CONTACT = { ajaxUrl, nonce }).
+      if (window.WI_CONTACT) {
+        const btn = form.querySelector('[type="submit"]');
+        const data = new FormData(form);
+        data.append('action', 'wi_contact');
+        data.append('nonce', window.WI_CONTACT.nonce);
+        btn.disabled = true;
+        status.textContent = T('formSending', 'Envoi en cours…');
+        fetch(window.WI_CONTACT.ajaxUrl, { method: 'POST', body: data, credentials: 'same-origin' })
+          .then((r) => r.json())
+          .then((r) => {
+            if (!r.success) throw new Error();
+            form.reset();
+            form.classList.remove('was-validated');
+            select(chips.find((c) => c.getAttribute('aria-pressed') === 'true')?.dataset.contactOption);
+            status.textContent = T('formSent', 'Merci ! Votre message a bien été envoyé.');
+          })
+          .catch(() => { status.textContent = T('formError', "Désolé, l'envoi a échoué. Écrivez-nous directement par e-mail."); })
+          .finally(() => { btn.disabled = false; });
         return;
       }
       // No backend yet: open the visitor's mail client with the message pre-filled.

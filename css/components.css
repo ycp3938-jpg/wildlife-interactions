@@ -452,3 +452,8 @@
   .faq { gap: var(--gap-xs); }
   .faq__question { font-size: var(--font-body-sm); }
 }
+
+/* Home: the menu slides up out of view while scrolling down, back on the way up (js/main.js) */
+.site-header { transition: transform 500ms var(--ease-out-expo), opacity 400ms ease; }
+.site-header.is-away { transform: translateY(-110%); opacity: 0; pointer-events: none; }
+@media (prefers-reduced-motion: reduce) { .site-header { transition: opacity 200ms ease; } .site-header.is-away { transform: none; } }

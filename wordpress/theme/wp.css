@@ -1,0 +1,48 @@
+/* WordPress-only additions to the site styles (css/). */
+
+/* Language switch (Polylang) — sits in the main menu, before « Nous soutenir » */
+.lang-switch {
+  display: flex;
+  gap: 4px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.lang-switch__link {
+  display: inline-block;
+  padding: 6px 8px;
+  font: inherit;
+  font-size: 14px;
+  letter-spacing: 0.04em;
+  color: inherit;
+  text-decoration: none;
+  opacity: 0.6;
+  border-radius: 4px;
+}
+.lang-switch__link:hover,
+.lang-switch__link:focus-visible,
+.lang-switch__link[aria-current="true"] { opacity: 1; }
+.lang-switch__link[aria-current="true"] { text-decoration: underline; text-underline-offset: 4px; }
+.lang-switch--primary { color: #fff; }
+.lang-switch--secondary { color: #000; }
+.is-light .lang-switch__link { color: #000; }
+
+/* Contact form spam trap */
+.contact-form__hp { position: absolute !important; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+.contact-form button[disabled] { opacity: 0.6; cursor: progress; }
+
+/* Linked media (Exposition & média) */
+.media__link { display: contents; color: inherit; }
+
+/* Logged-in admin bar: keep the pinned / full-screen sections below it */
+body.admin-bar .site-header { margin-top: var(--wp-admin--admin-bar--height, 32px); }
+
+/* Plain text pages (legal notice, blog …) */
+.wi-text-page { min-height: 70vh; background: #fff; color: #000; }
+.wi-text-page__head { position: relative; min-height: 120px; background: #041418; }
+.wi-text-page__body { max-width: 760px; margin: 0 auto; padding: 64px 16px 96px; }
+.wi-text-page__title { margin: 0 0 24px; font-size: clamp(28px, 4vw, 44px); line-height: 1.15; }
+.wi-text-page__title a { color: inherit; }
+.wi-text-page__article + .wi-text-page__article { margin-top: 56px; }
+.wi-text-page__content { font-size: 17px; line-height: 1.6; }
+.wi-text-page__content img { max-width: 100%; height: auto; }

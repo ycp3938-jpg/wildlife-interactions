@@ -13,6 +13,11 @@
   if (!hero || !ALL.length) return;
 
   const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+  // WordPress theme hooks (all optional — the static site works without them):
+  // WI_I18N = translated UI labels, WI_THEME_URL = theme folder for bundled assets.
+  const T = (key, fallback) => (window.WI_I18N && window.WI_I18N[key]) || fallback;
+  const ASSET = (path) => (window.WI_THEME_URL || '') + path;
+  const talentPhoto = (p) => (p && p.includes('/') ? p : `assets/img/talents/${p}.jpg`);
   const bySlug = (slug) => ALL.find((z) => z.slug === slug);
   const reduceMotion = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
@@ -24,7 +29,9 @@
      --------------------------------------------------------------------- */
   const bgWrap = hero.querySelector('[data-hero-bgs]');
   const layers = new Map();
-  const showBackground = (src, opacity) => {
+  // Mission / programme photos are shown at their original brightness; only the Home
+  // intro photo and the Q&A background stay dimmed (their own opacity), as before.
+  const showBackground = (src, opacity = 1) => {
     if (!layers.has(src)) {
       const img = document.createElement('img');
       img.className = 'hero__bg';
@@ -41,8 +48,12 @@
   /* ---------------------------------------------------------------------
      2. List (Figma: item.activities)
      --------------------------------------------------------------------- */
+  // Missions / Éducation pages: vertical list (hover = active).
+  // Home: a row of thumbnails at the top, driven by the scroll (section 4).
   const list = hero.querySelector('[data-activities]');
-  list.innerHTML = ZONES.map((z) => `
+  const rail = hero.querySelector('[data-rail]');
+  if (list) {
+    list.innerHTML = ZONES.map((z) => `
     <li>
       <button class="activity" type="button" data-zone="${z.slug}" aria-haspopup="dialog">
         <span class="activity__label">${esc(CATS[z.category]?.label || '')}</span>
@@ -51,24 +62,110 @@
         <span class="icon icon--redirect activity__arrow" aria-hidden="true"></span>
       </button>
     </li>`).join('');
-  const items = [...list.querySelectorAll('.activity')];
+  }
+  if (rail) {
+    rail.innerHTML = ZONES.map((z, i) => `
+    <li class="rail__item${i % 2 ? ' rail__item--short' : ''}">
+      <button class="rail__card" type="button" data-zone="${z.slug}" aria-label="${esc(z.name)}">
+        <img class="rail__img" src="${esc(z.image)}" alt="" loading="lazy" decoding="async">
+      </button>
+    </li>`).join('');
+  }
+  const items = [...hero.querySelectorAll('.activity, .rail__card')];
+
+  // Card row: the card under the mouse drifts a little after the pointer (with a
+  // slight lag) and eases back when the pointer leaves it. Mouse / trackpad only.
+  if (rail && window.matchMedia('(hover: hover) and (pointer: fine)').matches && !reduceMotion()) {
+    const MAX = 22; const FOLLOW = 0.22; const EASE = 0.12;
+    const state = new Map(); // card → { x, y, tx, ty }
+    let raf = 0;
+    const tick = () => {
+      raf = 0;
+      let moving = false;
+      state.forEach((f, card) => {
+        f.x += (f.tx - f.x) * EASE;
+        f.y += (f.ty - f.y) * EASE;
+        card.style.translate = `${f.x.toFixed(1)}px ${f.y.toFixed(1)}px`;
+        if (Math.abs(f.tx - f.x) > 0.2 || Math.abs(f.ty - f.y) > 0.2) moving = true;
+        else if (!f.tx && !f.ty) { card.style.translate = ''; state.delete(card); }
+      });
+      if (moving) raf = requestAnimationFrame(tick);
+    };
+    const kick = () => { if (!raf) raf = requestAnimationFrame(tick); };
+    rail.addEventListener('pointermove', (e) => {
+      const card = e.target.closest('.rail__card');
+      if (!card) return;
+      const r = card.getBoundingClientRect();
+      const f = state.get(card) || { x: 0, y: 0, tx: 0, ty: 0 };
+      const cx = r.left - f.x + r.width / 2; const cy = r.top - f.y + r.height / 2;
+      f.tx = Math.max(-MAX, Math.min(MAX, (e.clientX - cx) * FOLLOW));
+      f.ty = Math.max(-MAX, Math.min(MAX, (e.clientY - cy) * FOLLOW));
+      state.set(card, f);
+      kick();
+    });
+    rail.addEventListener('pointerout', (e) => {
+      const card = e.target.closest('.rail__card');
+      if (!card || card.contains(e.relatedTarget)) return;
+      const f = state.get(card);
+      if (f) { f.tx = 0; f.ty = 0; kick(); }
+    });
+  }
   let activeSlug = ZONES[0].slug;
+
+  // Home: category, name and « En savoir plus » of the active item, under the row
+  const info = hero.querySelector('[data-rail-info]');
+  const infoTag = info?.querySelector('[data-rail-tag]');
+  const infoTitle = info?.querySelector('[data-rail-title]');
+  const infoMore = info?.querySelector('[data-rail-more]');
+  const paintInfo = () => {
+    if (!info) return;
+    const z = bySlug(activeSlug);
+    if (info.dataset.slug === z.slug) return;
+    info.dataset.slug = z.slug;
+    info.classList.remove('is-changing');
+    void info.offsetWidth; // restart the little fade
+    info.classList.add('is-changing');
+    if (infoTag) infoTag.textContent = CATS[z.category]?.label || '';
+    infoTitle.textContent = z.name;
+  };
+  infoMore?.addEventListener('click', () => openDetail(activeSlug, infoMore));
 
   const setActiveZone = (slug) => {
     const zone = bySlug(slug);
     if (!zone) return;
     if (ZONES.includes(zone)) activeSlug = slug;
-    items.forEach((b) => b.classList.toggle('is-active', b.dataset.zone === activeSlug));
+    items.forEach((b) => {
+      const on = b.dataset.zone === activeSlug;
+      b.classList.toggle('is-active', on);
+      if (b.classList.contains('rail__card')) b.setAttribute('aria-current', on ? 'true' : 'false');
+    });
+    paintInfo();
     if (hero.dataset.state === 'list') {
       const z = bySlug(activeSlug);
-      showBackground(z.bg, z.bgOpacity);
+      showBackground(z.bg);
     }
   };
+  // Card column (Home, Missions, Éducation): the scroll decides which item is shown
+  // (section 4); hovering a card only brightens its thumbnail (CSS), it doesn't change
+  // the photo or the name; a click opens its detail page.
+  // Vertical list (no card column): hover / focus shows an item, a click opens it.
   items.forEach((btn) => {
-    btn.addEventListener('mouseenter', () => setActiveZone(btn.dataset.zone));
-    btn.addEventListener('focus', () => setActiveZone(btn.dataset.zone));
+    const isCard = btn.classList.contains('rail__card');
+    if (!isCard) {
+      btn.addEventListener('mouseenter', () => setActiveZone(btn.dataset.zone));
+      btn.addEventListener('focus', () => setActiveZone(btn.dataset.zone));
+    }
     btn.addEventListener('click', () => openDetail(btn.dataset.zone, btn));
   });
+  // Card column: a click on the background photo opens the item it shows
+  // (not in the 3D map view, nor on links, buttons, the menu or the view switch)
+  if (rail) {
+    hero.addEventListener('click', (e) => {
+      if (hero.dataset.state !== 'list' || hero.dataset.view === 'map') return;
+      if (e.target.closest('a, button, input, [data-site-header], .view-toggle, .hero__globe')) return;
+      openDetail(activeSlug);
+    });
+  }
 
   /* ---------------------------------------------------------------------
      3. Q&A (Figma: detail + q&a icon, less = open / more = closed)
@@ -117,7 +214,7 @@
       layer.setAttribute('aria-hidden', String(!on));
     });
     if (state === 'faq') showBackground(FAQ.bg, FAQ.bgOpacity);
-    else if (state === 'intro') showBackground(ALL[0].bg, Number(hero.dataset.introOpacity || 0.35));
+    else if (state === 'intro') showBackground(hero.dataset.introBg || ALL[0].bg, Number(hero.dataset.introOpacity || 0.35));
     else setActiveZone(activeSlug);
     document.dispatchEvent(new CustomEvent('wi:hero-state', { detail: state }));
   };
@@ -153,7 +250,75 @@
 
   const stage = document.querySelector('[data-hero-stage]');
   hero.dataset.state = '';
-  if (stage) {
+  if (stage && rail) {
+    /* Home with the thumbnail row. The pinned scroll is split into phases
+       (in window heights):
+         intro  — the intro text fades away
+         reveal — the thumbnails appear one after the other at the top
+         items  — the row slides left one card per step; the card at the left
+                  is active (100 %), its photo is the background, its name below
+         faq    — Q&A */
+    if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+    if (!location.hash) window.scrollTo(0, 0);
+    // Same on every page: when the list shows, all the cards come in together (one
+    // after the other, quickly), then the scroll only slides the column. The Home
+    // has an intro before it (its text fades away) and a Q&A after it.
+    const hasIntro = !!hero.querySelector('[data-hero-layer="intro"]');
+    // 0.8 window height of scroll per item; the Home also pauses on its first item
+    // (Mer Méditerranée) right after the intro
+    const PH = { intro: hasIntro ? 0.7 : 0, reveal: hasIntro ? 0.9 : 0, item: 0.8, faq: 1.1 };
+    const N = ZONES.length;
+    const cards = [...rail.children];
+    const hasFaq = !!hero.querySelector('[data-hero-layer="faq"]');
+    cards.forEach((li, i) => li.style.setProperty('--i', i));
+    let ticking = false;
+    let vh = 0; let pos = []; let vertical = false;
+    const measure = () => {
+      vh = hero.offsetHeight;
+      // the Q&A starts after the last item's full step, then keeps its own share of scroll
+      const total = PH.intro + PH.reveal + (hasFaq ? N * PH.item + PH.faq : (N - 1) * PH.item + 0.6);
+      stage.style.height = `${Math.round(vh * (1 + total))}px`;
+      // column (tablet / desktop) or row (phones), and where each card sits in it
+      // (cards alternate tall / short, so the distance between them varies)
+      vertical = cards.length > 1 && cards[1].offsetTop > cards[0].offsetTop;
+      pos = cards.map((li) => (vertical ? li.offsetTop : li.offsetLeft) - (vertical ? cards[0].offsetTop : cards[0].offsetLeft));
+    };
+    const bounds = () => {
+      const a = PH.intro * vh;
+      const b = a + PH.reveal * vh;
+      const c = b + N * PH.item * vh;
+      return { a, b, c };
+    };
+    const update = () => {
+      ticking = false;
+      const y = Math.max(-stage.getBoundingClientRect().top, 0);
+      const { a, b, c } = bounds();
+      hero.style.setProperty('--intro-p', a ? Math.min(y / a, 1).toFixed(3) : '1');
+      const showCards = (on) => cards.forEach((li) => li.classList.toggle('is-shown', on));
+      if (y < a) { setHeroState('intro'); showCards(false); return; }
+      if (y >= c && hasFaq) { setHeroState('faq'); return; }
+      setHeroState('list');
+      showCards(true);
+      // items: the column slides up (the row left, on phones); the nearest card is active
+      const t = Math.min(Math.max((y - b) / (PH.item * vh), 0), N - 1);
+      const i0 = Math.floor(t); const i1 = Math.min(i0 + 1, N - 1);
+      const d = (-((pos[i0] || 0) + ((pos[i1] || 0) - (pos[i0] || 0)) * (t - i0))).toFixed(1);
+      rail.style.transform = vertical ? `translate3d(0, ${d}px, 0)` : `translate3d(${d}px, 0, 0)`;
+      const idx = Math.min(N - 1, Math.round(t));
+      // the scroll switches too (the card at the top of the column becomes active);
+      // moving the mouse onto a card also does
+      if (ZONES[idx].slug !== activeSlug) setActiveZone(ZONES[idx].slug);
+    };
+    // a click on a card scrolls to the moment it becomes active
+    window.addEventListener('scroll', () => { if (!ticking) { ticking = true; requestAnimationFrame(update); } }, { passive: true });
+    window.addEventListener('resize', () => { measure(); update(); });
+    // card positions are only known once the column is laid out (styles, breakpoints):
+    // measure again whenever its size changes
+    if ('ResizeObserver' in window) new ResizeObserver(() => { measure(); update(); }).observe(rail);
+    measure();
+    update();
+    window.addEventListener('load', () => { measure(); update(); });
+  } else if (stage) {
     // Always open the Home on the intro: don't let the browser restore an old
     // scroll position (reload, back button), which would land on the list / Q&A.
     if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
@@ -192,11 +357,23 @@
           <span class="detail-nav__summary">${esc(z.summary)}</span>
         </button>`).join('')}
     </div>`).join('');
+  // The detail panel repeats the page's own main menu (so it follows the WordPress menu too).
+  const siteLogo = document.querySelector('.site-header a.logo');
+  const homeHref = siteLogo?.getAttribute('href') || 'home.html';
+  const homeLabel = siteLogo?.getAttribute('aria-label') || 'Wildlife Interactions — accueil';
+  const pageCat = (href) => Object.keys(CATS).find((k) => CATS[k].page === href) || '';
+  const menuLinks = [...document.querySelectorAll('.site-nav .site-nav__list a')].map((a) => {
+    const href = a.getAttribute('href');
+    const cat = a.dataset.menuCat || pageCat(href);
+    return `<li><a class="menu-item menu-item--secondary" href="${esc(href)}"${cat ? ` data-menu-cat="${cat}"` : ''}>${esc(a.textContent.trim())}</a></li>`;
+  }).join('');
+  const navCta = document.querySelector('.site-nav .cta');
+  const menuCta = navCta ? `<a class="cta cta--secondary" href="${esc(navCta.getAttribute('href'))}">${esc(navCta.textContent.trim())}</a>` : '';
   detail.innerHTML = `
-    <aside class="detail-nav" aria-label="Missions et programmes">
+    <aside class="detail-nav" aria-label="${esc(T('detailNav', 'Missions et programmes'))}">
       <div class="detail-nav__top">
-        <a class="logo logo--sm" href="home.html" aria-label="Wildlife Interactions — accueil"><img src="assets/logos/logo-inverse.svg" width="63" height="68" alt=""></a>
-        <button class="detail-nav__close" type="button" data-detail-close aria-label="Fermer">
+        <a class="logo logo--sm" href="${esc(homeHref)}" aria-label="${esc(homeLabel)}"><img src="${ASSET('assets/logos/logo-inverse.svg')}" width="63" height="68" alt=""></a>
+        <button class="detail-nav__close" type="button" data-detail-close aria-label="${esc(T('close', 'Fermer'))}">
           <span class="icon icon--close" aria-hidden="true"></span>
         </button>
       </div>
@@ -204,14 +381,8 @@
     </aside>
     <article class="detail__panel" role="dialog" aria-modal="true" aria-labelledby="detail-title" tabindex="-1">
       <header class="detail__menu">
-        <ul class="detail__menu-items">
-          <li><a class="menu-item menu-item--secondary" href="missions.html" data-menu-cat="missions">Missions</a></li>
-          <li><a class="menu-item menu-item--secondary" href="education.html" data-menu-cat="education">Éducation</a></li>
-          <li><a class="menu-item menu-item--secondary" href="talents.html">Talents</a></li>
-          <li><a class="menu-item menu-item--secondary" href="exposition-media.html">Exposition &amp; média</a></li>
-          <li><a class="menu-item menu-item--secondary" href="contact.html">Contact</a></li>
-        </ul>
-        <a class="cta cta--secondary" href="contact.html#soutenir">Nous soutenir</a>
+        <ul class="detail__menu-items">${menuLinks}</ul>
+        ${menuCta}
       </header>
       <div class="detail__body" data-detail-body></div>
     </article>`;
@@ -238,7 +409,7 @@
       ${photo ? `<img class="talent-card__photo" src="${photo}" alt="" loading="lazy">` : ''}
       <div class="talent-card__content">
         ${acts.length ? `<div class="talent-card__bio"><div class="talent-card__bio-inner">
-          <p class="talent-card__bio-title">Activités WI</p>
+          <p class="talent-card__bio-title">${esc(T('talentActivities', 'Activités WI'))}</p>
           <p class="talent-card__activities">${acts.map((a) => typeof a === 'string'
             ? `<a href="#">${esc(a)}</a>`
             : `<a href="#${a.slug}" data-detail-go="${a.slug}">${esc(a.name)}</a>`).join('')}</p>
@@ -246,7 +417,7 @@
         <div class="talent-card__title">
           <div class="talent-card__name-row">
             <p class="talent-card__name">${esc(t.name)}</p>
-            <a class="talent-card__linkedin" href="${t.linkedin || 'https://www.linkedin.com/'}" target="_blank" rel="noopener" aria-label="LinkedIn de ${esc(t.name)}"><span class="icon icon--linkedin" aria-hidden="true"></span></a>
+            <a class="talent-card__linkedin" href="${esc(t.linkedin || 'https://www.linkedin.com/')}" target="_blank" rel="noopener" aria-label="${esc(T('linkedinOf', 'LinkedIn de'))} ${esc(t.name)}"><span class="icon icon--linkedin" aria-hidden="true"></span></a>
           </div>
           <p class="talent-card__role">${esc(t.role)}</p>
         </div>
@@ -258,7 +429,7 @@
     return {
       name: known ? known.name : name,
       role,
-      photo: known?.photo ? `assets/img/talents/${known.photo}.jpg` : null,
+      photo: known?.photo ? talentPhoto(known.photo) : null,
       linkedin: known?.linkedin,
       activities: missionsOf(name),
     };
@@ -276,11 +447,15 @@
     const next = ALL[(i + 1) % ALL.length];
     const [e1, e2, e3, e4] = d.enjeux;
     const more = MORE[zone.slug] || {};
+    // empty parts (nothing filled in WordPress) are left out
+    const moreStats = more.stats || SHARED.stats || [];
+    const team = more.team ? more.team.people.map(teamMember) : (SHARED.talents || []);
+    const stats = d.stats || [];
     body.innerHTML = `
       <div class="detail__key">
         <section class="detail__overview">
           <div class="detail__intro">
-            <span class="tag tag--light">Aperçu</span>
+            <span class="tag tag--light">${esc(T('overview', 'Aperçu'))}</span>
             <div class="detail__intro-text">
               <h2 class="detail__title" id="detail-title">${esc(zone.name)}</h2>
               <p class="detail__lead">${esc(d.lead)}</p>
@@ -290,36 +465,36 @@
         </section>
         <section class="detail__enjeux" aria-labelledby="detail-enjeux-title">
           <div class="detail__section-head">
-            <span class="tag tag--light">Enjeux</span>
-            <h3 class="detail__h4" id="detail-enjeux-title">${esc(d.enjeuxTitle || 'Pourquoi agir maintenant ?')}</h3>
+            <span class="tag tag--light">${esc(T('issues', 'Enjeux'))}</span>
+            <h3 class="detail__h4" id="detail-enjeux-title">${esc(d.enjeuxTitle || T('issuesTitle', 'Pourquoi agir maintenant ?'))}</h3>
           </div>
           <div class="enjeux">
             <div class="enjeux__line enjeux__line--a">${enjeu(e1, 'image', d.enjeuxImage)}${enjeu(e2, 'medium')}</div>
             <div class="enjeux__line enjeux__line--b">${enjeu(e3, 'lowest')}${enjeu(e4, 'high')}</div>
           </div>
-          <div class="stats">${d.stats.map((st) => statHTML(st, 'light')).join('')}</div>
+          ${stats.length ? `<div class="stats">${stats.map((st) => statHTML(st, 'light')).join('')}</div>` : ''}
         </section>
       </div>
-      <div class="detail__more">
+      <div class="detail__more" style="--more-bg: url('${esc(new URL(zone.bg || zone.image, location.href).href)}')">
         ${(more.sections || SHARED.sections).map((sec) => `
           <section class="detail__section">
             <span class="tag tag--black">${esc(sec.tag)}</span>
             <div class="detail__section-text"><h3 class="detail__h5">${esc(sec.title)}</h3><p class="detail__section-lead">${esc(sec.text).replace(/\*([^*]+)\*/g, '<em>$1</em>')}</p></div>
           </section>`).join('')}
-        <div class="stats">${(more.stats || SHARED.stats).map((st) => statHTML(st, 'dark')).join('')}</div>
-        <section class="detail__section">
+        ${moreStats.length ? `<div class="stats">${moreStats.map((st) => statHTML(st, 'dark')).join('')}</div>` : ''}
+        ${team.length ? `<section class="detail__section">
           <span class="tag tag--black">${esc(more.team?.tag || 'Tag')}</span>
           <div class="detail__section-text">
             <h3 class="detail__h5">${esc(more.team?.title || SHARED.talentsTitle)}</h3>
-            <div class="talents">${(more.team ? more.team.people.map(teamMember) : SHARED.talents).map(talentHTML).join('')}</div>
+            <div class="talents">${team.map(talentHTML).join('')}</div>
           </div>
-        </section>
+        </section>` : ''}
         <div class="detail__ctas">
-          <button class="cta cta--primary" type="button" data-detail-go="${prev.slug}" aria-label="Précédente : ${esc(prev.name)}">
-            <span class="icon icon--arrow-left" aria-hidden="true"></span>Précédente
+          <button class="cta cta--primary" type="button" data-detail-go="${prev.slug}" aria-label="${esc(T('previous', 'Précédente'))} : ${esc(prev.name)}">
+            <span class="icon icon--arrow-left" aria-hidden="true"></span>${esc(T('previous', 'Précédente'))}
           </button>
-          <button class="cta cta--primary" type="button" data-detail-go="${next.slug}" aria-label="Prochaine : ${esc(next.name)}">
-            Prochaine<span class="icon icon--arrow-right" aria-hidden="true"></span>
+          <button class="cta cta--primary" type="button" data-detail-go="${next.slug}" aria-label="${esc(T('next', 'Prochaine'))} : ${esc(next.name)}">
+            ${esc(T('next', 'Prochaine'))}<span class="icon icon--arrow-right" aria-hidden="true"></span>
           </button>
         </div>
       </div>`;

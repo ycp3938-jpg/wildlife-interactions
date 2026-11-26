@@ -1,0 +1,1203 @@
+{
+ "zones": [
+  {
+   "slug": "mer-mediterranee",
+   "category": "missions",
+   "name": "Mer Méditerranée",
+   "summary": "Surveillance des écosystèmes côtiers et protection des espèces marines endémiques",
+   "bg": "assets/img/zone-mer-mediterranee.jpg",
+   "bgOpacity": 0.5,
+   "image": "assets/img/zone-mer-mediterranee.jpg",
+   "detail": {
+    "lead": "Le Sanctuaire Pelagos, aire marine protégée de 87 500 km² entre France, Italie et Monaco, abrite l'une des plus fortes concentrations de cétacés de Méditerranée, dont environ un millier de rorquals communs. Véritables alliés climatiques, ces baleines participent activement à la séquestration du carbone océanique grâce à la « pompe à baleines ». Pourtant, trafic maritime intense, pollutions et collisions menacent chaque année cet équilibre fragile, dans un contexte de déclin mondial des populations de cétacés.",
+    "enjeuxImage": "assets/img/enjeux-mer-mediterranee.jpg",
+    "enjeux": [
+     {
+      "title": "Le rorqual, sentinelle du sanctuaire",
+      "text": "Espèce bio-indicatrice de la santé de l'écosystème pélagique, le rorqual commun révèle par sa présence l'état de santé global de la Méditerranée."
+     },
+     {
+      "title": "Une pompe à carbone vivante",
+      "text": "En se nourrissant et en fertilisant le phytoplancton, chaque grande baleine séquestre en moyenne 33 tonnes de CO₂ au cours de sa vie."
+     },
+     {
+      "title": "Des collisions mortelles",
+      "text": "Le trafic maritime estival tue chaque année entre 20 et 50 rorquals communs en Méditerranée nord-occidentale, première cause de mortalité non naturelle."
+     },
+     {
+      "title": "Une population mondiale en déclin",
+      "text": "De 4 à 5 millions d'individus avant l'essor de la pêche industrielle, la population mondiale de cétacés est tombée à 1,3 million aujourd'hui."
+     }
+    ],
+    "stats": [
+     {
+      "value": "87 500",
+      "label": "km²",
+      "text": "Superficie du Sanctuaire Pelagos, aire marine protégée entre France, Italie et Monaco"
+     },
+     {
+      "value": "33",
+      "label": "tonnes de CO₂",
+      "text": "Carbone séquestré en moyenne par une grande baleine tout au long de sa vie"
+     },
+     {
+      "value": "20-50",
+      "label": "rorquals/an",
+      "text": "Nombre de rorquals communs tués chaque année par les collisions avec les navires"
+     }
+    ]
+   }
+  },
+  {
+   "slug": "mer-rouge",
+   "category": "missions",
+   "name": "Mer Rouge",
+   "summary": "Étude des récifs coralliens et monitoring de la biodiversité aquatique tropicale",
+   "bg": "assets/img/zone-mer-rouge-2.jpg",
+   "bgOpacity": 0.35,
+   "image": "assets/img/zone-mer-rouge-2.jpg",
+   "detail": {
+    "lead": "Bordée de récifs coralliens parmi les plus résistants au monde, la Mer Rouge est un sanctuaire de biodiversité unique, capable de mieux résister au réchauffement que la majorité des récifs de la planète. Elle abrite une faune exceptionnelle, poissons tropicaux, tortues, requins, dugongs, et représente un espoir précieux pour l'avenir des écosystèmes coralliens mondiaux. Mais cette résilience naturelle est mise à l'épreuve par une pression touristique et industrielle croissante. Préserver la Mer Rouge, c'est préserver un refuge pour le corail de demain.",
+    "enjeuxImage": "assets/img/enjeux-mer-rouge.jpg",
+    "enjeux": [
+     {
+      "title": "Des récifs sous surveillance",
+      "text": "Malgré leur résistance naturelle à la chaleur, les récifs de la Mer Rouge restent vulnérables à la pollution et au développement côtier."
+     },
+     {
+      "title": "Une pression touristique croissante",
+      "text": "Plongée, tourisme balnéaire et aménagements littoraux exercent une pression grandissante sur des écosystèmes coralliens fragiles."
+     },
+     {
+      "title": "Un trafic maritime stratégique",
+      "text": "Voie de passage majeure du commerce mondial, la Mer Rouge est exposée aux risques de pollution liés au trafic maritime intense."
+     },
+     {
+      "title": "Un espoir pour les coraux du futur",
+      "text": "Grâce à leur résistance thermique exceptionnelle, les coraux de la Mer Rouge pourraient jouer un rôle clé dans la restauration des récifs mondiaux."
+     }
+    ],
+    "stats": [
+     {
+      "value": "2 250",
+      "label": "km",
+      "text": "Longueur de la Mer Rouge, bordée de récifs coralliens parmi les plus résistants au monde"
+     },
+     {
+      "value": "+5",
+      "label": "°C",
+      "text": "Écart de température supporté par certains coraux sans blanchir, un record de résilience thermique"
+     },
+     {
+      "value": "+1 200",
+      "label": "espèces",
+      "text": "Nombre d'espèces de poissons recensées, dont beaucoup sont uniques à cette mer"
+     }
+    ]
+   }
+  },
+  {
+   "slug": "polynesie-francaise",
+   "category": "missions",
+   "name": "Polynésie française",
+   "summary": "Conservation des atolls et recherche sur les impacts du changement climatique",
+   "bg": "assets/img/zone-polynesie-francaise-2.jpg",
+   "bgOpacity": 0.6,
+   "image": "assets/img/zone-polynesie-francaise-2.jpg",
+   "detail": {
+    "lead": "Archipel de plus de 100 îles disséminées dans le Pacifique, la Polynésie française concentre une biodiversité marine exceptionnelle : lagons turquoise, récifs coralliens, baleines à bosse et requins. Ce territoire insulaire, particulièrement exposé à la montée des eaux et au réchauffement des océans, incarne les défis auxquels font face les populations du Pacifique. Entre traditions ancestrales et enjeux environnementaux contemporains, la Polynésie française est un territoire clé pour comprendre la résilience des îles face au changement climatique.",
+    "enjeuxImage": "assets/img/enjeux-polynesie-francaise.jpg",
+    "enjeux": [
+     {
+      "title": "Des espèces emblématiques à protéger",
+      "text": "Baleines à bosse, requins et tortues marines trouvent en Polynésie un habitat précieux, aujourd'hui fragilisé par la pêche et le tourisme."
+     },
+     {
+      "title": "Des lagons menacés",
+      "text": "Le blanchissement corallien, accéléré par la hausse des températures, fragilise des lagons essentiels à la pêche et à la biodiversité locale."
+     },
+     {
+      "title": "Une montée des eaux préoccupante",
+      "text": "De nombreux atolls polynésiens, situés à quelques mètres au-dessus du niveau de la mer, sont directement menacés par l'élévation du niveau marin."
+     },
+     {
+      "title": "Un savoir traditionnel à valoriser",
+      "text": "Les pratiques ancestrales polynésiennes de gestion des ressources marines offrent des pistes précieuses pour une pêche plus durable."
+     }
+    ],
+    "stats": [
+     {
+      "value": "118",
+      "label": "îles",
+      "text": "Nombre d'îles réparties sur cinq archipels dispersés dans l'immensité du Pacifique"
+     },
+     {
+      "value": "5 millions",
+      "label": "km²",
+      "text": "Superficie de la zone économique exclusive polynésienne, l'une des plus vastes au monde"
+     },
+     {
+      "value": "-2",
+      "label": "mètres",
+      "text": "Altitude moyenne de nombreux atolls, directement menacés par la moindre élévation marine."
+     }
+    ]
+   }
+  },
+  {
+   "slug": "spitzberg",
+   "category": "missions",
+   "name": "Spitzberg",
+   "summary": "Observation de la faune arctique et suivi scientifique de la fonte des glaces",
+   "bg": "assets/img/zone-spitzberg-2.jpg",
+   "bgOpacity": 0.5,
+   "image": "assets/img/zone-spitzberg-2.jpg",
+   "detail": {
+    "lead": "Le Spitzberg s'impose comme le baromètre le plus sensible du changement climatique, avec un réchauffement jusqu'à 6 à 7 fois plus rapide que la moyenne mondiale. Ce phénomène s'auto-amplifie : la fonte des glaces expose des surfaces sombres qui absorbent la chaleur au lieu de la réfléchir, tandis que le dégel du permafrost libère du méthane ancien. Véritable régulateur climatique de l'hémisphère Nord, l'archipel influence jusqu'à la stabilité du Jet Stream. Sa préservation est un enjeu mondial : il abrite le Coffre-fort mondial de semences, garant de la biodiversité alimentaire de l'humanité.",
+    "enjeuxImage": "assets/img/enjeux-spitzberg.jpg",
+    "enjeux": [
+     {
+      "title": "Le miroir brisé de l'albédo",
+      "text": "La disparition de la banquise expose des surfaces sombres qui absorbent jusqu'à 90 % de l'énergie solaire, accélérant encore la fonte."
+     },
+     {
+      "title": "Un réchauffement hors norme",
+      "text": "Le Svalbard se réchauffe 6 à 7 fois plus vite que la moyenne mondiale, un phénomène d'amplification arctique sans équivalent sur Terre."
+     },
+     {
+      "title": "Le permafrost, bombe à retardement",
+      "text": "Le dégel des sols gelés et le retrait des 1 600 glaciers de l'archipel libèrent d'énormes quantités de méthane ancien, un gaz 80 fois plus réchauffant que le CO₂."
+     },
+     {
+      "title": "Un régulateur climatique mondial",
+      "text": "En perturbant le Jet Stream, le réchauffement du Spitzberg propage canicules, inondations et vagues de froid jusqu'en Europe et en Amérique du Nord."
+     }
+    ],
+    "stats": [
+     {
+      "value": "6-7",
+      "label": "fois",
+      "text": "Vitesse de réchauffement du Svalbard par rapport à la moyenne mondiale, un record d'amplification arctique"
+     },
+     {
+      "value": "1 600",
+      "label": "glaciers",
+      "text": "Nombre de glaciers de l'archipel, aujourd'hui fragilisés par la fonte accélérée"
+     },
+     {
+      "value": "2 310",
+      "label": "tonnes de méthane/an",
+      "text": "Estimation des rejets de méthane ancien libérés chaque année par le dégel du sol"
+     }
+    ]
+   }
+  },
+  {
+   "slug": "groenland",
+   "category": "missions",
+   "name": "Groenland",
+   "summary": "Analyse des migrations animales et cartographie des habitats polaires",
+   "bg": "assets/img/zone-groenland-2.jpg",
+   "bgOpacity": 0.5,
+   "image": "assets/img/zone-groenland-2.jpg",
+   "detail": {
+    "lead": "Sentinelle du climat mondial, le Groenland abrite la deuxième plus grande calotte glaciaire de la planète. Sa fonte accélérée, directement liée au réchauffement climatique, contribue de façon majeure à l'élévation du niveau des mers. Terre des Inuits et refuge d'une faune arctique emblématique, ours polaires, narvals, phoques, le Groenland est aujourd'hui le théâtre visible d'un dérèglement global aux conséquences planétaires. Comprendre le Groenland, c'est anticiper l'avenir de nos côtes.",
+    "enjeuxImage": "assets/img/enjeux-groenland.jpg",
+    "enjeux": [
+     {
+      "title": "Une calotte glaciaire qui fond",
+      "text": "Le Groenland perd chaque année des milliards de tonnes de glace, un phénomène qui accélère la montée des eaux à l'échelle mondiale."
+     },
+     {
+      "title": "Une faune arctique fragilisée",
+      "text": "Ours polaires, phoques et narvals voient leur habitat de glace se réduire, bouleversant leurs cycles de chasse et de reproduction."
+     },
+     {
+      "title": "Des communautés en première ligne",
+      "text": "Les populations inuites, dont le mode de vie dépend de la glace et de la mer, doivent s'adapter à un environnement en mutation rapide."
+     },
+     {
+      "title": "Un rôle climatique global",
+      "text": "Ce qui se joue au Groenland ne reste pas local : la fonte des glaces influence les courants marins et le climat de toute la planète."
+     }
+    ],
+    "stats": [
+     {
+      "value": "1,7 million",
+      "label": "km²",
+      "text": "Superficie de l'inlandsis groenlandais, deuxième plus grande calotte glaciaire au monde"
+     },
+     {
+      "value": "270 milliards",
+      "label": "tonnes",
+      "text": "Quantité de glace perdue chaque année, accélérant la montée du niveau des mers"
+     },
+     {
+      "value": "+14",
+      "label": "mm",
+      "text": "Hausse du niveau marin mondial déjà imputable à la fonte du Groenland depuis 2000"
+     }
+    ]
+   }
+  },
+  {
+   "slug": "peninsule-antarctique",
+   "category": "missions",
+   "name": "Péninsule Antarctique",
+   "summary": "Recherche sur les colonies de manchots et l'acidification des eaux australes",
+   "bg": "assets/img/zone-peninsule-antarctique-2.jpg",
+   "bgOpacity": 0.5,
+   "image": "assets/img/zone-peninsule-antarctique-2.jpg",
+   "detail": {
+    "lead": "La Péninsule Antarctique figure parmi les régions qui se réchauffent le plus rapidement sur Terre. Ses plateformes de glace, en recul accéléré, jouent un rôle crucial dans la régulation du climat mondial et le maintien du niveau des mers. Manchots, phoques et baleines dépendent de cet écosystème polaire d'une richesse exceptionnelle, aujourd'hui fragilisé par la fonte des glaces et la raréfaction du krill. Explorer la Péninsule Antarctique, c'est observer en direct les premiers signaux d'un bouleversement climatique global.",
+    "enjeuxImage": "assets/img/enjeux-peninsule-antarctique.jpg",
+    "enjeux": [
+     {
+      "title": "Le krill, maillon vital en danger",
+      "text": "La raréfaction du krill, base de toute la chaîne alimentaire antarctique, menace manchots, phoques et baleines."
+     },
+     {
+      "title": "Une fonte des glaces accélérée",
+      "text": "Le recul des plateformes glaciaires antarctiques contribue directement à la montée du niveau des mers à l'échelle mondiale."
+     },
+     {
+      "title": "Des colonies de manchots fragilisées",
+      "text": "Le réchauffement et la modification de la banquise perturbent la reproduction et l'alimentation de plusieurs espèces de manchots."
+     },
+     {
+      "title": "Un rôle climatique planétaire",
+      "text": "Ce qui se joue en Antarctique influence directement les courants océaniques et le climat de l'ensemble de la planète."
+     }
+    ],
+    "stats": [
+     {
+      "value": "+3 °C",
+      "label": "en 50 ans",
+      "text": "Hausse des températures régionales observée depuis le milieu du XXe siècle"
+     },
+     {
+      "value": "3 250",
+      "label": "km²",
+      "text": "Superficie de la plateforme de glace Larsen B effondrée en quelques semaines en 2002"
+     },
+     {
+      "value": "70",
+      "label": "%",
+      "text": "Déclin observé dans certaines colonies de manchots Adélie au cours des dernières décennies"
+     }
+    ]
+   }
+  },
+  {
+   "slug": "camargue",
+   "category": "missions",
+   "name": "Camargue",
+   "summary": "Protection des zones humides et suivi des populations d'oiseaux migrateurs",
+   "bg": "assets/img/zone-camargue-2.jpg",
+   "bgOpacity": 0.5,
+   "image": "assets/img/zone-camargue-2.jpg",
+   "detail": {
+    "lead": "En première ligne du dérèglement climatique en France, la Camargue voit 70 % de ses terres situées à moins d'un mètre au-dessus du niveau de la mer, subissant une montée des eaux accélérée et un recul inexorable de son trait de côte. Ce delta unique abrite une biodiversité exceptionnelle, dont les flamants roses, ainsi qu'une identité culturelle forte portée par la riziculture et l'élevage traditionnel. Face à cette mutation, la région déploie des « Solutions fondées sur la Nature », restaurant d'anciennes salines pour créer des boucliers naturels face à l'érosion marine.",
+    "enjeuxImage": "assets/img/enjeux-camargue.jpg",
+    "enjeux": [
+     {
+      "title": "Le refuge fragile des flamants roses",
+      "text": "L'étang du Fangassier, unique site de ponte en France, voit sa mise en eau devenue aléatoire ; le Parc ornithologique du Pont de Gau agit comme pilier de protection sur 60 hectares."
+     },
+     {
+      "title": "La bataille du sel",
+      "text": "La remontée du sel par capillarité menace la riziculture, pourtant essentielle au dessalement naturel des terres grâce à ses apports d'eau douce."
+     },
+     {
+      "title": "Une montée des eaux accélérée",
+      "text": "Le niveau marin a déjà grimpé de 7 cm en 30 ans, provoquant un recul inexorable du trait de côte sur un territoire largement sous le niveau de la mer."
+     },
+     {
+      "title": "Un élevage traditionnel en péril",
+      "text": "La perte des pâturages sous l'effet du sel fragilise l'élevage des taureaux et chevaux, mettant en péril un pan entier de l'identité manadière."
+     }
+    ],
+    "stats": [
+     {
+      "value": "70 %",
+      "label": "terres",
+      "text": "Part du delta camarguais situé à moins d'un mètre au-dessus du niveau de la mer"
+     },
+     {
+      "value": "7 cm",
+      "label": "en 30 ans",
+      "text": "Élévation du niveau marin déjà enregistrée sur le littoral camarguais"
+     },
+     {
+      "value": "60",
+      "label": "hectares",
+      "text": "Surface du Parc ornithologique du Pont de Gau, refuge protégé pour les flamants roses"
+     }
+    ]
+   }
+  },
+  {
+   "slug": "primaire",
+   "category": "education",
+   "name": "Primaire",
+   "summary": "Éveil à la biodiversité marine dès le plus jeune âge à travers des ateliers ludiques",
+   "bg": "assets/img/edu-primaire.jpg",
+   "bgOpacity": 0.5,
+   "image": "assets/img/edu-primaire.jpg",
+   "detail": {
+    "lead": "Conçu pour éveiller la curiosité des plus jeunes, notre programme Primaire propose une découverte ludique et sensorielle du monde marin. À travers des ateliers adaptés, des jeux et des supports pédagogiques illustrés, les élèves apprennent à observer, comprendre et respecter la nature. L'objectif : semer dès le plus jeune âge les graines d'une conscience écologique durable, tout en s'amusant et en développant leur esprit d'observation.",
+    "enjeuxImage": "assets/img/enjeux-primaire.jpg",
+    "enjeux": [
+     {
+      "title": "Éveiller la curiosité naturelle",
+      "text": "Les enfants découvrent le monde marin à travers des activités ludiques adaptées à leur âge et à leur rythme d'apprentissage."
+     },
+     {
+      "title": "Favoriser l'apprentissage par le jeu",
+      "text": "Ateliers créatifs, jeux et supports visuels rendent l'apprentissage vivant, participatif et mémorable pour les élèves."
+     },
+     {
+      "title": "Construire des repères simples",
+      "text": "Des messages clairs et accessibles permettent aux plus jeunes de comprendre les grands enjeux environnementaux sans les effrayer."
+     },
+     {
+      "title": "Semer une conscience écologique durable",
+      "text": "Sensibiliser dès le plus jeune âge, c'est poser les bases d'un rapport respectueux et durable à la nature."
+     }
+    ],
+    "stats": [
+     {
+      "value": "+3 000",
+      "label": "élèves/an",
+      "text": "Nombre d'écoliers sensibilisés chaque année à la découverte du milieu marin"
+     },
+     {
+      "value": "50",
+      "label": "classes",
+      "text": "Nombre de classes de primaire accompagnées annuellement dans nos interventions scolaires"
+     },
+     {
+      "value": "90 %",
+      "label": "satisfaction",
+      "text": "Part des enseignants estimant le programme bénéfique à la curiosité de leurs élèves"
+     }
+    ]
+   }
+  },
+  {
+   "slug": "college",
+   "category": "education",
+   "name": "Collège",
+   "summary": "Projets scientifiques participatifs couplant terrain et découverte des écosystèmes marins",
+   "bg": "assets/img/edu-college.jpg",
+   "bgOpacity": 0.5,
+   "image": "assets/img/edu-college.jpg",
+   "detail": {
+    "lead": "Le programme Collège approfondit les connaissances scientifiques des élèves à travers des interventions interactives, des études de cas concrets et des échanges avec des experts du terrain. Il encourage l'esprit critique et l'engagement citoyen en reliant les grands enjeux environnementaux, climat, biodiversité, pollution, à des actions concrètes et accessibles. Ce programme accompagne les collégiens dans la construction d'une réflexion personnelle sur leur rôle face aux défis écologiques actuels.",
+    "enjeuxImage": "assets/img/enjeux-college.jpg",
+    "enjeux": [
+     {
+      "title": "Approfondir les connaissances scientifiques",
+      "text": "Les collégiens explorent des sujets concrets — climat, biodiversité, pollution — à travers des données et des exemples réels de terrain."
+     },
+     {
+      "title": "Développer l'esprit critique",
+      "text": "Les échanges avec des experts encouragent les élèves à questionner, analyser et se forger leur propre opinion sur les enjeux environnementaux."
+     },
+     {
+      "title": "Encourager l'engagement citoyen",
+      "text": "Le programme invite les élèves à identifier des actions concrètes qu'ils peuvent mener à leur échelle, individuelle ou collective."
+     },
+     {
+      "title": "Relier science et société",
+      "text": "Comprendre les liens entre écosystèmes, activités humaines et changement climatique permet aux collégiens de mieux appréhender le monde qui les entoure."
+     }
+    ],
+    "stats": [
+     {
+      "value": "+1 500",
+      "label": "collégiens/an",
+      "text": "Nombre d'élèves de collège touchés chaque année par nos ateliers thématiques"
+     },
+     {
+      "value": "8",
+      "label": "établissements partenaires",
+      "text": "Nombre de collèges engagés dans un partenariat pédagogique durable avec l'association"
+     },
+     {
+      "value": "12",
+      "label": "talents mobilisés",
+      "text": "Nombre de scientifiques intervenant directement auprès des classes pour enrichir les échanges"
+     }
+    ]
+   }
+  },
+  {
+   "slug": "citizen-pelagos",
+   "category": "education",
+   "name": "Citizen Pelagos",
+   "summary": "Programme de science citoyenne permettant au grand public de contribuer",
+   "bg": "assets/img/edu-citizen-pelagos.jpg",
+   "bgOpacity": 0.5,
+   "image": "assets/img/edu-citizen-pelagos.jpg",
+   "detail": {
+    "lead": "Citizen Pelagos invite chacun à devenir acteur de la recherche scientifique en Méditerranée. Plaisanciers, pêcheurs, plongeurs ou simples promeneurs peuvent signaler leurs observations de cétacés, de posidonie ou d'espèces protégées, contribuant ainsi directement à la collecte de données utilisées par les scientifiques du Sanctuaire Pelagos. Ce programme de sciences participatives renforce le lien entre citoyens et chercheurs, tout en développant une culture partagée de la protection du milieu marin.",
+    "enjeuxImage": "assets/img/enjeux-citizen-pelagos.jpg",
+    "enjeux": [
+     {
+      "title": "Mobiliser les citoyens du littoral",
+      "text": "Chacun peut contribuer, à son échelle, à la collecte de données scientifiques utiles à la connaissance et à la protection du milieu marin."
+     },
+     {
+      "title": "Enrichir la recherche scientifique",
+      "text": "Les observations partagées par les citoyens complètent le travail des chercheurs et améliorent le suivi des espèces du Sanctuaire Pelagos."
+     },
+     {
+      "title": "Créer du lien entre mer et société",
+      "text": "Le programme rapproche usagers de la mer et scientifiques autour d'un objectif commun : mieux connaître pour mieux protéger."
+     },
+     {
+      "title": "Développer une culture de la donnée",
+      "text": "Chaque signalement contribue à construire une base de connaissances partagée, essentielle au suivi à long terme des écosystèmes marins."
+     }
+    ],
+    "stats": [
+     {
+      "value": "+2 000",
+      "label": "signalements",
+      "text": "Nombre d'observations transmises par les citoyens depuis le lancement du programme"
+     },
+     {
+      "value": "500",
+      "label": "contributeurs actifs",
+      "text": "Nombre de plaisanciers et plongeurs participant régulièrement à la collecte de données"
+     },
+     {
+      "value": "15",
+      "label": "espèces suivies",
+      "text": "Nombre d'espèces marines documentées grâce aux signalements citoyens"
+     }
+    ]
+   }
+  },
+  {
+   "slug": "handicap",
+   "category": "education",
+   "name": "Handicap",
+   "summary": "Programmes adaptés pour rendre la découverte des océans accessible à tous",
+   "bg": "assets/img/qa-bg.jpg",
+   "bgOpacity": 0.5,
+   "image": "assets/img/edu-handicap.jpg",
+   "detail": {
+    "lead": "Convaincue que la sensibilisation à la nature doit être accessible à tous, notre association développe des dispositifs adaptés aux personnes en situation de handicap. Supports tactiles, sonores et visuels, ateliers repensés et formats inclusifs permettent à chacun, quel que soit son handicap, de vivre une expérience de découverte du milieu marin riche et immersive. Ce programme traduit notre engagement pour une éducation à l'environnement réellement inclusive et ouverte à tous les publics.",
+    "enjeuxImage": "assets/img/enjeux-handicap.jpg",
+    "enjeux": [
+     {
+      "title": "Rendre la découverte accessible à tous",
+      "text": "Des outils tactiles, sonores et visuels permettent à chaque public, quel que soit son handicap, de vivre une expérience immersive et adaptée."
+     },
+     {
+      "title": "Adapter les formats pédagogiques",
+      "text": "Nos ateliers sont repensés pour s'adapter aux différents besoins sensoriels, moteurs ou cognitifs des participants."
+     },
+     {
+      "title": "Favoriser l'inclusion et le lien social",
+      "text": "La sensibilisation à l'environnement devient un moment de partage et de rencontre, accessible à tous les publics."
+     },
+     {
+      "title": "Construire une éducation vraiment inclusive",
+      "text": "Notre association s'engage à faire évoluer en continu ses outils pédagogiques pour toujours mieux répondre aux besoins de chacun."
+     }
+    ],
+    "stats": [
+     {
+      "value": "100 %",
+      "label": "ateliers adaptables",
+      "text": "Part des ateliers pouvant être adaptés aux besoins sensoriels, moteurs ou cognitifs"
+     },
+     {
+      "value": "+300",
+      "label": "participants/an",
+      "text": "Nombre de personnes en situation de handicap accueillies chaque année dans nos programmes"
+     },
+     {
+      "value": "5",
+      "label": "formats d'outils inclusifs",
+      "text": "Nombre de supports développés pour rendre la découverte marine accessible à tous"
+     }
+    ]
+   }
+  }
+ ],
+ "categories": {
+  "missions": {
+   "label": "Missions",
+   "navLabel": "MISSIONS",
+   "page": "missions.html"
+  },
+  "education": {
+   "label": "Éducation",
+   "navLabel": "ÉDUCATION",
+   "page": "education.html"
+  }
+ },
+ "faq": {
+  "bg": "assets/img/qa-bg.jpg",
+  "bgOpacity": 0.1,
+  "items": [
+   {
+    "q": "Qu'est-ce que Wildlife Interactions ?",
+    "a": "Wildlife Interactions est une organisation dédiée à la protection de la biodiversité marine, réunissant chercheurs, artistes et éducateurs pour documenter et sensibiliser aux interactions entre la faune sauvage et les sociétés humaines."
+   },
+   {
+    "q": "Comment participer à nos missions ?",
+    "a": "Nos missions sont ouvertes à des profils variés : scientifiques, artistes, éducateurs et citoyens engagés. Consultez notre page Missions pour découvrir les projets en cours et trouver celui qui vous correspond. Intéressé(e) ? Contactez-nous !"
+   },
+   {
+    "q": "Quels sont les programmes éducatifs disponibles ?",
+    "a": "Nous proposons des programmes adaptés à chaque niveau scolaire ainsi que des initiatives citoyennes comme Citizen Pelagos et des programmes inclusifs pour les personnes en situation de handicap."
+   },
+   {
+    "q": "Comment nous soutenir ?",
+    "a": "Vous pouvez nous soutenir via un don, un partenariat institutionnel ou en rejoignant notre réseau de bénévoles. Chaque contribution contribue directement à nos missions de terrain et à nos programmes éducatifs."
+   },
+   {
+    "q": "Comment rejoindre l'équipe de talents ?",
+    "a": "Nous collaborons régulièrement avec des photographes, scientifiques, éducateurs et designers. Envoyez-nous votre profil via la page Contact ou suivez-nous sur LinkedIn pour découvrir les opportunités de collaboration en cours."
+   }
+  ]
+ },
+ "detailShared": {
+  "sections": [
+   {
+    "tag": "Tag",
+    "title": "Section nane",
+    "text": "Lorem ipsum dolor sit amet consectetur. Rhoncus tellus praesent sit in ultrices id facilisi neque sed. Lorem ipsum dolor sit amet consectetur. Rhoncus tellus praesent sit in ultrices id facilisi neque sed. Lorem ipsum dolor sit amet consectetur. Rhoncus tellus praesent sit in ultrices id facilisi neque sed. Lorem ipsum dolor sit amet consectetur. Rhoncus tellus praesent sit in ultrices id facilisi neque sed."
+   },
+   {
+    "tag": "Tag",
+    "title": "Section nane",
+    "text": "Lorem ipsum dolor sit amet consectetur. Rhoncus tellus praesent sit in ultrices id facilisi neque sed. Lorem ipsum dolor sit amet consectetur. Rhoncus tellus praesent sit in ultrices id facilisi neque sed. Lorem ipsum dolor sit amet consectetur. Rhoncus tellus praesent sit in ultrices id facilisi neque sed. Lorem ipsum dolor sit amet consectetur. Rhoncus tellus praesent sit in ultrices id facilisi neque sed."
+   }
+  ],
+  "stats": [
+   {
+    "value": "70+",
+    "label": "Labos",
+    "text": "Lorem ipsum dolor sit amet consectetu Lorem ipsum dolor lorem ipsum dolor sit amet"
+   },
+   {
+    "value": "70+",
+    "label": "Labos",
+    "text": "Lorem ipsum dolor sit amet consectetu Lorem ipsum dolor lorem ipsum dolor sit amet"
+   },
+   {
+    "value": "70+",
+    "label": "Labos",
+    "text": "Lorem ipsum dolor sit amet consectetu Lorem ipsum dolor lorem ipsum dolor sit amet"
+   }
+  ],
+  "talentsTitle": "Talent WI",
+  "talents": [
+   {
+    "name": "Joanne Rodriguez",
+    "role": "Lead Brand Planner",
+    "photo": "assets/img/talent-joanne-rodriguez.jpg",
+    "linkedin": "https://www.linkedin.com/",
+    "activities": [
+     "Camargue",
+     "Les pôles"
+    ]
+   },
+   {
+    "name": "Joanne Rodriguez",
+    "role": "Lead Brand Planner",
+    "photo": "assets/img/talent-joanne-rodriguez.jpg",
+    "linkedin": "https://www.linkedin.com/",
+    "activities": [
+     "Camargue",
+     "Les pôles"
+    ]
+   },
+   {
+    "name": "Joanne Rodriguez",
+    "role": "Lead Brand Planner",
+    "photo": "assets/img/talent-joanne-rodriguez.jpg",
+    "linkedin": "https://www.linkedin.com/",
+    "activities": [
+     "Camargue",
+     "Les pôles"
+    ]
+   }
+  ]
+ },
+ "talents": [
+  {
+   "name": "Jason Roberts",
+   "role": "Expert Arctique, PolarX - Longyearbyen",
+   "photo": "jason-roberts",
+   "bio": "Référence en Arctique, il met son expertise logistique et visuelle au service des grandes productions documentaires. Il capture des images fortes pour témoigner de l'urgence climatique. Son savoir-faire transforme les missions en récits visuels puissants et sensibilisateurs.",
+   "linkedin": "https://www.linkedin.com/in/jason-roberts-711260167/"
+  },
+  {
+   "name": "Déborah Pardo",
+   "role": "Écologue, Expéditions polaires",
+   "photo": "deborah-pardo",
+   "bio": "Forte d'une solide expérience de terrain acquise lors d'expéditions polaires, elle étudie les espèces sentinelles. Elle conseille les décideurs sur les stratégies de résilience écologique. Elle transforme les constats biologiques en leviers d'action concrets pour la biodiversité.",
+   "linkedin": "https://www.linkedin.com/in/deborah-pardo/"
+  },
+  {
+   "name": "Nathalie Hilmi",
+   "role": "Économiste, Centre Scientifique de Monaco",
+   "photo": "nathalie-hilmi",
+   "bio": "Docteure en sciences économiques, elle dirige la section Économie Environnementale au CSM. Reconnue pour ses travaux sur l'acidification des océans. Elle apporte une lecture indispensable de l'impact climatique sur nos sociétés et nos économies. Sa vision relie protection marine et enjeux financiers globaux.",
+   "linkedin": "https://www.linkedin.com/in/nathalie-hilmi-6ba1461a/"
+  },
+  {
+   "name": "Olivier Anrigo",
+   "role": "Fondateur & Président, Wildlife Interactions",
+   "photo": "olivier-anrigo",
+   "bio": "Photographe animalier né à Menton, initié dès l'enfance par son père. Sa rencontre avec Éric Gaillard, photographe chez Reuters, marque un tournant dans sa carrière. Dès 2013, sa passion pour la nature le conduit à mener des expéditions en Afrique, en Europe et dans le Cercle Polaire. Aujourd'hui, il consacre son travail à la préservation de la vie sauvage.",
+   "linkedin": "https://www.linkedin.com/in/olivier-anrigo-photographe-naturaliste-president-fondateur-wildlife-interactions/"
+  },
+  {
+   "name": "Léo Decaux",
+   "role": "Glaciologue, Université de Silésie - Centre d'études polaires",
+   "photo": "leo-decaux",
+   "bio": "Chercheur spécialiste de l'archipel du Svalbard, ses travaux documentent en temps réel les transformations physiques des pôles. Il valide les données relatives à la cryosphère pour l'association. Il garantit une compréhension rigoureuse des mécanismes de fonte des glaces.",
+   "linkedin": "https://www.linkedin.com/in/l%C3%A9o-decaux-4633791ba/"
+  },
+  {
+   "name": "Audrey Galve",
+   "role": "Sismologue, Laboratoire Géoazur / CNRS",
+   "photo": "audrey-galve",
+   "bio": "Chargée de recherche au CNRS, ses travaux portent sur la géodynamique et l'imagerie des fonds marins. Elle produit des données essentielles à la prévention des risques sismiques. Son expertise éclaire les forces géologiques qui façonnent les écosystèmes marins et les littoraux.",
+   "linkedin": "https://www.linkedin.com/in/audrey-galve-78444a244/"
+  },
+  {
+   "name": "Anne Choquet",
+   "role": "Juriste de l'environnement, UBO - UMR AMURE",
+   "photo": "anne-choquet",
+   "bio": "Juriste des pôles, elle préside le Comité National Français des Recherches Arctiques et Antarctiques (CNFRAA). Son regard éclaire les enjeux de gouvernance des sanctuaires polaires. Elle montre comment le droit international peut devenir un véritable outil de conservation.",
+   "linkedin": "https://www.linkedin.com/in/anne-choquet-sauvin/"
+  },
+  {
+   "name": "Charlotte Esposito",
+   "role": "Fondatrice & Présidente, Association Oceania",
+   "photo": "charlotte-esposito",
+   "bio": "Biologiste marine, elle a fondé l'association Oceania à Moorea. Ses recherches portent sur les populations de baleines à bosse en Polynésie française. Elle combine biologie, génétique de la conservation et ethnobiologie. Son expertise éclaire la préservation de la mégafaune du Pacifique Sud.",
+   "linkedin": "https://www.linkedin.com/in/charlotte-esposito-6327531a0/"
+  },
+  {
+   "name": "Valérie Valton",
+   "role": "Éthologue, Splendeur Nature",
+   "photo": "valerie-valton",
+   "bio": "Reconnue pour son approche centrée sur le comportement animal, elle étudie les interactions entre l'homme et les grands prédateurs marins. Son expertise favorise une cohabitation pacifique et respectueuse. Elle intègre une dimension éthique essentielle aux observations de terrain.",
+   "linkedin": "https://www.linkedin.com/in/valerievalton/"
+  },
+  {
+   "name": "Caiping Yang",
+   "role": "UX/UI designer",
+   "photo": "caiping-yang-2",
+   "bio": "Experte en UX/UI design, spécialisée dans les produits d'IA, elle applique une démarche d'éco-conception numérique visant à réduire l'empreinte environnementale des produits digitaux. Elle conçoit et développe le site web de l'association.",
+   "linkedin": "https://www.linkedin.com/in/caiping-yang-573380205/"
+  },
+  {
+   "name": "Heïdi Sevestre",
+   "role": "Glaciologue, AMAP / Université du Svalbard",
+   "photo": "heidi-sevestre",
+   "bio": "Glaciologue de renommée internationale basée au Svalbard, elle combine recherche académique et expéditions de terrain. Véritable trait d'union entre science et société, elle vulgarise les enjeux polaires complexes. Elle mobilise l'opinion publique et les décideurs politiques.",
+   "linkedin": "https://www.linkedin.com/in/dr-he%C3%AFdi-sevestre/"
+  },
+  {
+   "name": "Frédéric Lamouroux",
+   "role": "Expert Biodiversité & Avifaune, Parc ornithologique du Pont de Gau",
+   "photo": "frederic-lamouroux",
+   "bio": "Directeur du parc, expert reconnu de la gestion des zones humides en Camargue. Il protège et valorise les habitats naturels de l'avifaune. Il suit depuis de nombreuses années l'évolution des populations de flamants roses.",
+   "linkedin": "https://www.linkedin.com/in/frederic-lamouroux-81438648/"
+  },
+  {
+   "name": "Marc Leclerc",
+   "role": "Vétérinaire chirurgien, Clinique Ric et Rac",
+   "photo": "marc-leclerc",
+   "bio": "Spécialiste en médecine et chirurgie des tortues marines, il intervient en appui des équipes de terrain. Il gère les urgences et les protocoles de soins adaptés. Son approche s'inscrit dans une démarche globale de type One Health.",
+   "linkedin": "https://www.linkedin.com/in/marc-leclerc-1063261aa/"
+  },
+  {
+   "name": "Alban Michon",
+   "role": "Explorateur, École des Explorateurs",
+   "photo": "alban-michon",
+   "bio": "Spécialiste reconnu des milieux hostiles, il explore les mondes de glace via des plongées sous-marines en Arctique. Il allie exploit sportif et collecte de données scientifiques essentielles. Il transmet son expérience pour sensibiliser au rôle vital des régions polaires.",
+   "linkedin": "https://www.linkedin.com/in/alban-michon/"
+  },
+  {
+   "name": "Laetitia Hédouin",
+   "role": "Chercheuse, CRIOBE - CNRS / Science for Reefs",
+   "photo": "laetitia-hedouin",
+   "bio": "Basée à Moorea, elle consacre ses recherches à la résilience des écosystèmes coralliens. Elle développe des stratégies de restauration face au réchauffement des eaux. Son expertise intègre des solutions concrètes de conservation active pour la biodiversité tropicale.",
+   "linkedin": "https://www.linkedin.com/in/laetitia-h%C3%A9douin-29030a22a/"
+  },
+  {
+   "name": "Sophie Bonnet",
+   "role": "Océanographe, IRD Nouvelle-Calédonie",
+   "photo": "sophie-bonnet",
+   "bio": "Directrice de recherche à l'IRD, spécialiste du plancton et de la biogéochimie marine. Elle coordonne des expéditions internationales de grande envergure. Ses travaux quantifient la capacité des océans à séquestrer le carbone. Son expertise apporte une caution scientifique rigoureuse aux messages de l'association.",
+   "linkedin": "https://www.linkedin.com/in/sophie-bonnet-1b1513214/"
+  }
+ ],
+ "talentCategories": [
+  {
+   "label": "Recherche",
+   "photo": "heidi-sevestre"
+  },
+  {
+   "label": "Éducation",
+   "photo": "olivier-anrigo",
+   "alt": "Olivier Anrigo, fondateur"
+  },
+  {
+   "label": "Création",
+   "photo": "jason-roberts"
+  },
+  {
+   "label": "Innovation",
+   "photo": "leo-decaux"
+  },
+  {
+   "label": "Engagement",
+   "photo": "charlotte-esposito"
+  }
+ ],
+ "detailMore": {
+  "mer-mediterranee": {
+   "sections": [
+    {
+     "tag": "Écosystème",
+     "title": "Une biodiversité exceptionnelle sous haute pression",
+     "text": "Le sanctuaire Pelagos concentre plus de 8 500 espèces macroscopiques, représentant jusqu'à 18 % de la biodiversité marine mondiale sur un espace restreint. Huit espèces régulières de cétacés, du rorqual commun, cachalot, globicéphale noir, dauphin bleu et blanc, grand dauphin au dauphin de Risso, partagent ces eaux avec la tortue caouanne, le Mola Mola, le diable de mer et les herbiers de posidonie, véritables poumons côtiers. Cependant, la pollution sonore sous-marine, les microplastiques et les risques d'accrochage dans les engins de pêche menacent directement cet équilibre vital."
+    },
+    {
+     "tag": "Solutions",
+     "title": "Programme de photo-identification : mieux connaître les habitants de Pelagos",
+     "text": "Wildlife Interactions déploie un programme complet de photo-identification de la faune marine pour établir un catalogue détaillé et identifier les différentes familles d'animaux. Cette démarche permet de suivre précisément leur évolution, leur présence tout au long de l'année et de repérer les zones de passage clés, notamment pour les rorquals communs, en vue de définir les futurs périmètres de protection prioritaires."
+    }
+   ],
+   "stats": [
+    {
+     "value": "8 500+",
+     "label": "Espèces marines",
+     "text": "Une densité biologique unique représentant jusqu'à 18 % des espèces marines du globe."
+    },
+    {
+     "value": "8",
+     "label": "Espèces de cétacés",
+     "text": "Mammifères marins résidents ou réguliers suivis au cœur du sanctuaire."
+    },
+    {
+     "value": "100 m",
+     "label": "Distance de sécurité",
+     "text": "Périmètre de quiétude obligatoire imposé pour éviter le dérangement lors des observations."
+    }
+   ],
+   "team": {
+    "tag": "Terrain",
+    "title": "Les vigies de Pelagos",
+    "people": [
+     [
+      "Audrey Galve",
+      "Responsable scientifique & bioacoustique"
+     ],
+     [
+      "Sidonie Catteau",
+      "Experte des tortues marines"
+     ],
+     [
+      "Olivier Anrigo",
+      "Spécialiste photo-identification cétacés"
+     ],
+     [
+      "Marc Leclerc",
+      "Vétérinaire - soins des tortues caouannes"
+     ]
+    ]
+   }
+  },
+  "mer-rouge": {
+   "sections": [
+    {
+     "tag": "Écosystème",
+     "title": "L'oasis corallienne la plus résiliente du globe",
+     "text": "Avec plus de 200 espèces de coraux durs, la Mer Rouge abrite un écosystème corallien unique au monde. Ses récifs du golfe d'Aqaba possèdent une tolérance thermique exceptionnelle, capable de résister à des températures élevées qui seraient létales pour la plupart des coraux du globe. Ce refuge récifal héberge également le dugong, un mammifère marin emblématique fortement menacé et en voie de disparition. Cependant, l'urbanisation rapide des côtes, les pollutions par hydrocarbures liées au trafic du canal de Suez et le piétinement touristique mettent directement en péril ces récifs coralliens et l'habitat vital des dugongs."
+    },
+    {
+     "tag": "Actions",
+     "title": "Protéger le dernier bastion du corail",
+     "text": "Wildlife Interactions soutient l'installation de mouillages écologiques fixes pour interdire le mouillage à l'ancre sur les massifs coralliens, la formation des guides et plongeurs aux chartes d'immersion écoresponsables, ainsi que la surveillance citoyenne des mégaherbivores et requins. En mobilisant les communautés locales et les centres de plongée, nous construisons une barrière active contre la dégradation des récifs."
+    }
+   ],
+   "stats": [
+    {
+     "value": "200+",
+     "label": "Espèces de coraux",
+     "text": "Bâtisseurs de récifs capables de survivre aux vagues de chaleur marine."
+    },
+    {
+     "value": "14 %",
+     "label": "Taux d'endémisme",
+     "text": "Espèces de poissons et d'invertébrés qu'on ne trouve nulle part ailleurs sur Terre."
+    },
+    {
+     "value": "0 ancre",
+     "label": "Récifs préservés",
+     "text": "Objectif zéro impact d'ancrage grâce au déploiement de bouées écologiques obligatoires."
+    }
+   ],
+   "team": {
+    "tag": "Terrain",
+    "title": "Les sentinelles de la Mer Rouge",
+    "people": [
+     [
+      "Delphine Varon",
+      "Biologiste marine & spécialiste des coraux résistants"
+     ],
+     [
+      "Olivier Anrigo",
+      "Photographe vidéaste naturaliste"
+     ]
+    ]
+   }
+  },
+  "polynesie-francaise": {
+   "sections": [
+    {
+     "tag": "Sanctuaire",
+     "title": "Moorea, refuge d'exception pour les géants et le lagon",
+     "text": "Havre d'hivernage vital pour les baleines à bosse (*Megaptera novaeangliae*) venues d'Antarctique pour mettre bas et se reproduire, les eaux de Moorea abritent un réseau de récifs barrières d'une richesse inestimable. Mais cet équilibre est fragile : réchauffement des lagons déclenchant des épisodes de blanchissement corallien majeurs, prolifération d'étoiles de mer épineuses (*taramea*) destructrices de coraux, et pression croissante des activités d'observation en mer lors de la saison des baleines."
+    },
+    {
+     "tag": "Solutions",
+     "title": "Allier science, bouturage et respect du vivant",
+     "text": "Wildlife Interactions s'engage pour pérenniser ce patrimoine exceptionnel aux côtés des associations et acteurs locaux. Nos missions ciblent la sauvegarde et la restauration active des récifs avec le CRIOBE et Science for Reefs, le suivi acoustique et visuel des mères et de leurs baleineaux, ainsi que la stricte application des règles d'approche et de mise à l'eau responsable avec Oceania. En intégrant les savoirs traditionnels polynésiens (le *rāhui*), nous protégeons durablement ces nurseries de l'océan."
+    }
+   ],
+   "stats": [
+    {
+     "value": "100 m",
+     "label": "Distance de respect",
+     "text": "Périmètre de quiétude réglementaire pour l'approche des baleines à bosse et de leurs nouveau-nés."
+    },
+    {
+     "value": "+30 %",
+     "label": "Survie corallienne",
+     "text": "Taux moyen de reprise des boutures de coraux résilients réimplantées sur les barrières récifales."
+    },
+    {
+     "value": "2002",
+     "label": "Sanctuaire sanctuarisé",
+     "text": "Année de proclamation de la ZEE polynésienne comme sanctuaire intégral pour les baleines, dauphins et requins."
+    }
+   ],
+   "team": {
+    "tag": "Terrain",
+    "title": "Les gardiens des lagons",
+    "people": [
+     [
+      "Charlotte Esposito",
+      "Biologiste marine & coordinatrice restauration corallienne"
+     ],
+     [
+      "Laetitia Hédouin",
+      "Spécialiste éthologie des cétacés & médiatrice en mer"
+     ],
+     [
+      "Laure Pezzatini",
+      "Plongeuse scientifique & photo-identification des nageoires caudales"
+     ],
+     [
+      "Olivier Anrigo",
+      "Photographe vidéaste naturaliste"
+     ]
+    ]
+   }
+  },
+  "spitzberg": {
+   "sections": [
+    {
+     "tag": "Sentinelle",
+     "title": "L'Arctique face à l'effondrement de la banquise",
+     "text": "Au cœur de l'archipel du Svalbard, le Spitzberg subit de plein fouet l'amplification arctique : la banquise estivale recule à un rythme record, privant l'ours polaire (*Ursus maritimus*) de sa plateforme vitale de chasse aux phoques. Morses, renards polaires et baleines boréales voient leurs routes migratoires et leurs équilibres trophiques bouleversés. Parallèlement, le dégel accéléré du permafrost déstabilise les sols côtiers, menace les infrastructures scientifiques et libère massivement des gaz à effet de serre piégés depuis des millénaires."
+    },
+    {
+     "tag": "Solutions",
+     "title": "Documenter l'urgence et sanctuariser les glaces",
+     "text": "Wildlife Interactions s'associe aux glaciologues et observateurs de terrain pour transformer ces constats critiques en levier d'action mondial. Nous soutenons les missions de suivi non invasif des populations d'ours polaires par imagerie satellite et drones thermiques, tout en documentant la dynamique de retrait des fronts glaciaires. En plaidant pour l'interdiction stricte du fioul lourd pour les navires de croisière expédition et en encadrant les distances d'approche, nous luttons pour protéger ces sanctuaires polaires extrêmes."
+    }
+   ],
+   "stats": [
+    {
+     "value": "3 000",
+     "label": "Ours polaires",
+     "text": "Population estimée pour la région de la mer de Barents, tributaire de la banquise."
+    },
+    {
+     "value": "500 m",
+     "label": "Distance de quiétude",
+     "text": "Périmètre strict de non-dérangement recommandé lors des rencontres en mer avec la grande faune."
+    },
+    {
+     "value": "-13 %",
+     "label": "Banquise par décennie",
+     "text": "Rythme de perte surfacique de la glace de mer arctique en fin d'été depuis 1979."
+    }
+   ],
+   "team": {
+    "tag": "Terrain",
+    "title": "Les vigies du Grand Nord",
+    "people": [
+     [
+      "Heïdi Sevestre",
+      "Glaciologue & spécialiste du permafrost arctique"
+     ],
+     [
+      "Léo Decaux",
+      "Chef d'expédition polaire & médiateur faune sauvage"
+     ],
+     [
+      "Jason Roberts",
+      "Photographe animalier & suivi des prédateurs apicaux"
+     ],
+     [
+      "Olivier Anrigo",
+      "Photographe vidéaste naturaliste"
+     ]
+    ]
+   }
+  },
+  "groenland": {
+   "sections": [
+    {
+     "tag": "Écosystème",
+     "title": "Le colosse blanc aux fondations fragiles",
+     "text": "Recouvrant plus de 80 % de l'île, l'inlandsis groenlandais abrite des écosystèmes marins et côtiers uniques où évoluent narvals, bélugas, ours polaires, phoques annelés et bœufs musqués. Cet équilibre millénaire vacille sous l'effet d'une fonte de surface sans précédent et du vêlage massif d'icebergs géants dans les fjords. Au-delà de l'impact direct sur les routes migratoires et les zones de reproduction de la faune, l'afflux massif d'eau douce altère la salinité locale et menace la circulation océanique globale de l'Atlantique Nord."
+    },
+    {
+     "tag": "Actions",
+     "title": "Veille scientifique et alliances locales",
+     "text": "Le Scoresby Sund est le réseau de fjords le plus long et le plus vaste de la planète, s'enfonçant sur 300 km à l'intérieur des terres. Wildlife Interactions a participé à la Mission de Persévérance aux côtés de Jean-Louis Étienne afin d'améliorer la documentation de cette zone complexe. Dans ce cadre, Olivier Anrigo a réalisé plusieurs séries de prises de vues aériennes par drone, permettant de dresser un état des lieux précis de la calotte glaciaire et de la dynamique des icebergs."
+    }
+   ],
+   "stats": [
+    {
+     "value": "7 m",
+     "label": "Élévation potentielle",
+     "text": "Hausse globale du niveau des mers si la calotte groenlandaise venait à fondre intégralement."
+    },
+    {
+     "value": "50 000",
+     "label": "Population de narvals",
+     "text": "Effectif dépendant des eaux glacées groenlandaises et vulnérable aux bruits de navigation."
+    },
+    {
+     "value": "80 %",
+     "label": "Surface englacée",
+     "text": "Proportion du territoire recouverte par l'inlandsis, deuxième plus grand réservoir de glace du globe."
+    }
+   ],
+   "team": {
+    "tag": "Terrain",
+    "title": "Les sentinelles de l'inlandsis",
+    "people": [
+     [
+      "Heïdi Sevestre",
+      "Glaciologue & spécialiste du permafrost arctique"
+     ],
+     [
+      "Léo Decaux",
+      "Chef d'expédition polaire & médiateur faune sauvage"
+     ],
+     [
+      "Nathalie Hilmi",
+      "Docteure en sciences économiques environnementales"
+     ],
+     [
+      "Olivier Anrigo",
+      "Photographe vidéaste naturaliste"
+     ]
+    ]
+   }
+  },
+  "camargue": {
+   "sections": [
+    {
+     "tag": "Écosystème",
+     "title": "Le sanctuaire des zones humides et du flamant rose",
+     "text": "Mosaïque vivante de sansouïres, d'étangs et de roubines, le delta du Rhône concentre la plus vaste colonie de flamants roses d'Europe occidentale, aux côtés de centaines d'espèces d'oiseaux migrateurs, de taureaux et de chevaux camarguais. Cet équilibre est directement menacé par l'élévation marine, l'érosion du trait de côte et la salinisation des terres agricoles. Face à l'assèchement précoce des marais et aux dérèglements hydrologiques, le maintien d'habitats saumâtres fonctionnels est impératif pour garantir les ressources en invertébrés nécessaires à l'alimentation et à la nidification des oiseaux d'eau."
+    },
+    {
+     "tag": "Actions & Terrain",
+     "title": "Partenariat d'action avec le Parc de Pont de Gau",
+     "text": "Aux côtés de notre partenaire terrain, le Parc ornithologique de Pont de Gau, site emblématique abritant la plus forte concentration de flamants roses, Wildlife Interactions soutient une gestion écologique exemplaire. Les gardes du parc effectuent une régulation fine des niveaux d'eau via des vannes et martelières traditionnelles afin d'assurer un tirant d'eau optimal, garantissant abondance de nourriture et quiétude pour les couvées. Nous renforçons ces interventions par la réhabilitation d'îlots de nidification sécurisés et des actions de sensibilisation au respect de l'avifaune sauvage."
+    }
+   ],
+   "stats": [
+    {
+     "value": "60 ha",
+     "label": "Parc de Pont de Gau",
+     "text": "Espace naturel préservé dédié à la protection et à l'observation de proximité de l'avifaune."
+    },
+    {
+     "value": "2 000+",
+     "label": "Flamants au quotidien",
+     "text": "Effectifs présents sur le site grâce à la gestion minutieuse des niveaux d'eau par les gardes."
+    },
+    {
+     "value": "400",
+     "label": "Espèces d'oiseaux",
+     "text": "Espèces protégées dépendantes des étangs et des zones humides camarguaises."
+    }
+   ],
+   "team": {
+    "tag": "Terrain",
+    "title": "Les gardiens du delta",
+    "people": [
+     [
+      "Frédéric Lamouroux",
+      "Garde gestionnaire & régulation hydraulique des marais"
+     ],
+     [
+      "Olivier Anrigo",
+      "Photographe vidéaste naturaliste"
+     ]
+    ]
+   }
+  },
+  "peninsule-antarctique": {
+   "sections": [
+    {
+     "tag": "Écosystème",
+     "title": "Du continent blanc à l'oasis de Géorgie du Sud",
+     "text": "Moins connue que le continent blanc, la Géorgie du Sud constitue l'un des plus spectaculaires sanctuaires de biodiversité subantarctique au monde. Ses plages regroupent des colonies géantes de manchots royaux, des hardes d'éléphants de mer et des millions d'otaries à fourrure. Relié à la péninsule par les courants circumpolaires, cet écosystème dépend entièrement de la ressource en krill. Aujourd'hui, l'acidification de l'océan Austral, la surpêche industrielle et la dislocation rapide des plates-formes de glace menacent directement cette chaîne trophique australe."
+    },
+    {
+     "tag": "Recherche & Terrain",
+     "title": "L'avant-garde scientifique avec l'IPEV et Dumont d'Urville",
+     "text": "Pour mesurer l'ampleur des bouleversements climatiques, la recherche polaire joue un rôle décisif. En Terre Adélie, la station scientifique française Dumont d'Urville, opérée par l'Institut polaire français Paul-Émile Victor (IPEV), assure un suivi pionnier des manchots empereurs, de la glaciologie et de l'atmosphère. Wildlife Interactions relaie ces données de terrain, soutient la sensibilisation aux protocoles du Traité sur l'Antarctique et plaide pour le renforcement des aires marines protégées en mer de Weddell et en mer de Ross."
+    }
+   ],
+   "stats": [
+    {
+     "value": "450 000",
+     "label": "Couples de manchots",
+     "text": "Effectifs reproducteurs de manchots royaux recensés sur les plages de Géorgie du Sud."
+    },
+    {
+     "value": "1956",
+     "label": "Dumont d'Urville",
+     "text": "Année d'implantation de la base scientifique française pour les programmes soutenus par l'IPEV."
+    },
+    {
+     "value": "98 %",
+     "label": "Population mondiale",
+     "text": "Proportion des otaries à fourrure antarctiques rassemblées sur les côtes de Géorgie du Sud."
+    }
+   ],
+   "team": {
+    "tag": "Terrain",
+    "title": "Les sentinelles de l'océan Austral",
+    "people": [
+     [
+      "Anne Choquet",
+      "Juriste des Pôles"
+     ],
+     [
+      "Olivier Anrigo",
+      "Photographe vidéaste naturaliste"
+     ],
+     [
+      "Déborah Pardo",
+      "Écologue et spécialiste des albatros"
+     ]
+    ]
+   }
+  }
+ },
+ "places": [
+  {
+   "name": "Sanctuaire Pelagos",
+   "lon": 8.6,
+   "lat": 43.3,
+   "stem": 34,
+   "slugs": [
+    "mer-mediterranee",
+    "citizen-pelagos"
+   ]
+  },
+  {
+   "name": "Monaco",
+   "lon": 7.42,
+   "lat": 43.74,
+   "stem": 78,
+   "slugs": [
+    "primaire",
+    "college",
+    "handicap"
+   ]
+  },
+  {
+   "name": "Camargue",
+   "lon": 4.6,
+   "lat": 43.5,
+   "stem": 52,
+   "side": "left",
+   "slugs": [
+    "camargue"
+   ]
+  },
+  {
+   "name": "Mer Rouge",
+   "lon": 35.2,
+   "lat": 27,
+   "stem": 48,
+   "slugs": [
+    "mer-rouge"
+   ]
+  },
+  {
+   "name": "Polynésie française",
+   "lon": -149.8,
+   "lat": -17.5,
+   "stem": 48,
+   "slugs": [
+    "polynesie-francaise"
+   ]
+  },
+  {
+   "name": "Spitzberg",
+   "lon": 15.6,
+   "lat": 78.2,
+   "stem": 44,
+   "slugs": [
+    "spitzberg"
+   ]
+  },
+  {
+   "name": "Groenland",
+   "lon": -24,
+   "lat": 70.5,
+   "stem": 44,
+   "side": "left",
+   "slugs": [
+    "groenland"
+   ]
+  },
+  {
+   "name": "Péninsule Antarctique",
+   "lon": -62,
+   "lat": -64.5,
+   "stem": 48,
+   "slugs": [
+    "peninsule-antarctique"
+   ]
+  }
+ ]
+}

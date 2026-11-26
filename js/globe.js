@@ -15,10 +15,11 @@
   const category = hero.dataset.category || 'all';
   const bySlug = new Map(window.WI_ZONES.map((z) => [z.slug, z]));
   const CATS = window.WI_CATEGORIES || {};
+  const T = (key, fallback) => (window.WI_I18N && window.WI_I18N[key]) || fallback;
 
   /* Places (lon, lat). stem = flag height in px, side = label side — so close places don't overlap.
      Éducation programmes are placed in Monaco (assumption: run from the association's base). */
-  const PLACES = [
+  const PLACES = (window.WI_PLACES || [
     { name: 'Sanctuaire Pelagos', lon: 8.6, lat: 43.3, stem: 34, slugs: ['mer-mediterranee', 'citizen-pelagos'] },
     { name: 'Monaco', lon: 7.42, lat: 43.74, stem: 78, slugs: ['primaire', 'college', 'handicap'] },
     { name: 'Camargue', lon: 4.6, lat: 43.5, stem: 52, side: 'left', slugs: ['camargue'] },
@@ -27,27 +28,30 @@
     { name: 'Spitzberg', lon: 15.6, lat: 78.2, stem: 44, slugs: ['spitzberg'] },
     { name: 'Groenland', lon: -24, lat: 70.5, stem: 44, side: 'left', slugs: ['groenland'] },
     { name: 'Péninsule Antarctique', lon: -62, lat: -64.5, stem: 48, slugs: ['peninsule-antarctique'] },
-  ].map((p) => ({ ...p, items: p.slugs.map((s) => bySlug.get(s)).filter((z) => z && (category === 'all' || z.category === category)) }))
+  ]).map((p) => ({ ...p, items: p.slugs.map((s) => bySlug.get(s)).filter((z) => z && (category === 'all' || z.category === category)) }))
    .filter((p) => p.items.length);
 
   /* ---------- markup: toggle + globe ---------- */
   const toggle = document.createElement('div');
   toggle.className = 'view-toggle';
   toggle.setAttribute('role', 'group');
-  toggle.setAttribute('aria-label', 'Affichage');
+  toggle.setAttribute('aria-label', T('view', 'Affichage'));
   toggle.innerHTML = `
-    <button class="view-toggle__label" type="button" data-view="list" aria-pressed="true">Liste</button>
-    <button class="view-toggle__switch" type="button" aria-label="Basculer entre la liste et la carte 3D"><span class="view-toggle__knob"></span></button>
-    <button class="view-toggle__label" type="button" data-view="map" aria-pressed="false">Carte 3D</button>`;
+    <button class="view-toggle__label" type="button" data-view="list" aria-pressed="true">${esc(T('list', 'Liste'))}</button>
+    <button class="view-toggle__switch" type="button" aria-label="${esc(T('toggleView', 'Basculer entre la liste et la carte 3D'))}"><span class="view-toggle__knob"></span></button>
+    <button class="view-toggle__label" type="button" data-view="map" aria-pressed="false">${esc(T('map', 'Carte 3D'))}</button>`;
   const wrap = document.createElement('div');
   wrap.className = 'hero__globe';
   wrap.innerHTML = `
-    <canvas class="globe__canvas" tabindex="0" aria-label="Carte 3D interactive : glisser pour faire tourner le globe, flèches du clavier pour le faire pivoter"></canvas>
+    <canvas class="globe__canvas" tabindex="0" aria-label="${esc(T('globeLabel', 'Carte 3D interactive : glisser pour faire tourner le globe, flèches du clavier pour le faire pivoter'))}"></canvas>
     <div class="globe__markers"></div>
     <div class="globe__chooser" hidden></div>
-    <p class="globe__hint">Glisser pour faire tourner</p>`;
+    <p class="globe__hint">${esc(T('globeHint', 'Glisser pour faire tourner'))}</p>`;
   hero.querySelector('[data-hero-bgs]').after(wrap);
-  hero.appendChild(toggle);
+  // Home: the switch sits small under the active item's name; elsewhere at the bottom of the hero
+  const slot = hero.querySelector('[data-view-toggle-slot]');
+  if (slot) toggle.classList.add('view-toggle--inline');
+  (slot || hero).appendChild(toggle);
 
   const canvas = wrap.querySelector('canvas');
   const ctx = canvas.getContext('2d');
@@ -60,7 +64,7 @@
     b.className = `globe-flag${p.side === 'left' ? ' globe-flag--left' : ''}`;
     b.style.setProperty('--stem', `${p.stem}px`);
     const n = String(p.items.length).padStart(2, '0');
-    b.setAttribute('aria-label', `${p.name} — ${p.items.length > 1 ? `${p.items.length} projets` : p.items[0].name}`);
+    b.setAttribute('aria-label', `${p.name} — ${p.items.length > 1 ? `${p.items.length} ${T('projects', 'projets')}` : p.items[0].name}`);
     b.innerHTML = `<span class="globe-flag__label"><span class="globe-flag__count">${n}</span><span class="globe-flag__name">${esc(p.name)}</span></span><span class="globe-flag__stem"></span><span class="globe-flag__dot"></span>`;
     layer.appendChild(b);
     return { p, el: b };
