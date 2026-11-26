@@ -44,13 +44,9 @@ $id = get_queried_object_id();
 
 			<div class="hero__layer hero__layer--list hero__layer--rail" data-hero-layer="list" inert aria-hidden="true">
 				<h2 class="visually-hidden"><?php echo esc_html( wi_t( 'listTitle' ) ); ?></h2>
-				<ul class="rail" data-rail></ul>
-				<div class="rail-info" data-rail-info aria-live="polite">
-					<div class="rail-info__row">
-						<span class="rail-info__tag" data-rail-tag></span>
-						<p class="rail-info__title" data-rail-title></p>
-						<button class="cta cta--primary rail-info__more" type="button" data-rail-more aria-haspopup="dialog"><?php echo esc_html( wi_t( 'more' ) ); ?></button>
-					</div>
+				<ul class="rail" data-rail data-mode="hover"></ul>
+				<div class="rail-info rail-info--corner" data-rail-info aria-live="polite">
+					<p class="rail-info__name t-heading-h2-bold t-uppercase" data-rail-title></p>
 					<div class="rail-info__toggle" data-view-toggle-slot></div>
 				</div>
 			</div>
