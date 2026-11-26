@@ -46,8 +46,12 @@
   /* ---------------------------------------------------------------------
      2. List (Figma: item.activities)
      --------------------------------------------------------------------- */
+  // Missions / Éducation pages: vertical list (hover = active).
+  // Home: a row of thumbnails at the top, driven by the scroll (section 4).
   const list = hero.querySelector('[data-activities]');
-  list.innerHTML = ZONES.map((z) => `
+  const rail = hero.querySelector('[data-rail]');
+  if (list) {
+    list.innerHTML = ZONES.map((z) => `
     <li>
       <button class="activity" type="button" data-zone="${z.slug}" aria-haspopup="dialog">
         <span class="activity__label">${esc(CATS[z.category]?.label || '')}</span>
@@ -56,20 +60,53 @@
         <span class="icon icon--redirect activity__arrow" aria-hidden="true"></span>
       </button>
     </li>`).join('');
-  const items = [...list.querySelectorAll('.activity')];
+  }
+  if (rail) {
+    rail.innerHTML = ZONES.map((z, i) => `
+    <li class="rail__item${i % 2 ? ' rail__item--short' : ''}">
+      <button class="rail__card" type="button" data-zone="${z.slug}" aria-label="${esc(z.name)}">
+        <img class="rail__img" src="${esc(z.image)}" alt="" loading="lazy" decoding="async">
+      </button>
+    </li>`).join('');
+  }
+  const items = [...hero.querySelectorAll('.activity, .rail__card')];
   let activeSlug = ZONES[0].slug;
+
+  // Home: category, name and « En savoir plus » of the active item, under the row
+  const info = hero.querySelector('[data-rail-info]');
+  const infoTag = info?.querySelector('[data-rail-tag]');
+  const infoTitle = info?.querySelector('[data-rail-title]');
+  const infoMore = info?.querySelector('[data-rail-more]');
+  const paintInfo = () => {
+    if (!info) return;
+    const z = bySlug(activeSlug);
+    if (info.dataset.slug === z.slug) return;
+    info.dataset.slug = z.slug;
+    info.classList.remove('is-changing');
+    void info.offsetWidth; // restart the little fade
+    info.classList.add('is-changing');
+    infoTag.textContent = CATS[z.category]?.label || '';
+    infoTitle.textContent = z.name;
+  };
+  infoMore?.addEventListener('click', () => openDetail(activeSlug, infoMore));
 
   const setActiveZone = (slug) => {
     const zone = bySlug(slug);
     if (!zone) return;
     if (ZONES.includes(zone)) activeSlug = slug;
-    items.forEach((b) => b.classList.toggle('is-active', b.dataset.zone === activeSlug));
+    items.forEach((b) => {
+      const on = b.dataset.zone === activeSlug;
+      b.classList.toggle('is-active', on);
+      if (b.classList.contains('rail__card')) b.setAttribute('aria-current', on ? 'true' : 'false');
+    });
+    paintInfo();
     if (hero.dataset.state === 'list') {
       const z = bySlug(activeSlug);
       showBackground(z.bg, z.bgOpacity);
     }
   };
   items.forEach((btn) => {
+    if (btn.classList.contains('rail__card')) return; // the row follows the scroll (section 4)
     btn.addEventListener('mouseenter', () => setActiveZone(btn.dataset.zone));
     btn.addEventListener('focus', () => setActiveZone(btn.dataset.zone));
     btn.addEventListener('click', () => openDetail(btn.dataset.zone, btn));
@@ -158,7 +195,68 @@
 
   const stage = document.querySelector('[data-hero-stage]');
   hero.dataset.state = '';
-  if (stage) {
+  if (stage && rail) {
+    /* Home with the thumbnail row. The pinned scroll is split into phases
+       (in window heights):
+         intro  — the intro text fades away
+         reveal — the thumbnails appear one after the other at the top
+         items  — the row slides left one card per step; the card at the left
+                  is active (100 %), its photo is the background, its name below
+         faq    — Q&A */
+    if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+    if (!location.hash) window.scrollTo(0, 0);
+    const PH = { intro: 0.7, reveal: 0.9, item: 0.5, faq: 1.1 };
+    const N = ZONES.length;
+    const cards = [...rail.children];
+    const hasFaq = !!hero.querySelector('[data-hero-layer="faq"]');
+    let ticking = false;
+    let vh = 0; let step = 0;
+    const measure = () => {
+      vh = hero.offsetHeight;
+      const total = PH.intro + PH.reveal + N * PH.item + (hasFaq ? PH.faq : 0.2);
+      stage.style.height = `${Math.round(vh * (1 + total))}px`;
+      const a = cards[0]?.getBoundingClientRect(); const b = cards[1]?.getBoundingClientRect();
+      step = a && b ? b.left - a.left : 0;
+    };
+    const bounds = () => {
+      const a = PH.intro * vh;
+      const b = a + PH.reveal * vh;
+      const c = b + N * PH.item * vh;
+      return { a, b, c };
+    };
+    const update = () => {
+      ticking = false;
+      const y = Math.max(-stage.getBoundingClientRect().top, 0);
+      const { a, b, c } = bounds();
+      hero.style.setProperty('--intro-p', Math.min(y / a, 1).toFixed(3));
+      if (y < a) { setHeroState('intro'); return; }
+      if (y >= c && hasFaq) { setHeroState('faq'); return; }
+      setHeroState('list');
+      // reveal: one more thumbnail every 1/N of the phase
+      const shown = Math.max(1, Math.ceil(Math.min((y - a) / (b - a), 1) * N));
+      cards.forEach((li, i) => li.classList.toggle('is-shown', i < shown));
+      // items: the row slides left continuously; the nearest card is active
+      const t = Math.min(Math.max((y - b) / (PH.item * vh), 0), N - 1);
+      rail.style.transform = `translate3d(${(-t * step).toFixed(1)}px, 0, 0)`;
+      const idx = Math.min(N - 1, Math.round(t));
+      if (ZONES[idx].slug !== activeSlug) setActiveZone(ZONES[idx].slug);
+    };
+    // a click on a card scrolls to the moment it becomes active
+    rail.addEventListener('click', (e) => {
+      const btn = e.target.closest('[data-zone]');
+      if (!btn) return;
+      const i = ZONES.findIndex((z) => z.slug === btn.dataset.zone);
+      const { b } = bounds();
+      const top = stage.offsetTop + b + i * PH.item * vh + 2;
+      if (window.WI_LENIS) window.WI_LENIS.scrollTo(top, { duration: 1.2 });
+      else window.scrollTo({ top, behavior: reduceMotion() ? 'auto' : 'smooth' });
+    });
+    window.addEventListener('scroll', () => { if (!ticking) { ticking = true; requestAnimationFrame(update); } }, { passive: true });
+    window.addEventListener('resize', () => { measure(); update(); });
+    measure();
+    update();
+    window.addEventListener('load', () => { measure(); update(); });
+  } else if (stage) {
     // Always open the Home on the intro: don't let the browser restore an old
     // scroll position (reload, back button), which would land on the list / Q&A.
     if ('scrollRestoration' in history) history.scrollRestoration = 'manual';

@@ -66,10 +66,19 @@
             </div>
           </div>
 
-          <!-- 2 · Figma: Main / Property 1=Mer Méditerranée (Home 6251:5217) — Missions + Éducation -->
-          <div class="hero__layer hero__layer--list" data-hero-layer="list" inert aria-hidden="true">
+          <!-- 2 · Figma: Main (WI 6320:5261) — Missions + Éducation: a row of thumbnails at the
+               top that slides left with the scroll; the active one's name below (js/activities.js) -->
+          <div class="hero__layer hero__layer--list hero__layer--rail" data-hero-layer="list" inert aria-hidden="true">
             <h2 class="visually-hidden">Missions et programmes éducatifs</h2>
-            <ul class="activities" data-activities></ul>
+            <ul class="rail" data-rail></ul>
+            <div class="rail-info" data-rail-info aria-live="polite">
+              <div class="rail-info__row">
+                <span class="rail-info__tag" data-rail-tag></span>
+                <p class="rail-info__title" data-rail-title></p>
+                <button class="cta cta--primary rail-info__more" type="button" data-rail-more aria-haspopup="dialog">En savoir plus</button>
+              </div>
+              <div class="rail-info__toggle" data-view-toggle-slot></div>
+            </div>
           </div>
 
           <!-- 3 · Figma: Main / Property 1=q&a (Home 6251:6510) -->

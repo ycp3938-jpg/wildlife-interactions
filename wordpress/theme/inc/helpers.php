@@ -70,6 +70,7 @@ function wi_strings() {
 		'next'           => 'Prochaine',
 		// lists, globe, FAQ
 		'listTitle'      => 'Missions et programmes éducatifs',
+		'more'           => 'En savoir plus',
 		'faqTitle'       => 'Questions fréquentes',
 		'partners'       => 'Partenaires',
 		'view'           => 'Affichage',

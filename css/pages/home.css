@@ -77,3 +77,134 @@
   .hero-stage .hero__bg[src$="zone-mer-mediterranee.jpg"],
   .hero-stage .hero__bgs::after { animation: none; }
 }
+
+/* ==========================================================================
+   Missions + Éducation row (Figma: WI › Main 6320:5261, frame 1728 × 1117)
+   Thumbnails along the top (254 px wide, 24 px from the edges, ~26 px apart),
+   the active one at 100 %, the others at 30 %; the active item's category,
+   name and « En savoir plus » centred near the bottom, the Liste / Carte 3D
+   switch small underneath. The row is driven by the scroll (js/activities.js).
+   ========================================================================== */
+.hero__layer--rail {
+  grid-area: auto; /* not placed in the grid: positioned against the whole hero, edge to edge */
+  position: absolute;
+  inset: 0;
+  max-width: none;
+  padding: 0;
+}
+.rail {
+  position: absolute;
+  top: clamp(16px, 2.2svh, 24px);
+  left: clamp(16px, 1.4vw, 24px);
+  display: flex;
+  align-items: flex-start;
+  gap: clamp(12px, 1.5vw, 26px);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  will-change: transform;
+  transition: top 500ms var(--ease-out-expo), opacity 500ms ease, visibility 0s;
+}
+/* the menu shows again (scroll up): the row makes room for it */
+.site-header:not(.is-away) ~ .hero__layer--rail .rail { top: calc(66px + var(--padding-sm) + 16px); }
+
+.rail__item {
+  flex: 0 0 auto;
+  width: clamp(112px, 14.7vw, 254px);
+  aspect-ratio: 254 / 322;
+  opacity: 0;
+  translate: 0 -18px;
+  transition: opacity 600ms ease, translate 800ms var(--ease-out-expo);
+}
+.rail__item--short { aspect-ratio: 254 / 259; }
+.rail__item.is-shown { opacity: 1; translate: 0 0; }
+.rail__card {
+  display: block;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  overflow: hidden;
+  background: var(--surface-primary-high);
+  opacity: 0.3;
+  cursor: pointer;
+  transition: opacity 500ms ease;
+}
+.rail__card.is-active,
+.rail__card:focus-visible { opacity: 1; }
+.rail__card:hover:not(.is-active) { opacity: 0.6; }
+.rail__card:focus-visible { outline: 2px solid var(--surface-primary-on-primary); outline-offset: 3px; }
+.rail__img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: scale 1200ms var(--ease-out-expo);
+}
+.rail__card:hover .rail__img { scale: 1.04; }
+
+/* active item: category · name · En savoir plus, then the small view switch */
+.rail-info {
+  position: absolute;
+  left: 50%;
+  bottom: clamp(40px, 9.3svh, 104px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--gap-xs);
+  width: max-content;
+  max-width: calc(100% - 32px);
+  translate: -50% 0;
+}
+.rail-info__row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: var(--gap-xs) var(--gap-sm);
+}
+.rail-info.is-changing .rail-info__row { animation: rail-info-in 600ms var(--ease-out-expo); }
+@keyframes rail-info-in { from { opacity: 0; translate: 0 8px; } to { opacity: 1; translate: 0 0; } }
+.rail-info__tag {
+  padding: calc(var(--padding-2xs) - var(--stroke-sm)) calc(var(--padding-xs) - var(--stroke-sm));
+  border: var(--stroke-sm) solid var(--surface-primary-on-primary-80);
+  border-radius: var(--radius-sm);
+  font-size: var(--font-label-md);
+  color: var(--surface-primary-on-primary-80);
+  opacity: 0.6;
+  white-space: nowrap;
+}
+.rail-info__title {
+  font-size: var(--font-body-md);
+  font-weight: var(--font-weight-bold);
+  text-align: center;
+}
+
+/* small switch, inline under the name (instead of the bottom of the hero) */
+.view-toggle.view-toggle--inline {
+  position: static;
+  translate: none;
+  gap: 12px;
+  padding: 4px 12px;
+  background: rgba(4, 20, 24, 0.35);
+}
+.view-toggle--inline .view-toggle__label { font-size: var(--font-label-md); }
+
+/* map view: the globe replaces the row; name and switch stay */
+.hero[data-view="map"] .hero__layer--rail.is-current { opacity: 1; visibility: visible; transform: none; pointer-events: auto; }
+.hero[data-view="map"] .rail { opacity: 0; visibility: hidden; transition: opacity 400ms ease, visibility 0s linear 400ms; }
+.hero[data-view="map"] .rail-info { z-index: 2; }
+
+/* intro text fades away as the visitor starts scrolling (--intro-p: 0 → 1) */
+.hero-stage .hero__layer--intro .hero__center,
+.hero-stage .hero__layer--intro .hero__data {
+  opacity: calc(1 - var(--intro-p, 0) * 1.6);
+  transform: translateY(calc(var(--intro-p, 0) * -48px));
+}
+
+@media (max-width: 640px) {
+  .rail-info__title { font-size: var(--font-body-sm); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .rail__item { transition: none; translate: none; }
+  .rail-info.is-changing .rail-info__row { animation: none; }
+}

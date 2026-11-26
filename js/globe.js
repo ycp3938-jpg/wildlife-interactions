@@ -48,7 +48,10 @@
     <div class="globe__chooser" hidden></div>
     <p class="globe__hint">${esc(T('globeHint', 'Glisser pour faire tourner'))}</p>`;
   hero.querySelector('[data-hero-bgs]').after(wrap);
-  hero.appendChild(toggle);
+  // Home: the switch sits small under the active item's name; elsewhere at the bottom of the hero
+  const slot = hero.querySelector('[data-view-toggle-slot]');
+  if (slot) toggle.classList.add('view-toggle--inline');
+  (slot || hero).appendChild(toggle);
 
   const canvas = wrap.querySelector('canvas');
   const ctx = canvas.getContext('2d');
