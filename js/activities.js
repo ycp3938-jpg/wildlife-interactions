@@ -305,7 +305,9 @@
       const d = (-((pos[i0] || 0) + ((pos[i1] || 0) - (pos[i0] || 0)) * (t - i0))).toFixed(1);
       rail.style.transform = vertical ? `translate3d(0, ${d}px, 0)` : `translate3d(${d}px, 0, 0)`;
       const idx = Math.min(N - 1, Math.round(t));
-      if (!hoverMode && ZONES[idx].slug !== activeSlug) setActiveZone(ZONES[idx].slug);
+      // Home: the scroll also switches (the card at the top of the column becomes active);
+      // Missions / Éducation: only the mouse does
+      if ((!hoverMode || hasIntro) && ZONES[idx].slug !== activeSlug) setActiveZone(ZONES[idx].slug);
     };
     // a click on a card scrolls to the moment it becomes active
     rail.addEventListener('click', (e) => {
