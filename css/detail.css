@@ -178,6 +178,19 @@ html.has-detail-open .hero__layer.is-current { opacity: 0; }
   background: var(--surface-primary-lowest);
   color: var(--surface-primary-on-primary);
 }
+/* the item's own photo, very faint, behind the dark « contenu supplémentaire » part */
+.detail__more { position: relative; isolation: isolate; overflow: clip; }
+.detail__more::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: var(--more-bg, none) center / cover no-repeat;
+  opacity: 0.14;
+  -webkit-mask-image: linear-gradient(to bottom, transparent, #000 18%, #000 82%, transparent);
+  mask-image: linear-gradient(to bottom, transparent, #000 18%, #000 82%, transparent);
+  pointer-events: none;
+}
 .detail__section { display: flex; flex-direction: column; gap: var(--gap-xs); width: 100%; }
 .detail__section-text { display: flex; flex-direction: column; gap: var(--gap-sm); width: 100%; }
 .detail__h5 { font-size: var(--font-heading-h5); font-weight: var(--font-weight-bold); }

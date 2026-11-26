@@ -475,7 +475,7 @@
           ${stats.length ? `<div class="stats">${stats.map((st) => statHTML(st, 'light')).join('')}</div>` : ''}
         </section>
       </div>
-      <div class="detail__more">
+      <div class="detail__more" style="--more-bg: url('${esc(new URL(zone.bg || zone.image, location.href).href)}')">
         ${(more.sections || SHARED.sections).map((sec) => `
           <section class="detail__section">
             <span class="tag tag--black">${esc(sec.tag)}</span>
