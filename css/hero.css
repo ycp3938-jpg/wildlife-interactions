@@ -177,7 +177,7 @@
 .rail-info {
   position: absolute;
   left: 50%;
-  bottom: clamp(40px, 9.3svh, 104px);
+  bottom: 64px; /* desktop: 64 px under the text / Liste · Carte 3D switch */
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -232,7 +232,11 @@
   transform: translateY(calc(var(--intro-p, 0) * -48px));
 }
 
+@media (max-width: 1100px) {
+  .rail-info { bottom: 48px; }
+}
 @media (max-width: 640px) {
+  .rail-info { bottom: 32px; }
   .rail-info__title { font-size: var(--font-body-sm); }
 }
 @media (prefers-reduced-motion: reduce) {
