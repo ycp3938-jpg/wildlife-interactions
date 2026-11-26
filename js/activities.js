@@ -29,10 +29,9 @@
      --------------------------------------------------------------------- */
   const bgWrap = hero.querySelector('[data-hero-bgs]');
   const layers = new Map();
-  // Background photos are shown at their original brightness (no dimming), whatever
-  // opacity the content asks for; the text above carries a soft shadow instead.
-  const showBackground = (src) => {
-    const opacity = 1;
+  // Mission / programme photos are shown at their original brightness; only the Home
+  // intro photo and the Q&A background stay dimmed (their own opacity), as before.
+  const showBackground = (src, opacity = 1) => {
     if (!layers.has(src)) {
       const img = document.createElement('img');
       img.className = 'hero__bg';
@@ -105,7 +104,7 @@
     paintInfo();
     if (hero.dataset.state === 'list') {
       const z = bySlug(activeSlug);
-      showBackground(z.bg, z.bgOpacity);
+      showBackground(z.bg);
     }
   };
   items.forEach((btn) => {

@@ -119,6 +119,7 @@ add_action( 'acf/include_fields', function () {
 		wi_f( 'text', 'hero_title', 'Titre', array( 'default_value' => 'Wildlife Interactions' ) ),
 		wi_textarea( 'hero_subtitle', 'Sous-titre', 2 ),
 		wi_image( 'hero_bg', 'Image de fond', array( 'instructions' => 'Facultatif : sinon la première mission.', 'wrapper' => array( 'width' => 50 ) ) ),
+		wi_f( 'number', 'hero_bg_opacity', 'Opacité du fond', array( 'instructions' => '0 = noir, 1 = photo pleine. Habituellement 0,35.', 'min' => 0, 'max' => 1, 'step' => 0.05, 'default_value' => 0.35, 'wrapper' => array( 'width' => 50 ) ) ),
 		wi_repeater( 'partners', 'Logos partenaires', array(
 			wi_image( 'logo', 'Logo (clair, sur fond sombre)', array( 'preview_size' => 'thumbnail', 'wrapper' => array( 'width' => 40 ) ) ),
 			wi_f( 'text', 'name', 'Nom', array( 'wrapper' => array( 'width' => 60 ) ) ),
@@ -130,6 +131,7 @@ add_action( 'acf/include_fields', function () {
 
 		wi_tab( 'Questions fréquentes' ),
 		wi_image( 'faq_bg', 'Image de fond', array( 'wrapper' => array( 'width' => 50 ) ) ),
+		wi_f( 'number', 'faq_bg_opacity', 'Opacité du fond', array( 'instructions' => '0 = noir, 1 = photo pleine. Habituellement 0,1.', 'min' => 0, 'max' => 1, 'step' => 0.05, 'default_value' => 0.1, 'wrapper' => array( 'width' => 50 ) ) ),
 		wi_repeater( 'faq', 'Questions', array(
 			wi_f( 'text', 'q', 'Question' ),
 			wi_textarea( 'a', 'Réponse', 3 ),

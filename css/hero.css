@@ -255,8 +255,8 @@
   .rail-info.is-changing .rail-info__row { animation: none; }
 }
 
-/* Background photos are at full brightness: the text over them gets a soft shadow
-   (no veil over the photo) so it stays readable on light images. */
+/* Mission / programme photos are at full brightness: the text over them gets a soft
+   shadow (no veil over the photo) so it stays readable on light images. */
 .hero__layer--intro,
 .hero__layer--faq,
 .rail-info__row,
