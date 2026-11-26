@@ -125,7 +125,7 @@
     info.classList.remove('is-changing');
     void info.offsetWidth; // restart the little fade
     info.classList.add('is-changing');
-    infoTag.textContent = CATS[z.category]?.label || '';
+    if (infoTag) infoTag.textContent = CATS[z.category]?.label || '';
     infoTitle.textContent = z.name;
   };
   infoMore?.addEventListener('click', () => openDetail(activeSlug, infoMore));
@@ -145,8 +145,11 @@
       showBackground(z.bg);
     }
   };
+  // Missions / Éducation pages (data-mode="hover"): hovering a card shows its photo and
+  // name, a click opens its detail page. On the Home the row follows the scroll (section 4).
+  const hoverMode = rail?.dataset.mode === 'hover';
   items.forEach((btn) => {
-    if (btn.classList.contains('rail__card')) return; // the row follows the scroll (section 4)
+    if (btn.classList.contains('rail__card') && !hoverMode) return;
     btn.addEventListener('mouseenter', () => setActiveZone(btn.dataset.zone));
     btn.addEventListener('focus', () => setActiveZone(btn.dataset.zone));
     btn.addEventListener('click', () => openDetail(btn.dataset.zone, btn));
@@ -287,12 +290,12 @@
       const d = (-((pos[i0] || 0) + ((pos[i1] || 0) - (pos[i0] || 0)) * (t - i0))).toFixed(1);
       rail.style.transform = vertical ? `translate3d(0, ${d}px, 0)` : `translate3d(${d}px, 0, 0)`;
       const idx = Math.min(N - 1, Math.round(t));
-      if (ZONES[idx].slug !== activeSlug) setActiveZone(ZONES[idx].slug);
+      if (!hoverMode && ZONES[idx].slug !== activeSlug) setActiveZone(ZONES[idx].slug);
     };
     // a click on a card scrolls to the moment it becomes active
     rail.addEventListener('click', (e) => {
       const btn = e.target.closest('[data-zone]');
-      if (!btn) return;
+      if (!btn || hoverMode) return; // hover mode: the card's own click opens the detail
       const i = ZONES.findIndex((z) => z.slug === btn.dataset.zone);
       const { b } = bounds();
       const top = stage.offsetTop + b + i * PH.item * vh + 2;

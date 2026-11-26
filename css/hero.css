@@ -261,4 +261,21 @@
 .hero__layer--intro,
 .hero__layer--faq,
 .rail-info__row,
+.rail-info__name,
 .page-hero__content { text-shadow: 0 1px 2px rgba(0, 0, 0, 0.45), 0 0 18px rgba(0, 0, 0, 0.35); }
+
+/* Missions / Éducation pages: the active name, large, in the bottom-right corner
+   (hover a card to change it, click to open it); the small view switch below it */
+.rail-info--corner {
+  left: auto;
+  right: var(--padding-md);
+  align-items: flex-end;
+  max-width: min(70%, calc(100% - 2 * var(--padding-md)));
+  translate: none;
+}
+.rail-info__name { margin: 0; text-align: right; line-height: 1; }
+.rail-info--corner.is-changing .rail-info__name { animation: rail-info-in 600ms var(--ease-out-expo); }
+.rail-info--corner .view-toggle--inline { margin-right: -12px; }
+@media (max-width: 640px) {
+  .rail-info--corner { right: var(--padding-xs); max-width: calc(100% - 2 * var(--padding-xs)); }
+}

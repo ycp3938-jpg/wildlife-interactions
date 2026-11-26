@@ -3,7 +3,8 @@
  * Template Name: Missions / Éducation (liste + carte 3D)
  *
  * Content comes from the « Missions & Éducation » menu; this page only picks the category.
- * Row of thumbnails along the top, slid by the scroll (js/activities.js), like the Home.
+ * Column of thumbnails on the left: hover shows a card's photo and name (bottom right),
+ * a click opens its detail page (js/activities.js).
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -20,13 +21,9 @@ $cat = wi_field( 'zone_category', $id, 'missions' );
 
 		<div class="hero__layer hero__layer--list hero__layer--rail is-current" data-hero-layer="list">
 			<h1 class="visually-hidden" id="page-title"><?php echo esc_html( get_the_title( $id ) ); ?></h1>
-			<ul class="rail" data-rail></ul>
-			<div class="rail-info" data-rail-info aria-live="polite">
-				<div class="rail-info__row">
-					<span class="rail-info__tag" data-rail-tag></span>
-					<p class="rail-info__title" data-rail-title></p>
-					<button class="cta cta--primary rail-info__more" type="button" data-rail-more aria-haspopup="dialog"><?php echo esc_html( wi_t( 'more' ) ); ?></button>
-				</div>
+			<ul class="rail" data-rail data-mode="hover"></ul>
+			<div class="rail-info rail-info--corner" data-rail-info aria-live="polite">
+				<p class="rail-info__name t-heading-h2-bold t-uppercase" data-rail-title></p>
 				<div class="rail-info__toggle" data-view-toggle-slot></div>
 			</div>
 		</div>
