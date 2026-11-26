@@ -145,30 +145,18 @@
       showBackground(z.bg);
     }
   };
-  // Missions / Éducation pages (data-mode="hover"): hovering a card shows its photo and
-  // name, a click opens its detail page. On the Home the row follows the scroll (section 4).
-  const hoverMode = rail?.dataset.mode === 'hover';
+  // Card column (Home, Missions, Éducation): the scroll decides which item is shown
+  // (section 4); hovering a card only brightens its thumbnail (CSS), it doesn't change
+  // the photo or the name; a click opens its detail page.
+  // Vertical list (no card column): hover / focus shows an item, a click opens it.
   items.forEach((btn) => {
     const isCard = btn.classList.contains('rail__card');
-    if (isCard && !hoverMode) return;
-    // cards: switched by the mouse itself moving (below), not by mouseenter — when the
-    // column slides under a still pointer while scrolling, nothing should change
-    if (!isCard) btn.addEventListener('mouseenter', () => setActiveZone(btn.dataset.zone));
-    btn.addEventListener('focus', () => setActiveZone(btn.dataset.zone));
+    if (!isCard) {
+      btn.addEventListener('mouseenter', () => setActiveZone(btn.dataset.zone));
+      btn.addEventListener('focus', () => setActiveZone(btn.dataset.zone));
+    }
     btn.addEventListener('click', () => openDetail(btn.dataset.zone, btn));
   });
-  if (rail && hoverMode) {
-    // pointer position tracked on the whole page, so a card that slides under a still
-    // pointer (scroll) never counts as a move
-    let lastX = null; let lastY = null;
-    document.addEventListener('pointermove', (e) => {
-      const moved = lastX === null || Math.abs(e.clientX - lastX) > 1 || Math.abs(e.clientY - lastY) > 1;
-      lastX = e.clientX; lastY = e.clientY;
-      if (!moved) return;
-      const card = e.target.closest && e.target.closest('.rail__card');
-      if (card && rail.contains(card) && card.dataset.zone !== activeSlug) setActiveZone(card.dataset.zone);
-    }, { passive: true });
-  }
 
   /* ---------------------------------------------------------------------
      3. Q&A (Figma: detail + q&a icon, less = open / more = closed)
@@ -310,15 +298,6 @@
       if (ZONES[idx].slug !== activeSlug) setActiveZone(ZONES[idx].slug);
     };
     // a click on a card scrolls to the moment it becomes active
-    rail.addEventListener('click', (e) => {
-      const btn = e.target.closest('[data-zone]');
-      if (!btn || hoverMode) return; // hover mode: the card's own click opens the detail
-      const i = ZONES.findIndex((z) => z.slug === btn.dataset.zone);
-      const { b } = bounds();
-      const top = stage.offsetTop + b + i * PH.item * vh + 2;
-      if (window.WI_LENIS) window.WI_LENIS.scrollTo(top, { duration: 1.2 });
-      else window.scrollTo({ top, behavior: reduceMotion() ? 'auto' : 'smooth' });
-    });
     window.addEventListener('scroll', () => { if (!ticking) { ticking = true; requestAnimationFrame(update); } }, { passive: true });
     window.addEventListener('resize', () => { measure(); update(); });
     // card positions are only known once the column is laid out (styles, breakpoints):

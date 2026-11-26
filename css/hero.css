@@ -174,7 +174,8 @@
 }
 .rail__card.is-active,
 .rail__card:focus-visible { opacity: 1; }
-.rail__card:hover:not(.is-active) { opacity: 0.65; }
+/* hover: the thumbnail brightens (the shown photo / name don't change — only the scroll does) */
+.rail__card:hover:not(.is-active) { opacity: 1; }
 .rail__card:focus-visible { outline: 2px solid var(--surface-primary-on-primary); outline-offset: 3px; }
 .rail__img {
   display: block;
