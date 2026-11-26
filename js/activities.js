@@ -263,14 +263,15 @@
          faq    — Q&A */
     if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
     if (!location.hash) window.scrollTo(0, 0);
-    // Missions / Éducation pages have no intro: the row is there from the start
-    // (cards fade in one after the other), and the scroll only slides it.
+    // Same on every page: when the list shows, all the cards come in together (one
+    // after the other, quickly), then the scroll only slides the column. The Home
+    // has an intro before it (its text fades away) and a Q&A after it.
     const hasIntro = !!hero.querySelector('[data-hero-layer="intro"]');
-    const PH = { intro: hasIntro ? 0.7 : 0, reveal: hasIntro ? 0.9 : 0, item: 0.5, faq: 1.1 };
+    const PH = { intro: hasIntro ? 0.7 : 0, reveal: 0, item: 0.5, faq: 1.1 };
     const N = ZONES.length;
     const cards = [...rail.children];
     const hasFaq = !!hero.querySelector('[data-hero-layer="faq"]');
-    if (!hasIntro) cards.forEach((li, i) => li.style.setProperty('--i', i));
+    cards.forEach((li, i) => li.style.setProperty('--i', i));
     let ticking = false;
     let vh = 0; let pos = []; let vertical = false;
     const measure = () => {
@@ -293,12 +294,11 @@
       const y = Math.max(-stage.getBoundingClientRect().top, 0);
       const { a, b, c } = bounds();
       hero.style.setProperty('--intro-p', a ? Math.min(y / a, 1).toFixed(3) : '1');
-      if (y < a) { setHeroState('intro'); return; }
+      const showCards = (on) => cards.forEach((li) => li.classList.toggle('is-shown', on));
+      if (y < a) { setHeroState('intro'); showCards(false); return; }
       if (y >= c && hasFaq) { setHeroState('faq'); return; }
       setHeroState('list');
-      // reveal: one more thumbnail every 1/N of the phase
-      const shown = b > a ? Math.max(1, Math.ceil(Math.min((y - a) / (b - a), 1) * N)) : N;
-      cards.forEach((li, i) => li.classList.toggle('is-shown', i < shown));
+      showCards(true);
       // items: the column slides up (the row left, on phones); the nearest card is active
       const t = Math.min(Math.max((y - b) / (PH.item * vh), 0), N - 1);
       const i0 = Math.floor(t); const i1 = Math.min(i0 + 1, N - 1);
