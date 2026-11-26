@@ -17,7 +17,16 @@ rsync -a --exclude '.DS_Store' "$ROOT/css" "$ROOT/js" "$ROOT/assets" "$OUT/"
 # Content data files are replaced by WordPress content (inc/assets.php)
 rm -f "$OUT/js/zones.js" "$OUT/js/talents-data.js" "$OUT/js/detail-content.js"
 
+# Version stamp (date + commit): changes on every build, so browsers load the new CSS / JS
+VERSION="1.0.$(date -u +%Y%m%d%H%M)"
+SHA="$(git -C "$ROOT" rev-parse --short HEAD 2>/dev/null || echo local)"
+sed -i.bak "s/define( 'WI_VERSION', '[^']*' );/define( 'WI_VERSION', '$VERSION' );/" "$OUT/functions.php"
+sed -i.bak "s/^Version: .*/Version: $VERSION/" "$OUT/style.css"
+rm -f "$OUT/functions.php.bak" "$OUT/style.css.bak"
+echo "$VERSION ($SHA)" > "$OUT/VERSION.txt"
+
 (cd "$ROOT/dist" && zip -qr wildlife-interactions.zip wildlife-interactions)
+echo "✓ version $VERSION ($SHA)"
 echo "✓ dist/wildlife-interactions.zip ($(du -h "$ROOT/dist/wildlife-interactions.zip" | cut -f1))"
 
 if [ $# -ge 1 ]; then

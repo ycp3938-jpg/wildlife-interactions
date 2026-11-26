@@ -59,3 +59,7 @@
 - 页面脚本读取的是 `window.WI_*` 数据（`inc/assets.php` 根据 WordPress 内容生成），和静态网站 `js/zones.js` 等文件里的数据格式相同，所以同一套 JS 两边都能用
 - 后台字段定义在 `inc/fields.php`（用代码注册，跟着主题走，不需要在后台手动建字段）
 - 导入可以重复执行：勾选“Supprimer et réimporter”会删除上次导入的内容后重新导入，图片会复用，不会重复上传
+
+## 自动部署
+
+合并到 `main` 后自动更新 IONOS 上的主题：设置方法见 [DEPLOY.md](DEPLOY.md)。
