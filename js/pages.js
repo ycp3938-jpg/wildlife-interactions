@@ -65,6 +65,48 @@
       </li>`).join('');
   }
 
+  /* Talent cards: the card under the mouse drifts a little after the pointer (slight
+     lag, up to 22 px) and eases back when the pointer leaves — like the mission cards.
+     Mouse / trackpad only. Uses the `translate` property, so it adds to the cards'
+     own transforms (hover growth, scroll). */
+  const talentsRoot = document.querySelector('[data-h-stage], .profiles');
+  if (talentsRoot && window.matchMedia('(hover: hover) and (pointer: fine)').matches && !reduceMotion) {
+    const SEL = '.talent-cat, .talent-cats__more, .profiles .profile';
+    const MAX = 22; const FOLLOW = 0.22; const EASE = 0.12;
+    const state = new Map();
+    let raf = 0;
+    const tick = () => {
+      raf = 0;
+      let moving = false;
+      state.forEach((f, card) => {
+        f.x += (f.tx - f.x) * EASE;
+        f.y += (f.ty - f.y) * EASE;
+        card.style.translate = `${f.x.toFixed(1)}px ${f.y.toFixed(1)}px`;
+        if (Math.abs(f.tx - f.x) > 0.2 || Math.abs(f.ty - f.y) > 0.2) moving = true;
+        else if (!f.tx && !f.ty) { card.style.translate = ''; state.delete(card); }
+      });
+      if (moving) raf = requestAnimationFrame(tick);
+    };
+    const kick = () => { if (!raf) raf = requestAnimationFrame(tick); };
+    document.addEventListener('pointermove', (e) => {
+      const card = e.target.closest && e.target.closest(SEL);
+      if (!card) return;
+      const r = card.getBoundingClientRect();
+      const f = state.get(card) || { x: 0, y: 0, tx: 0, ty: 0 };
+      const cx = r.left - f.x + r.width / 2; const cy = r.top - f.y + r.height / 2;
+      f.tx = Math.max(-MAX, Math.min(MAX, (e.clientX - cx) * FOLLOW));
+      f.ty = Math.max(-MAX, Math.min(MAX, (e.clientY - cy) * FOLLOW));
+      state.set(card, f);
+      kick();
+    }, { passive: true });
+    document.addEventListener('pointerout', (e) => {
+      const card = e.target.closest && e.target.closest(SEL);
+      if (!card || card.contains(e.relatedTarget)) return;
+      const f = state.get(card);
+      if (f) { f.tx = 0; f.ty = 0; kick(); }
+    });
+  }
+
   /* Horizontal scroll (wide screens): the hero stays in place (background, title);
      its row of cards slides left as the visitor scrolls down. The stage is as tall
      as the scroll this needs. */
