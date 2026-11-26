@@ -22,7 +22,7 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
-  opacity: 0.35; /* Figma 20 % — lighter, same as the Home intro */
+  opacity: 1; /* original brightness (was 0.35) */
 }
 .page-hero__content {
   display: flex;

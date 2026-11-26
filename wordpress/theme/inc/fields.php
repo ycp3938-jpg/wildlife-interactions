@@ -68,9 +68,8 @@ add_action( 'acf/include_fields', function () {
 		wi_tab( 'Liste' ),
 		wi_f( 'select', 'category', 'Catégorie', array( 'choices' => array( 'missions' => 'Missions', 'education' => 'Éducation' ), 'default_value' => 'missions', 'wrapper' => array( 'width' => 30 ) ) ),
 		wi_textarea( 'summary', 'Résumé (sous le nom, dans la liste)', 2, array( 'wrapper' => array( 'width' => 70 ) ) ),
-		wi_image( 'image', 'Image principale', array( 'instructions' => 'Grande photo de la page détail (et fond de la liste si « Image de fond » est vide).', 'wrapper' => array( 'width' => 34 ) ) ),
-		wi_image( 'bg', 'Image de fond (survol de la liste)', array( 'instructions' => 'Facultatif.', 'wrapper' => array( 'width' => 33 ) ) ),
-		wi_f( 'number', 'bg_opacity', 'Opacité du fond', array( 'instructions' => 'De 0 (invisible) à 1 (pleine). Habituellement 0,5.', 'min' => 0, 'max' => 1, 'step' => 0.05, 'default_value' => 0.5, 'wrapper' => array( 'width' => 33 ) ) ),
+		wi_image( 'image', 'Image principale', array( 'instructions' => 'Grande photo de la page détail (et fond si « Image de fond » est vide).', 'wrapper' => array( 'width' => 50 ) ) ),
+		wi_image( 'bg', 'Image de fond', array( 'instructions' => 'Facultatif. Affichée en pleine luminosité.', 'wrapper' => array( 'width' => 50 ) ) ),
 
 		wi_tab( 'Aperçu & enjeux' ),
 		wi_textarea( 'lead', 'Texte d’aperçu', 6 ),
@@ -120,7 +119,6 @@ add_action( 'acf/include_fields', function () {
 		wi_f( 'text', 'hero_title', 'Titre', array( 'default_value' => 'Wildlife Interactions' ) ),
 		wi_textarea( 'hero_subtitle', 'Sous-titre', 2 ),
 		wi_image( 'hero_bg', 'Image de fond', array( 'instructions' => 'Facultatif : sinon la première mission.', 'wrapper' => array( 'width' => 50 ) ) ),
-		wi_f( 'number', 'hero_bg_opacity', 'Opacité du fond', array( 'min' => 0, 'max' => 1, 'step' => 0.05, 'default_value' => 0.35, 'wrapper' => array( 'width' => 50 ) ) ),
 		wi_repeater( 'partners', 'Logos partenaires', array(
 			wi_image( 'logo', 'Logo (clair, sur fond sombre)', array( 'preview_size' => 'thumbnail', 'wrapper' => array( 'width' => 40 ) ) ),
 			wi_f( 'text', 'name', 'Nom', array( 'wrapper' => array( 'width' => 60 ) ) ),
@@ -132,7 +130,6 @@ add_action( 'acf/include_fields', function () {
 
 		wi_tab( 'Questions fréquentes' ),
 		wi_image( 'faq_bg', 'Image de fond', array( 'wrapper' => array( 'width' => 50 ) ) ),
-		wi_f( 'number', 'faq_bg_opacity', 'Opacité du fond', array( 'min' => 0, 'max' => 1, 'step' => 0.05, 'default_value' => 0.1, 'wrapper' => array( 'width' => 50 ) ) ),
 		wi_repeater( 'faq', 'Questions', array(
 			wi_f( 'text', 'q', 'Question' ),
 			wi_textarea( 'a', 'Réponse', 3 ),

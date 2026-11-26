@@ -108,6 +108,7 @@
    name and « En savoir plus » centred near the bottom, the Liste / Carte 3D
    switch small underneath. The row is driven by the scroll (js/activities.js).
    Used on the Home and on the Missions / Éducation pages (inside .hero-stage).
+   From 641 px the thumbnails form a smaller column on the left instead of a row.
    ========================================================================== */
 
 /* pinned hero: the stage gets its height from js/activities.js (the scroll the row needs) */
@@ -149,6 +150,16 @@
 /* Missions / Éducation pages: all cards come in on load, one after the other */
 .rail__item[style*="--i"] { transition-delay: calc(var(--i, 0) * 70ms + 200ms); }
 .rail__item[style*="--i"].is-shown { transition-delay: calc(var(--i, 0) * 70ms + 200ms), calc(var(--i, 0) * 70ms + 200ms); }
+/* tablet / desktop: a smaller column on the left that slides up with the scroll;
+   the card at the top is active. Phones keep the row along the top. */
+@media (min-width: 641px) {
+  .rail {
+    flex-direction: column;
+    gap: clamp(10px, 1.4svh, 16px);
+  }
+  .rail__item { width: clamp(88px, 9vw, 160px); translate: -18px 0; }
+  .rail__item.is-shown { translate: 0 0; }
+}
 .rail__card {
   display: block;
   width: 100%;
@@ -243,3 +254,10 @@
   .rail__item { transition: none; translate: none; }
   .rail-info.is-changing .rail-info__row { animation: none; }
 }
+
+/* Background photos are at full brightness: the text over them gets a soft shadow
+   (no veil over the photo) so it stays readable on light images. */
+.hero__layer--intro,
+.hero__layer--faq,
+.rail-info__row,
+.page-hero__content { text-shadow: 0 1px 2px rgba(0, 0, 0, 0.45), 0 0 18px rgba(0, 0, 0, 0.35); }

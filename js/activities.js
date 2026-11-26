@@ -29,7 +29,10 @@
      --------------------------------------------------------------------- */
   const bgWrap = hero.querySelector('[data-hero-bgs]');
   const layers = new Map();
-  const showBackground = (src, opacity) => {
+  // Background photos are shown at their original brightness (no dimming), whatever
+  // opacity the content asks for; the text above carries a soft shadow instead.
+  const showBackground = (src) => {
+    const opacity = 1;
     if (!layers.has(src)) {
       const img = document.createElement('img');
       img.className = 'hero__bg';
@@ -214,13 +217,15 @@
     const hasFaq = !!hero.querySelector('[data-hero-layer="faq"]');
     if (!hasIntro) cards.forEach((li, i) => li.style.setProperty('--i', i));
     let ticking = false;
-    let vh = 0; let step = 0;
+    let vh = 0; let pos = []; let vertical = false;
     const measure = () => {
       vh = hero.offsetHeight;
       const total = PH.intro + PH.reveal + (N - 1) * PH.item + (hasFaq ? PH.faq : 0.6);
       stage.style.height = `${Math.round(vh * (1 + total))}px`;
-      const a = cards[0]?.getBoundingClientRect(); const b = cards[1]?.getBoundingClientRect();
-      step = a && b ? b.left - a.left : 0;
+      // column (tablet / desktop) or row (phones), and where each card sits in it
+      // (cards alternate tall / short, so the distance between them varies)
+      vertical = cards.length > 1 && cards[1].offsetTop > cards[0].offsetTop;
+      pos = cards.map((li) => (vertical ? li.offsetTop : li.offsetLeft) - (vertical ? cards[0].offsetTop : cards[0].offsetLeft));
     };
     const bounds = () => {
       const a = PH.intro * vh;
@@ -239,9 +244,11 @@
       // reveal: one more thumbnail every 1/N of the phase
       const shown = b > a ? Math.max(1, Math.ceil(Math.min((y - a) / (b - a), 1) * N)) : N;
       cards.forEach((li, i) => li.classList.toggle('is-shown', i < shown));
-      // items: the row slides left continuously; the nearest card is active
+      // items: the column slides up (the row left, on phones); the nearest card is active
       const t = Math.min(Math.max((y - b) / (PH.item * vh), 0), N - 1);
-      rail.style.transform = `translate3d(${(-t * step).toFixed(1)}px, 0, 0)`;
+      const i0 = Math.floor(t); const i1 = Math.min(i0 + 1, N - 1);
+      const d = (-((pos[i0] || 0) + ((pos[i1] || 0) - (pos[i0] || 0)) * (t - i0))).toFixed(1);
+      rail.style.transform = vertical ? `translate3d(0, ${d}px, 0)` : `translate3d(${d}px, 0, 0)`;
       const idx = Math.min(N - 1, Math.round(t));
       if (ZONES[idx].slug !== activeSlug) setActiveZone(ZONES[idx].slug);
     };
@@ -257,6 +264,9 @@
     });
     window.addEventListener('scroll', () => { if (!ticking) { ticking = true; requestAnimationFrame(update); } }, { passive: true });
     window.addEventListener('resize', () => { measure(); update(); });
+    // card positions are only known once the column is laid out (styles, breakpoints):
+    // measure again whenever its size changes
+    if ('ResizeObserver' in window) new ResizeObserver(() => { measure(); update(); }).observe(rail);
     measure();
     update();
     window.addEventListener('load', () => { measure(); update(); });
