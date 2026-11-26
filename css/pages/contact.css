@@ -129,6 +129,38 @@ textarea.field__input { min-height: calc(18px + var(--padding-xs)); max-height: 
   .image-anim__img { transition: none !important; animation: none !important; }
 }
 
+/* ---------- one screen high (everything but mobile) ----------
+   The title, options and form fit in the window, so « Envoyer » is visible without
+   scrolling: spacing and type follow the window height (svh) and reach the Figma
+   values on tall screens. On very short windows the panel can still grow. */
+@media (min-width: 641px) {
+  .contact { min-height: 100svh; }
+  .contact__main {
+    min-height: 100svh;
+    gap: clamp(16px, 4svh, var(--gap-md));
+    padding-bottom: clamp(16px, 4svh, var(--padding-md));
+  }
+  .contact__top { gap: clamp(16px, 5svh, var(--gap-md)); }
+  .contact__options { gap: clamp(10px, 2.6svh, var(--gap-sm)); }
+  .contact__title { font-size: min(var(--font-heading-h4), 5svh); }
+  .contact__intro { font-size: min(var(--font-body-md), 2.6svh); }
+  .contact-form { gap: clamp(6px, 1.8svh, var(--gap-sm)); }
+  .field__input { padding-bottom: clamp(8px, 1.4svh, var(--padding-xs)); }
+}
+@media (min-width: 1101px) {
+  .contact__main { padding-top: clamp(112px, 15svh, var(--padding-xl)); }
+}
+@media (min-width: 641px) and (max-width: 1100px) {
+  .contact__main { padding-top: clamp(120px, 17svh, calc(66px + var(--padding-sm) * 3)); }
+}
+/* short windows (laptops ≤ 760 px high): a bit tighter still, to stay on one screen */
+@media (min-width: 641px) and (max-height: 760px) {
+  .contact__main { gap: 3svh; padding-bottom: 3svh; }
+  .contact__top { gap: 4svh; }
+  .contact-form { gap: 1.5svh; }
+  .contact-form__status { min-height: 0; }
+}
+
 /* ---------- header over the split page: logo on the photo (white), menu on the light panel (dark) ---------- */
 .site-header--split .logo { display: grid; }
 .site-header--split .logo__img { grid-area: 1 / 1; transition: opacity var(--transition-fast); }
