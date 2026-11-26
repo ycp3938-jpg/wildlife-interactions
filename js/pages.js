@@ -175,6 +175,56 @@
   }
 
   /* =====================================================================
+     EXPOSITION & MÉDIA — hidden hero photos
+     Each photo appears when the pointer comes near it (a zone larger than the
+     photo itself), then drifts after the pointer with a slight lag, and lingers
+     a moment after the pointer leaves before fading out. Mouse / trackpad only.
+     ===================================================================== */
+  const expoHero = document.querySelector('.expo-hero');
+  const fine = window.matchMedia('(hover: hover) and (pointer: fine)');
+  if (expoHero && fine.matches && !reduceMotion) {
+    const floats = [...expoHero.querySelectorAll('.expo-hero__float:not(.expo-hero__float--video)')].map((el) => ({
+      el, x: 0, y: 0, tx: 0, ty: 0, seen: -1e9,
+    }));
+    expoHero.classList.add('has-follow');
+    const LINGER = 900;   // ms visible after the pointer leaves the zone
+    const FOLLOW = 0.35;  // share of the pointer's distance the photo travels
+    const MAX = 110;      // px, furthest a photo drifts from its place
+    const EASE = 0.07;    // lag: the smaller, the slower it catches up
+    let px = null; let py = null; let raf = 0;
+    const tick = () => {
+      raf = 0;
+      const now = performance.now();
+      let moving = px !== null;
+      floats.forEach((f) => {
+        // zone: the photo's resting box, grown by ~half its size on every side
+        const r = f.el.getBoundingClientRect();
+        const left = r.left - f.x; const top = r.top - f.y;
+        const pad = Math.max(90, Math.min(r.width, r.height) * 0.6);
+        const inside = px !== null && px > left - pad && px < left + r.width + pad && py > top - pad && py < top + r.height + pad;
+        if (inside) {
+          f.seen = now;
+          const cx = left + r.width / 2; const cy = top + r.height / 2;
+          f.tx = Math.max(-MAX, Math.min(MAX, (px - cx) * FOLLOW));
+          f.ty = Math.max(-MAX, Math.min(MAX, (py - cy) * FOLLOW));
+        }
+        const on = now - f.seen < LINGER;
+        if (!on) { f.tx = 0; f.ty = 0; }
+        f.x += (f.tx - f.x) * EASE;
+        f.y += (f.ty - f.y) * EASE;
+        f.el.style.translate = `${f.x.toFixed(1)}px ${f.y.toFixed(1)}px`;
+        f.el.classList.toggle('is-on', on);
+        if (on || Math.abs(f.x) > 0.3 || Math.abs(f.y) > 0.3) moving = true;
+      });
+      if (moving) raf = requestAnimationFrame(tick);
+    };
+    const kick = () => { if (!raf) raf = requestAnimationFrame(tick); };
+    expoHero.addEventListener('pointermove', (e) => { px = e.clientX; py = e.clientY; kick(); });
+    expoHero.addEventListener('pointerleave', () => { px = null; py = null; kick(); });
+    window.addEventListener('scroll', () => { px = null; py = null; kick(); }, { passive: true });
+  }
+
+  /* =====================================================================
      EXPOSITION & MÉDIA — magazine carousels
      ===================================================================== */
   document.querySelectorAll('[data-carousel]').forEach((root) => {
