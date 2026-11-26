@@ -264,7 +264,9 @@
     // after the other, quickly), then the scroll only slides the column. The Home
     // has an intro before it (its text fades away) and a Q&A after it.
     const hasIntro = !!hero.querySelector('[data-hero-layer="intro"]');
-    const PH = { intro: hasIntro ? 0.7 : 0, reveal: 0, item: 0.5, faq: 1.1 };
+    // Home: slower — a pause on the first item (Mer Méditerranée) right after the intro,
+    // then 0.8 window height of scroll per item (Missions / Éducation: 0.5, no pause)
+    const PH = { intro: hasIntro ? 0.7 : 0, reveal: hasIntro ? 0.9 : 0, item: hasIntro ? 0.8 : 0.5, faq: 1.1 };
     const N = ZONES.length;
     const cards = [...rail.children];
     const hasFaq = !!hero.querySelector('[data-hero-layer="faq"]');
@@ -273,7 +275,8 @@
     let vh = 0; let pos = []; let vertical = false;
     const measure = () => {
       vh = hero.offsetHeight;
-      const total = PH.intro + PH.reveal + (N - 1) * PH.item + (hasFaq ? PH.faq : 0.6);
+      // the Q&A starts after the last item's full step, then keeps its own share of scroll
+      const total = PH.intro + PH.reveal + (hasFaq ? N * PH.item + PH.faq : (N - 1) * PH.item + 0.6);
       stage.style.height = `${Math.round(vh * (1 + total))}px`;
       // column (tablet / desktop) or row (phones), and where each card sits in it
       // (cards alternate tall / short, so the distance between them varies)
