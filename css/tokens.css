@@ -15,9 +15,9 @@
   --surface-primary-highlight-orange-dark: #ad623e;
 
   /* ---- Surface / secondary (light) ---- */
-  --surface-secondary-lowest: #ffffff; /* no longer used: backgrounds use surface-secondary-high */
+  --surface-secondary-lowest: #ffffff; /* no longer used: backgrounds use surface-secondary-high (#f4fbfe) */
   --surface-secondary-medium: #f9fdff;
-  --surface-secondary-high: #eae9e3; /* light page background: warm grey, from the cartier.com/intothewild photos (was #f4fbfe) */
+  --surface-secondary-high: #f4fbfe;
   --surface-secondary-on-secondary: #041418;
   --surface-secondary-on-secondary-80: rgba(4, 20, 24, 0.8);
   --surface-secondary-on-secondary-50: rgba(4, 20, 24, 0.5);
