@@ -23,10 +23,11 @@ window.WI_TALENTS = [
 ];
 
 /* Hero category cards (Figma: talent / type=recherche|creation|innovation|engagement)
-   hover → photo of a representative talent. `photo` only (no label) = founder card. */
+   hover → photo of a representative talent; once the visitor scrolls, each card becomes
+   that person's profile. `label: null` = photo card shown from the start (not used now). */
 window.WI_TALENT_CATEGORIES = [
   { label: 'Recherche', photo: 'heidi-sevestre' },
-  { label: null, photo: 'olivier-anrigo', alt: 'Olivier Anrigo, fondateur' },
+  { label: 'Éducation', photo: 'olivier-anrigo', alt: 'Olivier Anrigo, fondateur' },
   { label: 'Création', photo: 'jason-roberts' },
   { label: 'Innovation', photo: 'leo-decaux' },
   { label: 'Engagement', photo: 'charlotte-esposito' },
