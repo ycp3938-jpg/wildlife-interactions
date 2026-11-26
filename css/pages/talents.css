@@ -352,3 +352,25 @@
     transition: opacity 500ms ease 150ms, visibility 0s;
   }
 }
+
+/* ---------- the other people: same row, same size, sliding in from the right ----------
+   (≥ 761 px) The hero no longer slides away: background and title stay, and the row
+   of cards moves left as the visitor scrolls (js/pages.js). The light list panel is
+   only used on small screens. */
+.talent-cats__more { display: none; }
+@media (min-width: 761px) {
+  .h-stage__track > .profiles { display: none; }
+  .h-stage .talent-cats { will-change: transform; }
+  .h-stage.is-cards .talent-cats__more {
+    display: flex;
+    flex: 0 0 var(--card-w, 320px);
+    width: var(--card-w, 320px);
+    height: var(--card-h, 393.5px);
+    aspect-ratio: auto;
+    animation: talent-more-in 500ms ease 150ms both;
+  }
+}
+@keyframes talent-more-in { from { opacity: 0; } to { opacity: 1; } }
+@media (prefers-reduced-motion: reduce) {
+  .h-stage.is-cards .talent-cats__more { animation: none; }
+}

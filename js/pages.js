@@ -32,8 +32,15 @@
           </div>
         </div>`;
 
+  // People shown by the hero cards, and everybody else
+  const inHero = new Set(CATS.map((c) => c.photo));
+  const heroPeople = CATS.map((c) => byPhoto.get(c.photo)).filter(Boolean);
+  const others = TALENTS.filter((t) => !inHero.has(t.photo));
+
   /* Hero cards: category label (photo on hover). Once the visitor starts scrolling,
-     each one turns, in place, into the same profile card as the people that follow. */
+     each one turns, in place, into the same profile card as the people that follow.
+     The other people follow in the same row (wide screens): same size, and the row
+     slides from right to left over the fixed background as the visitor scrolls. */
   const catRow = document.querySelector('[data-talent-categories]');
   if (catRow && CATS.length) {
     catRow.innerHTML = CATS.map((c) => {
@@ -44,23 +51,23 @@
         ${c.label ? `<span class="talent-cat__label">${esc(c.label)}</span>` : ''}
         ${t ? `<div class="profile talent-cat__card${t.photo ? '' : ' profile--no-photo'}">${profileInner(t)}</div>` : ''}
       </li>`;
-    }).join('');
+    }).join('') + others.map((t) => `
+      <li class="profile talent-cats__more${t.photo ? '' : ' profile--no-photo'}" tabindex="0">${profileInner(t)}
+      </li>`).join('');
   }
 
   const grid = document.querySelector('[data-profiles]');
   if (grid && TALENTS.length) {
-    // On wide screens the hero people are shown by the hero cards themselves;
-    // on small screens (no horizontal scroll) they open the list instead.
-    const inHero = new Set(CATS.map((c) => c.photo));
-    const heroPeople = CATS.map((c) => byPhoto.get(c.photo)).filter(Boolean);
-    const others = TALENTS.filter((t) => !inHero.has(t.photo));
+    // Small screens only (no horizontal scroll): everybody in a grid, the hero people first.
+    // On wide screens this list is hidden: the people are in the hero row above.
     grid.innerHTML = [...heroPeople.map((t) => [t, true]), ...others.map((t) => [t, false])].map(([t, dup]) => `
       <li class="profile${t.photo ? '' : ' profile--no-photo'}${dup ? ' profile--hero-dup' : ''}" tabindex="0">${profileInner(t)}
       </li>`).join('');
   }
 
-  /* Horizontal scroll: the stage gets the height of the track's width,
-     and the sticky track slides left as the visitor scrolls down. */
+  /* Horizontal scroll (wide screens): the hero stays in place (background, title);
+     its row of cards slides left as the visitor scrolls down. The stage is as tall
+     as the scroll this needs. */
   const hStage = document.querySelector('[data-h-stage]');
   if (hStage) {
     const track = hStage.querySelector('[data-h-track]');
@@ -71,24 +78,22 @@
       if (!wide.matches) {
         hStage.style.height = '';
         track.style.transform = '';
+        if (cats) cats.style.transform = '';
         distance = 0; hold = 0;
         sizeCards();
         hStage.classList.remove('is-cards', 'is-cards-notitle');
         paintHeader();
         return;
       }
-      const t = track.style.transform;
-      track.style.transform = '';
       sizeCards();
-      track.style.transform = t;
-      distance = Math.max(0, track.scrollWidth - window.innerWidth);
+      distance = rowTravel;
       hold = Math.round(window.innerHeight * 0.6);
       hStage.style.height = `${window.innerHeight + hold + distance}px`;
       update();
     };
     // header items that flip to the light-surface style when the light panel is under them
     const header = hStage.querySelector('[data-h-header]');
-    const lightPanel = track.querySelector('.profiles');
+    const lightPanel = null; // the list panel is no longer shown on wide screens: header stays light-on-dark
     const flips = header ? [...header.querySelectorAll('.logo, .menu-item, .cta, .site-header__toggle')] : [];
     const paintHeader = () => {
       const edge = distance && lightPanel ? lightPanel.getBoundingClientRect().left : Infinity;
@@ -103,7 +108,8 @@
     const GAP = 32;
     const cats = hStage.querySelector('.talent-cats');
     const subtitle = hStage.querySelector('.page-hero__subtitle');
-    const listCard = hStage.querySelector('.profiles .profile:not(.profile--hero-dup)');
+    const LIST_H = 393.5; // Figma: profile card 320 × 393.5
+    let rowTravel = 0;    // how far the row slides so the last card ends at the right margin
     const sizeCards = () => {
       if (!cats) return;
       const on = hStage.classList.contains('is-cards');
@@ -113,8 +119,9 @@
       const first = cats.querySelector('.talent-cat');
       if (!first) return;
       cats.style.setProperty('--cat-h', `${Math.round(first.getBoundingClientRect().width * 259 / 320)}px`);
-      const listH = Math.round(listCard ? listCard.offsetHeight : 393.5);   // same height as the list cards
-      const n = cats.children.length;
+      const listH = Math.round(LIST_H);                                    // same height for every card
+      const n = cats.querySelectorAll('.talent-cat').length;
+      const all = cats.children.length;                                    // hero cards + the people that follow
       const row = cats.getBoundingClientRect();
       const w = Math.floor((row.width - (n - 1) * GAP) / n);
       const box = cats.parentElement;
@@ -123,6 +130,7 @@
       const under = content.bottom - subtitle.getBoundingClientRect().bottom - 32;
       const noTitle = under < listH;                                        // short screen: title folds away
       const h = Math.min(listH, content.bottom - top);
+      rowTravel = Math.max(0, all * w + (all - 1) * GAP - row.width);
       cats.style.setProperty('--card-w', `${w}px`);
       cats.style.setProperty('--card-h', `${Math.floor(h)}px`);
       cats.style.setProperty('--photo-h', `${Math.floor(Math.min(listH, under))}px`);   // Olivier, before scrolling
@@ -140,7 +148,7 @@
         const y = Math.max(-hStage.getBoundingClientRect().top, 0);
         cards = y > 40;
         x = Math.min(Math.max(y - hold, 0), distance);
-        track.style.transform = `translate3d(${-x}px, 0, 0)`;
+        cats.style.transform = `translate3d(${-x}px, 0, 0)`;
       }
       hStage.classList.toggle('is-cards', cards);
       hStage.classList.toggle('is-cards-notitle', cards && hStage.dataset.noTitle === 'true');
