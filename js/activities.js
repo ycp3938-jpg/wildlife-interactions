@@ -157,6 +157,15 @@
     }
     btn.addEventListener('click', () => openDetail(btn.dataset.zone, btn));
   });
+  // Card column: a click on the background photo opens the item it shows
+  // (not in the 3D map view, nor on links, buttons, the menu or the view switch)
+  if (rail) {
+    hero.addEventListener('click', (e) => {
+      if (hero.dataset.state !== 'list' || hero.dataset.view === 'map') return;
+      if (e.target.closest('a, button, input, [data-site-header], .view-toggle, .hero__globe')) return;
+      openDetail(activeSlug);
+    });
+  }
 
   /* ---------------------------------------------------------------------
      3. Q&A (Figma: detail + q&a icon, less = open / more = closed)

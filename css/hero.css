@@ -280,3 +280,8 @@
 @media (max-width: 640px) {
   .rail-info--corner { right: var(--padding-xs); max-width: calc(100% - 2 * var(--padding-xs)); }
 }
+
+/* card column: the background photo opens the item it shows (js/activities.js) */
+.hero:has(.hero__layer--rail)[data-state="list"]:not([data-view="map"]) { cursor: pointer; }
+.hero:has(.hero__layer--rail) .site-header,
+.hero:has(.hero__layer--rail) .view-toggle { cursor: auto; }
