@@ -104,7 +104,7 @@
 /* ==========================================================================
    Missions + Éducation row (Figma: WI › Main 6320:5261, frame 1728 × 1117)
    Thumbnails along the top (254 px wide, 24 px from the edges, ~26 px apart),
-   the active one at 100 %, the others at 30 %; the active item's category,
+   the active one at 100 %, the others at 15 %; the active item's category,
    name and « En savoir plus » centred near the bottom, the Liste / Carte 3D
    switch small underneath. The row is driven by the scroll (js/activities.js).
    Used on the Home and on the Missions / Éducation pages (inside .hero-stage).
@@ -156,13 +156,13 @@
   padding: 0;
   overflow: hidden;
   background: var(--surface-primary-high);
-  opacity: 0.3;
+  opacity: 0.15; /* inactive cards */
   cursor: pointer;
   transition: opacity 500ms ease;
 }
 .rail__card.is-active,
 .rail__card:focus-visible { opacity: 1; }
-.rail__card:hover:not(.is-active) { opacity: 0.6; }
+.rail__card:hover:not(.is-active) { opacity: 0.45; }
 .rail__card:focus-visible { outline: 2px solid var(--surface-primary-on-primary); outline-offset: 3px; }
 .rail__img {
   display: block;
