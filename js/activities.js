@@ -205,15 +205,19 @@
          faq    — Q&A */
     if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
     if (!location.hash) window.scrollTo(0, 0);
-    const PH = { intro: 0.7, reveal: 0.9, item: 0.5, faq: 1.1 };
+    // Missions / Éducation pages have no intro: the row is there from the start
+    // (cards fade in one after the other), and the scroll only slides it.
+    const hasIntro = !!hero.querySelector('[data-hero-layer="intro"]');
+    const PH = { intro: hasIntro ? 0.7 : 0, reveal: hasIntro ? 0.9 : 0, item: 0.5, faq: 1.1 };
     const N = ZONES.length;
     const cards = [...rail.children];
     const hasFaq = !!hero.querySelector('[data-hero-layer="faq"]');
+    if (!hasIntro) cards.forEach((li, i) => li.style.setProperty('--i', i));
     let ticking = false;
     let vh = 0; let step = 0;
     const measure = () => {
       vh = hero.offsetHeight;
-      const total = PH.intro + PH.reveal + N * PH.item + (hasFaq ? PH.faq : 0.2);
+      const total = PH.intro + PH.reveal + (N - 1) * PH.item + (hasFaq ? PH.faq : 0.6);
       stage.style.height = `${Math.round(vh * (1 + total))}px`;
       const a = cards[0]?.getBoundingClientRect(); const b = cards[1]?.getBoundingClientRect();
       step = a && b ? b.left - a.left : 0;
@@ -228,12 +232,12 @@
       ticking = false;
       const y = Math.max(-stage.getBoundingClientRect().top, 0);
       const { a, b, c } = bounds();
-      hero.style.setProperty('--intro-p', Math.min(y / a, 1).toFixed(3));
+      hero.style.setProperty('--intro-p', a ? Math.min(y / a, 1).toFixed(3) : '1');
       if (y < a) { setHeroState('intro'); return; }
       if (y >= c && hasFaq) { setHeroState('faq'); return; }
       setHeroState('list');
       // reveal: one more thumbnail every 1/N of the phase
-      const shown = Math.max(1, Math.ceil(Math.min((y - a) / (b - a), 1) * N));
+      const shown = b > a ? Math.max(1, Math.ceil(Math.min((y - a) / (b - a), 1) * N)) : N;
       cards.forEach((li, i) => li.classList.toggle('is-shown', i < shown));
       // items: the row slides left continuously; the nearest card is active
       const t = Math.min(Math.max((y - b) / (PH.item * vh), 0), N - 1);
