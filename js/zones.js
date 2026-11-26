@@ -51,7 +51,7 @@
     {
       slug: 'mer-rouge', category: 'missions', name: 'Mer Rouge',
       summary: 'Étude des récifs coralliens et monitoring de la biodiversité aquatique tropicale',
-      bg: 'assets/img/zone-mer-rouge.jpg', bgOpacity: 0.35, image: 'assets/img/zone-mer-rouge.jpg',
+      bg: 'assets/img/zone-mer-rouge-2.jpg', bgOpacity: 0.35, image: 'assets/img/zone-mer-rouge-2.jpg',
       detail: {
         lead: "Bordée de récifs coralliens parmi les plus résistants au monde, la Mer Rouge est un sanctuaire de biodiversité unique, capable de mieux résister au réchauffement que la majorité des récifs de la planète. Elle abrite une faune exceptionnelle, poissons tropicaux, tortues, requins, dugongs, et représente un espoir précieux pour l'avenir des écosystèmes coralliens mondiaux. Mais cette résilience naturelle est mise à l'épreuve par une pression touristique et industrielle croissante. Préserver la Mer Rouge, c'est préserver un refuge pour le corail de demain.",
         enjeuxImage: 'assets/img/enjeux-mer-rouge.jpg',
@@ -71,7 +71,7 @@
     {
       slug: 'polynesie-francaise', category: 'missions', name: 'Polynésie française',
       summary: 'Conservation des atolls et recherche sur les impacts du changement climatique',
-      bg: 'assets/img/zone-polynesie-francaise.jpg', bgOpacity: 0.6, image: 'assets/img/zone-polynesie-francaise.jpg',
+      bg: 'assets/img/zone-polynesie-francaise-2.jpg', bgOpacity: 0.6, image: 'assets/img/zone-polynesie-francaise-2.jpg',
       detail: {
         lead: 'Archipel de plus de 100 îles disséminées dans le Pacifique, la Polynésie française concentre une biodiversité marine exceptionnelle : lagons turquoise, récifs coralliens, baleines à bosse et requins. Ce territoire insulaire, particulièrement exposé à la montée des eaux et au réchauffement des océans, incarne les défis auxquels font face les populations du Pacifique. Entre traditions ancestrales et enjeux environnementaux contemporains, la Polynésie française est un territoire clé pour comprendre la résilience des îles face au changement climatique.',
         enjeuxImage: 'assets/img/enjeux-polynesie-francaise.jpg',
@@ -91,7 +91,7 @@
     {
       slug: 'spitzberg', category: 'missions', name: 'Spitzberg',
       summary: 'Observation de la faune arctique et suivi scientifique de la fonte des glaces',
-      bg: 'assets/img/zone-spitzberg.jpg', bgOpacity: 0.5, image: 'assets/img/zone-spitzberg.jpg',
+      bg: 'assets/img/zone-spitzberg-2.jpg', bgOpacity: 0.5, image: 'assets/img/zone-spitzberg-2.jpg',
       detail: {
         lead: "Le Spitzberg s'impose comme le baromètre le plus sensible du changement climatique, avec un réchauffement jusqu'à 6 à 7 fois plus rapide que la moyenne mondiale. Ce phénomène s'auto-amplifie : la fonte des glaces expose des surfaces sombres qui absorbent la chaleur au lieu de la réfléchir, tandis que le dégel du permafrost libère du méthane ancien. Véritable régulateur climatique de l'hémisphère Nord, l'archipel influence jusqu'à la stabilité du Jet Stream. Sa préservation est un enjeu mondial : il abrite le Coffre-fort mondial de semences, garant de la biodiversité alimentaire de l'humanité.",
         enjeuxImage: 'assets/img/enjeux-spitzberg.jpg',
@@ -111,7 +111,7 @@
     {
       slug: 'groenland', category: 'missions', name: 'Groenland',
       summary: 'Analyse des migrations animales et cartographie des habitats polaires',
-      bg: 'assets/img/zone-groenland.jpg', bgOpacity: 0.5, image: 'assets/img/zone-groenland.jpg',
+      bg: 'assets/img/zone-groenland-2.jpg', bgOpacity: 0.5, image: 'assets/img/zone-groenland-2.jpg',
       detail: {
         lead: "Sentinelle du climat mondial, le Groenland abrite la deuxième plus grande calotte glaciaire de la planète. Sa fonte accélérée, directement liée au réchauffement climatique, contribue de façon majeure à l'élévation du niveau des mers. Terre des Inuits et refuge d'une faune arctique emblématique, ours polaires, narvals, phoques, le Groenland est aujourd'hui le théâtre visible d'un dérèglement global aux conséquences planétaires. Comprendre le Groenland, c'est anticiper l'avenir de nos côtes.",
         enjeuxImage: 'assets/img/enjeux-groenland.jpg',
@@ -131,7 +131,7 @@
     {
       slug: 'peninsule-antarctique', category: 'missions', name: 'Péninsule Antarctique',
       summary: "Recherche sur les colonies de manchots et l'acidification des eaux australes",
-      bg: 'assets/img/zone-peninsule-antarctique.jpg', bgOpacity: 0.5, image: 'assets/img/zone-peninsule-antarctique.jpg',
+      bg: 'assets/img/zone-peninsule-antarctique-2.jpg', bgOpacity: 0.5, image: 'assets/img/zone-peninsule-antarctique-2.jpg',
       detail: {
         lead: "La Péninsule Antarctique figure parmi les régions qui se réchauffent le plus rapidement sur Terre. Ses plateformes de glace, en recul accéléré, jouent un rôle crucial dans la régulation du climat mondial et le maintien du niveau des mers. Manchots, phoques et baleines dépendent de cet écosystème polaire d'une richesse exceptionnelle, aujourd'hui fragilisé par la fonte des glaces et la raréfaction du krill. Explorer la Péninsule Antarctique, c'est observer en direct les premiers signaux d'un bouleversement climatique global.",
         enjeuxImage: 'assets/img/enjeux-peninsule-antarctique.jpg',
@@ -151,7 +151,7 @@
     {
       slug: 'camargue', category: 'missions', name: 'Camargue',
       summary: "Protection des zones humides et suivi des populations d'oiseaux migrateurs",
-      bg: 'assets/img/zone-camargue.jpg', bgOpacity: 0.5, image: 'assets/img/zone-camargue.jpg',
+      bg: 'assets/img/zone-camargue-2.jpg', bgOpacity: 0.5, image: 'assets/img/zone-camargue-2.jpg',
       detail: {
         lead: "En première ligne du dérèglement climatique en France, la Camargue voit 70 % de ses terres situées à moins d'un mètre au-dessus du niveau de la mer, subissant une montée des eaux accélérée et un recul inexorable de son trait de côte. Ce delta unique abrite une biodiversité exceptionnelle, dont les flamants roses, ainsi qu'une identité culturelle forte portée par la riziculture et l'élevage traditionnel. Face à cette mutation, la région déploie des « Solutions fondées sur la Nature », restaurant d'anciennes salines pour créer des boucliers naturels face à l'érosion marine.",
         enjeuxImage: 'assets/img/enjeux-camargue.jpg',
