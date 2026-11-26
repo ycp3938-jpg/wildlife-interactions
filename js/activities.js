@@ -149,11 +149,26 @@
   // name, a click opens its detail page. On the Home the row follows the scroll (section 4).
   const hoverMode = rail?.dataset.mode === 'hover';
   items.forEach((btn) => {
-    if (btn.classList.contains('rail__card') && !hoverMode) return;
-    btn.addEventListener('mouseenter', () => setActiveZone(btn.dataset.zone));
+    const isCard = btn.classList.contains('rail__card');
+    if (isCard && !hoverMode) return;
+    // cards: switched by the mouse itself moving (below), not by mouseenter — when the
+    // column slides under a still pointer while scrolling, nothing should change
+    if (!isCard) btn.addEventListener('mouseenter', () => setActiveZone(btn.dataset.zone));
     btn.addEventListener('focus', () => setActiveZone(btn.dataset.zone));
     btn.addEventListener('click', () => openDetail(btn.dataset.zone, btn));
   });
+  if (rail && hoverMode) {
+    // pointer position tracked on the whole page, so a card that slides under a still
+    // pointer (scroll) never counts as a move
+    let lastX = null; let lastY = null;
+    document.addEventListener('pointermove', (e) => {
+      const moved = lastX === null || Math.abs(e.clientX - lastX) > 1 || Math.abs(e.clientY - lastY) > 1;
+      lastX = e.clientX; lastY = e.clientY;
+      if (!moved) return;
+      const card = e.target.closest && e.target.closest('.rail__card');
+      if (card && rail.contains(card) && card.dataset.zone !== activeSlug) setActiveZone(card.dataset.zone);
+    }, { passive: true });
+  }
 
   /* ---------------------------------------------------------------------
      3. Q&A (Figma: detail + q&a icon, less = open / more = closed)
